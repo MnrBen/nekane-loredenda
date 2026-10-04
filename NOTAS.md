@@ -38,8 +38,8 @@ Pendientes y decisiones a revisar antes de pasar de demo a web real.
 
 ## Imágenes que no se usan en la fase 1
 
-`flores-deco1–6`, `flores-SV1`, `san-valentin1–3`, `corona-floral1`,
-`corona-floral2` y `ramo-deco1`. Esta última **no debe usarse**: muestra el
+`flores-deco1–6`, `flores-SV1`, `san-valentin1–3`, `corona-floral1` y
+`ramo-deco1`. Esta última **no debe usarse**: muestra el
 rótulo de otra floristería (probablemente del propietario anterior).
 
 ## Estructura de la fase 2

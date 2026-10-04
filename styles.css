@@ -61,7 +61,6 @@
   --toque: 3rem;          /* 48 px: zona táctil mínima cómoda */
   --radio: 4px;
   --alto-cabecera: 4rem;
-  --alto-barra: 3.5rem;   /* barra de llamada fija en móvil */
 }
 
 
@@ -90,19 +89,11 @@ html {
 
 body {
   margin: 0;
-  /* Hueco para que la barra de llamada fija no tape el final del pie. */
-  padding-bottom: calc(var(--alto-barra) + env(safe-area-inset-bottom));
   background: var(--crema);
   color: var(--tinta);
   font-family: var(--fuente-texto);
   font-size: var(--texto-base);
   line-height: 1.6;
-}
-
-@media (min-width: 48em) {
-  body {
-    padding-bottom: 0;
-  }
 }
 
 h1, h2, h3 {
@@ -312,7 +303,7 @@ figure {
   z-index: 50;
   display: flex;
   align-items: center;
-  gap: var(--esp-3);
+  gap: var(--esp-2);
   min-height: var(--alto-cabecera);
   padding: var(--esp-2) var(--margen);
   background: var(--crema);
@@ -322,7 +313,7 @@ figure {
 .cabecera__marca {
   display: flex;
   align-items: center;
-  gap: var(--esp-3);
+  gap: var(--esp-2);
   margin-right: auto;      /* empuja menú y botón a la derecha */
   min-height: var(--toque);
   text-decoration: none;
@@ -368,25 +359,60 @@ figure {
   color: var(--tinta-suave);
 }
 
-/* Botón del menú (móvil): 48 px de alto, icono dibujado con CSS. */
+/* Botones de la cabecera (Llamar y Menú): la misma altura, 44 px, que es la
+   zona táctil mínima; más compactos que los botones de contenido. */
+.cabecera__llamar,
 .cabecera__menu {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--esp-2);
-  min-height: var(--toque);
-  padding: 0 var(--esp-3);
-  border: 1px solid var(--tinta);
+  height: 2.75rem;
   border-radius: var(--radio);
+  font: 600 var(--texto-sm) / 1 var(--fuente-texto);
+  white-space: nowrap;
+  flex: none;   /* nunca se estrechan por debajo de su tamaño táctil */
+}
+
+/* Llamar: la acción principal de la web, siempre visible en la cabecera. */
+.cabecera__llamar {
+  /* Sin gap: "Llamar" y el número son un solo texto. El espacio antes del
+     punto es &nbsp; porque un espacio normal al inicio del span se perdería. */
+  gap: 0;
+  padding: 0 var(--esp-3);
+  background: var(--baya);
+  color: var(--blanco);
+  text-decoration: none;
+}
+
+.cabecera__llamar:hover {
+  background: var(--baya-oscura);
+}
+
+/* En móvil solo "Llamar"; el número aparece cuando hay sitio (desde tablet). */
+.cabecera__numero {
+  display: none;
+}
+
+/* Menú: en móvil estrecho solo el icono (botón cuadrado de 44 × 44). */
+.cabecera__menu {
+  width: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--tinta);
   background: transparent;
   color: var(--tinta);
-  font: 600 var(--texto-sm) / 1 var(--fuente-texto);
   cursor: pointer;
 }
 
+.cabecera__menu-texto {
+  display: none;
+}
+
+/* Icono de tres rayas dibujado con CSS. */
 .cabecera__icono {
   position: relative;
   width: 1.125rem;
-  height: 0.625rem;
+  height: 0.75rem;
 }
 
 .cabecera__icono span {
@@ -395,18 +421,34 @@ figure {
   width: 100%;
   height: 2px;
   background: currentColor;
-  transition: transform 0.2s ease, top 0.2s ease;
+  transition: transform 0.2s ease, top 0.2s ease, opacity 0.2s ease;
 }
 
-.cabecera__icono span:first-child { top: 0; }
-.cabecera__icono span:last-child  { top: calc(100% - 2px); }
+.cabecera__icono span:nth-child(1) { top: 0; }
+.cabecera__icono span:nth-child(2) { top: calc(50% - 1px); }
+.cabecera__icono span:nth-child(3) { top: calc(100% - 2px); }
 
-/* Abierto: las dos líneas se cruzan en una X. */
+/* Abierto: la raya central desaparece y las otras dos se cruzan en una X. */
 .cabecera__menu[aria-expanded="true"] .cabecera__icono span {
   top: calc(50% - 1px);
 }
-.cabecera__menu[aria-expanded="true"] .cabecera__icono span:first-child { transform: rotate(45deg); }
-.cabecera__menu[aria-expanded="true"] .cabecera__icono span:last-child  { transform: rotate(-45deg); }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(1) { transform: rotate(45deg); }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(2) { opacity: 0; }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(3) { transform: rotate(-45deg); }
+
+/* Con sitio suficiente, el botón Menú recupera la palabra. Corte en 26em
+   (416 px), medido: con la palabra visible, entre 360 y 390 px solo quedan
+   8 px entre el nombre y Llamar; a 414 px ya quedan 32 px. */
+@media (min-width: 26em) {
+  .cabecera__menu {
+    width: auto;
+    padding: 0 var(--esp-3);
+  }
+
+  .cabecera__menu-texto {
+    display: inline;
+  }
+}
 
 /* Panel del menú en móvil: plegado por defecto y desplegado cuando el botón
    tiene aria-expanded="true" (el JS solo cambia ese atributo). */
@@ -447,19 +489,17 @@ figure {
   .menu { display: block; position: static; width: 100%; padding: 0; box-shadow: none; border: 0; }
 }
 
-/* En móvil la llamada vive en la barra inferior; en la cabecera, desde tablet. */
-.cabecera__llamar {
-  display: none;
-}
-
+/* Desde tablet, el botón Llamar incluye el número. */
 @media (min-width: 48em) {
-  .cabecera__llamar {
-    display: inline-flex;
+  .cabecera__numero {
+    display: inline;
   }
 }
 
-/* Escritorio: menú en línea, sin botón. */
-@media (min-width: 64em) {
+/* Escritorio: menú en línea, sin botón. Desde 75em (1200 px): por debajo,
+   los seis enlaces + nombre + Llamar con número no caben en una línea
+   (medido a 1024 px: "Eventos y fiestas" y "Dónde estamos" se partían). */
+@media (min-width: 75em) {
   .cabecera {
     gap: var(--esp-5);
     padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
@@ -467,6 +507,16 @@ figure {
 
   .cabecera__menu {
     display: none;
+  }
+
+  /* Los enlaces se colocan antes del botón Llamar. En el HTML van después
+     porque en móvil el panel tiene que seguir al botón Menú. */
+  .menu {
+    order: 1;
+  }
+
+  .cabecera__llamar {
+    order: 2;
   }
 
   .menu,
@@ -486,6 +536,7 @@ figure {
 
   .menu__lista a {
     border: 0;
+    white-space: nowrap;
     font-family: var(--fuente-texto);
     font-size: 1rem;
     text-decoration: underline;
@@ -495,44 +546,6 @@ figure {
 
   .menu__lista a:hover {
     text-decoration-color: currentColor;
-  }
-}
-
-/* --- Barra de llamada (móvil) ---------------------------------------------- */
-.barra-llamar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: var(--alto-barra);
-  /* El área segura se suma por debajo para no quedar bajo la barra de gestos. */
-  padding-bottom: env(safe-area-inset-bottom);
-  box-sizing: content-box;
-  background: var(--baya);
-  color: var(--blanco);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-}
-
-.barra-llamar:active {
-  background: var(--baya-oscura);
-}
-
-/* Sobre el fondo baya el foco va en blanco y por dentro (la barra toca el
-   borde de la pantalla y el contorno por fuera no se vería). */
-.barra-llamar:focus-visible {
-  outline-color: var(--blanco);
-  outline-offset: -6px;
-}
-
-@media (min-width: 48em) {
-  .barra-llamar {
-    display: none;
   }
 }
 

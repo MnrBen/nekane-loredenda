@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Demo privada: que ningún buscador la indexe mientras no sea la web real. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Floristería Nekane Loreak · Errenteria</title>
+  <meta name="description" content="Floristería en Errenteria. Ramos de novia, flores para eventos y fiestas, flores preservadas, encargos personalizados y arreglos para tanatorios. Pedidos por teléfono: 687 86 56 77.">
+  <meta name="theme-color" content="#F6F1E8">
+  <link rel="icon" href="imagenes/logo.webp" type="image/webp">
+
+  <!-- Google Fonts: preconnect para adelantar la conexión y display=swap para
+       que el texto se vea con la fuente de sistema mientras carga.
+       Solo los pesos que se usan: Fraunces 400, 400 cursiva y 600; Figtree 400 y 600. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&amp;family=Figtree:wght@400;600&amp;display=swap">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- ============================ CABECERA ============================ -->
+  <header class="cabecera">
+    <a class="cabecera__marca" href="#inicio">
+      <img src="imagenes/logo.webp" width="1200" height="1200" alt="Floristería Nekane Loreak, ir al inicio">
+    </a>
+
+    <button class="cabecera__menu" type="button" aria-expanded="false" aria-controls="menu-principal">
+      Menú
+    </button>
+
+    <nav class="menu" id="menu-principal" aria-label="Principal">
+      <ul class="menu__lista">
+        <li><a href="#bodas">Bodas</a></li>
+        <li><a href="#eventos">Eventos y fiestas</a></li>
+        <li><a href="#preservadas">Preservadas</a></li>
+        <li><a href="#encargos">Encargos</a></li>
+        <li><a href="#tanatorios">Tanatorios</a></li>
+        <li><a href="#visitanos">Dónde estamos</a></li>
+      </ul>
+    </nav>
+
+    <a class="boton boton--llamar cabecera__llamar" href="tel:+34687865677">Llamar</a>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ============================ INICIO ============================ -->
+    <section class="seccion inicio" id="inicio" aria-labelledby="inicio-titulo">
+      <div class="inicio__texto">
+        <p class="antetitulo">Floristería en Errenteria</p>
+        <h1 id="inicio-titulo">Estilismo floral hecho a tu medida</h1>
+        <p class="entradilla">
+          Ramos de novia, flores para celebrar y encargos preparados a tu gusto.
+          Pídelo por teléfono o pásate por la tienda.
+        </p>
+        <div class="acciones">
+          <a class="boton boton--llamar" href="tel:+34687865677">Llamar al 687 86 56 77</a>
+          <a class="boton boton--secundario" href="#bodas">Ver bodas</a>
+        </div>
+      </div>
+
+      <!-- Primera imagen visible: sin loading="lazy" y con prioridad alta
+           para que pinte cuanto antes. -->
+      <img class="inicio__foto" src="imagenes/ramo-boda2.webp" width="694" height="926" fetchpriority="high"
+           alt="Ramo de novia de peonías blancas, eucalipto y espigas verdes, con lazo de seda, frente a montes verdes">
+    </section>
+
+    <!-- ============================ BODAS ============================ -->
+    <section class="seccion bodas" id="bodas" aria-labelledby="bodas-titulo">
+      <div class="bodas__intro">
+        <p class="antetitulo">Bodas</p>
+        <h2 id="bodas-titulo">Tu ramo de novia, pensado contigo</h2>
+        <p>
+          Una boda se decide con calma y con mucho cariño. Cuéntale a Nekane cómo
+          lo imaginas, los colores, las flores, el estilo, y lo prepara a tu medida.
+        </p>
+      </div>
+
+      <img class="bodas__destacada" src="imagenes/ramo-boda6.webp" width="635" height="635" loading="lazy"
+           alt="Pareja de novios en el campo; la novia sostiene un ramo redondo de flores blancas y rosa pálido">
+
+      <ul class="bodas__servicios">
+        <li>
+          <h3>Ramo de novia</h3>
+          <p>Con las flores que elijas, pensado para ti y para tu día.</p>
+        </li>
+        <li>
+          <h3>Ramo de novia preservado</h3>
+          <p>Flores preservadas para guardar tu ramo como recuerdo de la boda.</p>
+        </li>
+        <li>
+          <h3>Otros elementos florales</h3>
+          <p>Además del ramo, Nekane prepara otros elementos florales para la boda.</p>
+        </li>
+      </ul>
+
+      <!-- Galería: cada foto es un enlace a la imagen. Sin JS, abre la foto;
+           con JS, main.js la muestra en el visor leyendo el href (no hay rutas
+           de imagen escritas en main.js, así sirve igual en /v2/). -->
+      <ul class="galeria" aria-label="Más ramos de novia">
+        <li><a class="galeria__enlace" href="imagenes/ramo-boda5.webp">
+          <img src="imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
+               alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/ramo-boda1.webp">
+          <img src="imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
+               alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/ramo-boda3.webp">
+          <img src="imagenes/ramo-boda3.webp" width="691" height="927" loading="lazy"
+               alt="Ramo de novia blanco con eucalipto y lazo, sobre una pared clara">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/ramo-boda4.webp">
+          <img src="imagenes/ramo-boda4.webp" width="694" height="929" loading="lazy"
+               alt="Ramo de novia de peonías, rosas y eucalipto tumbado sobre una colcha blanca">
+        </a></li>
+      </ul>
+
+      <p class="llamada">
+        ¿Ya tienes fecha? Llama y lo hablamos:
+        <a href="tel:+34687865677">687 86 56 77</a>
+      </p>
+    </section>
+
+    <!-- ============================ EVENTOS Y FIESTAS ============================ -->
+    <section class="seccion eventos" id="eventos" aria-labelledby="eventos-titulo">
+      <div class="eventos__texto">
+        <p class="antetitulo">Eventos y fiestas</p>
+        <h2 id="eventos-titulo">Flores para celebrar</h2>
+        <p>
+          Si tienes una fiesta o un evento entre manos, Nekane prepara los trabajos
+          florales que necesites, pensados para el lugar y para el momento.
+        </p>
+      </div>
+
+      <div class="eventos__fotos">
+        <img src="imagenes/corona-floral3.webp" width="835" height="622" loading="lazy"
+             alt="Corona redonda de flores de colores, con rosas, gerberas y crisantemos, y una cinta rosa">
+        <img src="imagenes/flores-iglesia1.webp" width="782" height="797" loading="lazy"
+             alt="Altar de una iglesia con un gran centro de liliums amarillos y flores blancas">
+        <img src="imagenes/flores-iglesia2.webp" width="843" height="563" loading="lazy"
+             alt="Altar y bancos de una iglesia decorados con flores blancas">
+      </div>
+    </section>
+
+    <!-- ============================ FLORES PRESERVADAS ============================ -->
+    <section class="seccion preservadas" id="preservadas" aria-labelledby="preservadas-titulo">
+      <div class="preservadas__texto">
+        <p class="antetitulo">Flores preservadas</p>
+        <h2 id="preservadas-titulo">Flores que se quedan contigo</h2>
+        <p>
+          Una forma distinta de regalar y de decorar, con flores pensadas para
+          durar. Nekane también prepara ramos de novia preservados.
+        </p>
+      </div>
+
+      <ul class="mosaico" aria-label="Ramos de flores secas">
+        <li><a class="galeria__enlace" href="imagenes/flores-secas1.webp">
+          <img src="imagenes/flores-secas1.webp" width="922" height="922" loading="lazy"
+               alt="Ramos de flores secas en rojo, verde y blanco envueltos en papel kraft">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/flores-secas3.webp">
+          <img src="imagenes/flores-secas3.webp" width="922" height="923" loading="lazy"
+               alt="Ramos de flores secas en lila, rosa y blanco envueltos en papel translúcido">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/flores-secas5.webp">
+          <img src="imagenes/flores-secas5.webp" width="923" height="920" loading="lazy"
+               alt="Ramos de flores secas en naranja y blanco con hojas de eucalipto">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/flores-secas2.webp">
+          <img src="imagenes/flores-secas2.webp" width="922" height="921" loading="lazy"
+               alt="Ramo de flores secas en rosa, blanco y amarillo envuelto en papel kraft">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/flores-secas4.webp">
+          <img src="imagenes/flores-secas4.webp" width="922" height="925" loading="lazy"
+               alt="Ramo de flores secas en morado, lila y blanco con hojas verdes">
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- ============================ NEKANE ============================ -->
+    <section class="seccion nekane" id="nekane" aria-labelledby="nekane-titulo">
+      <img class="nekane__foto" src="imagenes/nekane.webp" width="922" height="922" loading="lazy"
+           alt="Nekane sonriendo en su tienda, con un ramo de iris, gerberas y tulipanes en las manos">
+
+      <div class="nekane__texto">
+        <p class="antetitulo">Quién está detrás</p>
+        <h2 id="nekane-titulo">Nekane</h2>
+        <p>
+          Nekane es la dueña y la florista de la tienda. Lleva años en Errenteria
+          preparando ramos y encargos a la medida de cada persona: le cuentas qué
+          buscas y para quién, y ella lo convierte en flores.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================ ENCARGOS Y REGALO ============================ -->
+    <section class="seccion encargos" id="encargos" aria-labelledby="encargos-titulo">
+      <div class="encargos__texto">
+        <p class="antetitulo">Encargos y regalos</p>
+        <h2 id="encargos-titulo">Un ramo para cada persona</h2>
+        <p>
+          Para una ocasión especial, para regalar o simplemente porque sí. Dinos
+          para quién es y qué te gustaría transmitir, y preparamos el ramo a su medida.
+        </p>
+        <p>En la tienda también encontrarás flores y plantas variadas.</p>
+      </div>
+
+      <div class="encargos__fotos">
+        <img src="imagenes/ramo-deco2.webp" width="480" height="578" loading="lazy"
+             alt="Ramo de gerberas naranjas con flores blancas y verde, atado con cinta naranja">
+        <img src="imagenes/ramo-deco3.webp" width="486" height="630" loading="lazy"
+             alt="Ramo de rosas, gerberas y cardos azules con eucalipto, envuelto en papel de cuadros rosa">
+        <img src="imagenes/ramo-deco4.webp" width="482" height="635" loading="lazy"
+             alt="Ramo de liliums, rosas, crisantemos y cardos azules envuelto en papel blanco">
+      </div>
+
+      <div class="pedir">
+        <h3>Cómo pedir</h3>
+        <ol class="pedir__pasos">
+          <li>Llama al <a href="tel:+34687865677">687 86 56 77</a> o pásate por la tienda.</li>
+          <li>Cuéntanos para quién es, la ocasión y lo que te gusta.</li>
+          <li>Hacemos entrega a domicilio y también en otras localidades.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============================ RESEÑAS ============================ -->
+    <!-- Reseñas literales tal como están en NEGOCIO.md. Sin fecha: la fuente
+         solo da fechas relativas ("hace 1 año") que se quedarían desfasadas. -->
+    <section class="seccion resenas" id="resenas" aria-labelledby="resenas-titulo">
+      <p class="antetitulo">Reseñas en Google</p>
+      <h2 id="resenas-titulo">Lo que cuentan sus clientes</h2>
+
+      <div class="resenas__lista">
+        <figure class="resena">
+          <blockquote>
+            <p>Encantada con su trabajo me preparo el ramo de novia y fue un ramo preservado precioso. Nekane un encanto muy profesional y muy cercana no me puso ningún problema ni para el ramo de novia ni para alguna cosa más que le pedimos que nos preparara volvería a ella con los ojos cerrados.</p>
+          </blockquote>
+          <figcaption>AINARA GIRALDOS</figcaption>
+        </figure>
+
+        <figure class="resena">
+          <blockquote>
+            <p>Un lujo poder contar con esta floristería. Amables, profesionales, resolutivos y rápidos. Nekane un diez, amable y cariñosa. Gracias por todo. Seguiremos en contacto.</p>
+          </blockquote>
+          <figcaption>María M. Ruiz</figcaption>
+        </figure>
+
+        <figure class="resena">
+          <blockquote>
+            <p>La florista más amable y sonriente.<br>
+            Siempre voy con placer.<br>
+            Gracias!!</p>
+          </blockquote>
+          <figcaption>Ana Schimbatoru</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================ TANATORIOS ============================ -->
+    <!-- Bloque sobrio a propósito: sin foto, sin color de acento y sin
+         animaciones. Teléfono y horario dentro del propio bloque para quien
+         llega con prisa. -->
+    <section class="seccion tanatorios" id="tanatorios" aria-labelledby="tanatorios-titulo">
+      <div class="tanatorios__texto">
+        <h2 id="tanatorios-titulo">Tanatorios</h2>
+        <p>
+          Preparamos ramos y arreglos florales para tanatorios. Si necesitas
+          enviar flores, llámanos y nos ocupamos del encargo.
+        </p>
+        <p class="tanatorios__telefono">
+          <a href="tel:+34687865677">687 86 56 77</a>
+        </p>
+        <dl class="horario">
+          <div><dt>Lunes a viernes</dt><dd>9:15–13:30 y 17:00–19:30</dd></div>
+          <div><dt>Sábado</dt><dd>9:15–13:30</dd></div>
+          <div><dt>Domingo</dt><dd>Cerrado</dd></div>
+        </dl>
+      </div>
+
+      <figure class="resena resena--sobria">
+        <blockquote>
+          <p>Contacté con la floristería sobre las 12 del mediodía para hacer un encargo para el tanatorio de Zetolen. Prepararon un ramo muy bonito y antes de las 14:00 lo entregaron. Buenísima experiencia, recomiendo 100%.</p>
+        </blockquote>
+        <figcaption>Pedro · reseña en Google</figcaption>
+      </figure>
+    </section>
+
+    <!-- ============================ DÓNDE ESTAMOS ============================ -->
+    <section class="seccion visitanos" id="visitanos" aria-labelledby="visitanos-titulo">
+      <div class="visitanos__datos">
+        <p class="antetitulo">Dónde estamos</p>
+        <h2 id="visitanos-titulo">Pásate por la tienda o llámanos</h2>
+
+        <a class="boton boton--llamar boton--grande" href="tel:+34687865677">Llamar al 687 86 56 77</a>
+
+        <address class="contacto">
+          <p>
+            Floristería Nekane Loreak<br>
+            Fernandez de Landa Plaza, 1<br>
+            20100 Errenteria, Gipuzkoa
+          </p>
+          <p><a href="mailto:nekanedenda@hotmail.es">nekanedenda@hotmail.es</a></p>
+        </address>
+
+        <h3>Horario</h3>
+        <dl class="horario">
+          <div><dt>Lunes a viernes</dt><dd>9:15–13:30 y 17:00–19:30</dd></div>
+          <div><dt>Sábado</dt><dd>9:15–13:30</dd></div>
+          <div><dt>Domingo</dt><dd>Cerrado</dd></div>
+        </dl>
+
+        <ul class="redes">
+          <li><a href="https://www.instagram.com/loradendanekane/?hl=es" rel="noopener" target="_blank">Instagram<span class="oculto"> (se abre en otra pestaña)</span></a></li>
+          <li><a href="https://www.facebook.com/FloristeriaNekaneIrazu/?locale=es_ES" rel="noopener" target="_blank">Facebook<span class="oculto"> (se abre en otra pestaña)</span></a></li>
+        </ul>
+      </div>
+
+      <div class="visitanos__mapa">
+        <!-- referrerpolicy: solo se envía el origen de la web a Google, no la URL completa. -->
+        <iframe
+          src="https://www.google.com/maps?q=Fernandez%20de%20Landa%20Plaza%2C%201%2C%2020100%20Errenteria%2C%20Gipuzkoa&amp;output=embed"
+          width="600" height="450" loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Mapa de Google con la ubicación de Floristería Nekane Loreak en Fernandez de Landa Plaza, 1, Errenteria"></iframe>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================ PIE ============================ -->
+  <footer class="pie">
+    <p class="pie__marca">Floristería Nekane Loreak</p>
+    <p>
+      Fernandez de Landa Plaza, 1 · 20100 Errenteria, Gipuzkoa<br>
+      <a href="tel:+34687865677">687 86 56 77</a> ·
+      <a href="mailto:nekanedenda@hotmail.es">nekanedenda@hotmail.es</a>
+    </p>
+    <!-- Textos legales pendientes: los aporta el negocio. -->
+    <ul class="pie__legal">
+      <li><a href="pendiente.html">Aviso legal</a></li>
+      <li><a href="pendiente.html">Política de privacidad</a></li>
+      <li><a href="pendiente.html">Política de cookies</a></li>
+    </ul>
+  </footer>
+
+  <!-- Barra de llamada fija en móvil: la llamada es la acción principal de la web.
+       Está en el HTML (no la crea JS) para que funcione siempre. -->
+  <a class="barra-llamar" href="tel:+34687865677">
+    Llamar · 687 86 56 77
+  </a>
+</body>
+</html>

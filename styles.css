@@ -1,0 +1,311 @@
+/* ==========================================================================
+   Floristería Nekane Loreak — styles.css
+   Mobile-first: los estilos base son para móvil; las media queries
+   (min-width) adaptan a pantallas más grandes.
+
+   Índice
+   1. Variables
+   2. Base y reset
+   3. Utilidades y accesibilidad
+   4. Componentes compartidos (botones, antetítulo, horario, reseña)
+   5. Secciones (cada una autocontenida, para poder pasar a página en la v2)
+   ========================================================================== */
+
+
+/* 1. Variables
+   ========================================================================== */
+:root {
+  /* Paleta sacada de las fotos. Contrastes WCAG medidos:
+     tinta/crema 12,5:1 · tinta-suave/crema 6,7:1 · crema/bosque 10,2:1
+     blanco/baya 7,3:1 · tinta/kraft 8,6:1 */
+  --crema: #F6F1E8;          /* lazo y peonías: fondo principal */
+  --tinta: #2E2B26;          /* texto */
+  --tinta-suave: #5A544B;    /* texto secundario */
+  --kraft: #DCC7A6;          /* papel de envolver: etiquetas y bloques */
+  --kraft-claro: #EBDFCB;
+  --eucalipto: #A9B8AC;      /* superficies */
+  --eucalipto-oscuro: #5B6F61; /* 4,8:1 sobre crema: solo texto grande o detalles */
+  --bosque: #2F3D33;         /* montes de fondo: sección oscura */
+  --baya: #8E3A4E;           /* acción principal (llamar) */
+  --baya-oscura: #722C3E;
+  --piedra: #E9E6E1;         /* fondo neutro y sobrio de Tanatorios */
+  --blanco: #FFFFFF;
+
+  /* Tipografía */
+  --fuente-titulos: "Fraunces", Georgia, "Times New Roman", serif;
+  --fuente-texto: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Escala fluida: crece con el ancho de pantalla entre un mínimo y un máximo. */
+  --texto-sm: 0.875rem;
+  --texto-base: 1.0625rem;                                /* 17 px: cómodo en móvil */
+  --texto-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
+  --titulo-3: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --titulo-2: clamp(1.875rem, 1.45rem + 2vw, 3rem);
+  --titulo-1: clamp(2.375rem, 1.7rem + 3.4vw, 4.25rem);
+
+  /* Espaciados */
+  --esp-1: 0.25rem;
+  --esp-2: 0.5rem;
+  --esp-3: 0.75rem;
+  --esp-4: 1rem;
+  --esp-5: 1.5rem;
+  --esp-6: 2rem;
+  --esp-7: 3rem;
+  --esp-8: 4rem;
+  --seccion: clamp(3.5rem, 2.5rem + 5vw, 7rem);  /* aire vertical entre secciones */
+  --margen: 1rem;                                  /* margen lateral en móvil (16 px) */
+
+  /* Medidas */
+  --ancho-max: 72rem;
+  --ancho-texto: 36rem;
+  --toque: 3rem;          /* 48 px: zona táctil mínima cómoda */
+  --radio: 4px;
+}
+
+
+/* 2. Base y reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-base);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  margin: 0 0 var(--esp-4);
+  font-family: var(--fuente-titulos);
+  font-weight: 400;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--titulo-1); }
+h2 { font-size: var(--titulo-2); }
+h3 { font-size: var(--titulo-3); font-weight: 600; }
+
+p {
+  margin: 0 0 var(--esp-4);
+  max-width: var(--ancho-texto);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+img,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+address {
+  font-style: normal;
+}
+
+blockquote,
+figure {
+  margin: 0;
+}
+
+
+/* 3. Utilidades y accesibilidad
+   ========================================================================== */
+
+/* Foco visible y consistente en toda la web (solo con teclado). */
+:focus-visible {
+  outline: 3px solid var(--baya);
+  outline-offset: 3px;
+}
+
+/* Oculto a la vista pero leído por lectores de pantalla. */
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Enlace "Saltar al contenido": aparece al recibir foco con el tabulador. */
+.saltar {
+  position: absolute;
+  left: var(--margen);
+  top: -100px;
+  z-index: 100;
+  padding: var(--esp-3) var(--esp-4);
+  background: var(--tinta);
+  color: var(--crema);
+}
+
+.saltar:focus {
+  top: var(--esp-2);
+}
+
+/* Respeto a quien pide menos movimiento: sin scroll suave ni animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* 4. Componentes compartidos
+   ========================================================================== */
+
+/* Botones: altura mínima de 48 px para tocar cómodo en móvil. */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--toque);
+  padding: var(--esp-2) var(--esp-5);
+  border: 1px solid transparent;
+  border-radius: var(--radio);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.boton--llamar {
+  background: var(--baya);
+  color: var(--blanco);
+}
+
+.boton--llamar:hover {
+  background: var(--baya-oscura);
+}
+
+.boton--secundario {
+  border-color: currentColor;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+}
+
+/* Antetítulo: etiqueta pequeña sobre cada título de sección. */
+.antetitulo {
+  margin-bottom: var(--esp-3);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.entradilla {
+  font-size: var(--texto-lg);
+}
+
+/* Horario: lista de definiciones día / horas. */
+.horario {
+  margin: 0 0 var(--esp-5);
+}
+
+.horario div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 var(--esp-4);
+  padding: var(--esp-2) 0;
+  border-bottom: 1px solid var(--kraft);
+}
+
+.horario dt {
+  font-weight: 600;
+}
+
+.horario dd {
+  margin: 0;
+}
+
+/* Reseña */
+.resena blockquote p {
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--texto-lg);
+}
+
+/* Los nombres se muestran tal como vienen de la fuente; las mayúsculas por CSS
+   igualan visualmente los que llegan en mayúsculas y los que no. */
+.resena figcaption {
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+
+/* 5. Secciones
+   ========================================================================== */
+
+/* Contenedor común de sección: margen lateral en móvil y ancho máximo en escritorio. */
+.seccion {
+  width: min(100% - 2 * var(--margen), var(--ancho-max));
+  margin-inline: auto;
+  padding-block: var(--seccion);
+}
+
+/* --- Cabecera ------------------------------------------------------------ */
+.cabecera__marca img {
+  width: 4.5rem;
+}
+
+/* --- Inicio --------------------------------------------------------------- */
+
+/* --- Bodas ---------------------------------------------------------------- */
+
+/* --- Eventos y fiestas ---------------------------------------------------- */
+
+/* --- Flores preservadas --------------------------------------------------- */
+
+/* --- Nekane --------------------------------------------------------------- */
+
+/* --- Encargos ------------------------------------------------------------- */
+
+/* --- Reseñas -------------------------------------------------------------- */
+
+/* --- Tanatorios ----------------------------------------------------------- */
+
+/* --- Dónde estamos -------------------------------------------------------- */
+.visitanos__mapa iframe {
+  width: 100%;
+  border: 0;
+}
+
+/* --- Pie ------------------------------------------------------------------ */

@@ -60,6 +60,8 @@
   --ancho-texto: 36rem;
   --toque: 3rem;          /* 48 px: zona táctil mínima cómoda */
   --radio: 4px;
+  --alto-cabecera: 4rem;
+  --alto-barra: 3.5rem;   /* barra de llamada fija en móvil */
 }
 
 
@@ -74,15 +76,33 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Al saltar a una sección desde el menú, que el título no quede tapado
+     por la cabecera fija. */
+  scroll-padding-top: calc(var(--alto-cabecera) + var(--esp-4));
+}
+
+/* Desplazamiento suave solo si la persona no ha pedido menos movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
   margin: 0;
+  /* Hueco para que la barra de llamada fija no tape el final del pie. */
+  padding-bottom: calc(var(--alto-barra) + env(safe-area-inset-bottom));
   background: var(--crema);
   color: var(--tinta);
   font-family: var(--fuente-texto);
   font-size: var(--texto-base);
   line-height: 1.6;
+}
+
+@media (min-width: 48em) {
+  body {
+    padding-bottom: 0;
+  }
 }
 
 h1, h2, h3 {
@@ -270,6 +290,10 @@ figure {
   color: var(--tinta-suave);
 }
 
+.resena cite {
+  font-style: normal;
+}
+
 
 /* 5. Secciones
    ========================================================================== */
@@ -282,8 +306,234 @@ figure {
 }
 
 /* --- Cabecera ------------------------------------------------------------ */
-.cabecera__marca img {
-  width: 4.5rem;
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  min-height: var(--alto-cabecera);
+  padding: var(--esp-2) var(--margen);
+  background: var(--crema);
+  border-bottom: 1px solid var(--kraft-claro);
+}
+
+.cabecera__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  margin-right: auto;      /* empuja menú y botón a la derecha */
+  min-height: var(--toque);
+  text-decoration: none;
+}
+
+/* Recorte de la palmera dentro del logo cuadrado (1200 × 1200).
+   Caja medida de la palmera, con margen: x 300–912, y 85–810 (612 × 725 px).
+   Los márgenes en % se calculan sobre el ancho del contenedor, también los
+   verticales, así que el recorte se mantiene a cualquier tamaño:
+     ancho imagen = 1200 / 612 = 196,08 %
+     margen izq.  = -300 / 612 = -49,02 %
+     margen sup.  =  -85 / 612 = -13,89 % */
+.cabecera__simbolo {
+  flex: none;
+  width: 2.4rem;
+  aspect-ratio: 612 / 725;
+  overflow: hidden;
+}
+
+.cabecera__simbolo img {
+  width: 196.08%;
+  max-width: none;
+  margin: -13.89% 0 0 -49.02%;
+  /* El logo tiene fondo blanco: multiply lo funde con el crema de la cabecera
+     (blanco × crema = crema) sin tener que editar la imagen. */
+  mix-blend-mode: multiply;
+}
+
+.cabecera__nombre {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.cabecera__tipo {
+  font-family: var(--fuente-texto);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+/* Botón del menú (móvil): 48 px de alto, icono dibujado con CSS. */
+.cabecera__menu {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--toque);
+  padding: 0 var(--esp-3);
+  border: 1px solid var(--tinta);
+  border-radius: var(--radio);
+  background: transparent;
+  color: var(--tinta);
+  font: 600 var(--texto-sm) / 1 var(--fuente-texto);
+  cursor: pointer;
+}
+
+.cabecera__icono {
+  position: relative;
+  width: 1.125rem;
+  height: 0.625rem;
+}
+
+.cabecera__icono span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, top 0.2s ease;
+}
+
+.cabecera__icono span:first-child { top: 0; }
+.cabecera__icono span:last-child  { top: calc(100% - 2px); }
+
+/* Abierto: las dos líneas se cruzan en una X. */
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span {
+  top: calc(50% - 1px);
+}
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:first-child { transform: rotate(45deg); }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:last-child  { transform: rotate(-45deg); }
+
+/* Panel del menú en móvil: plegado por defecto y desplegado cuando el botón
+   tiene aria-expanded="true" (el JS solo cambia ese atributo). */
+.menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: var(--esp-2) var(--margen) var(--esp-5);
+  background: var(--crema);
+  border-bottom: 1px solid var(--kraft);
+  box-shadow: 0 12px 24px -16px rgb(46 43 38 / 0.35);
+}
+
+.cabecera__menu[aria-expanded="true"] + .menu {
+  display: block;
+}
+
+.menu__lista {
+  list-style: none;
+}
+
+.menu__lista a {
+  display: flex;
+  align-items: center;
+  min-height: var(--toque);
+  border-bottom: 1px solid var(--kraft-claro);
+  font-family: var(--fuente-titulos);
+  font-size: 1.375rem;
+  text-decoration: none;
+}
+
+/* Sin JavaScript el botón no haría nada: se oculta y el menú queda visible. */
+@media (scripting: none) {
+  .cabecera { flex-wrap: wrap; }
+  .cabecera__menu { display: none; }
+  .menu { display: block; position: static; width: 100%; padding: 0; box-shadow: none; border: 0; }
+}
+
+/* En móvil la llamada vive en la barra inferior; en la cabecera, desde tablet. */
+.cabecera__llamar {
+  display: none;
+}
+
+@media (min-width: 48em) {
+  .cabecera__llamar {
+    display: inline-flex;
+  }
+}
+
+/* Escritorio: menú en línea, sin botón. */
+@media (min-width: 64em) {
+  .cabecera {
+    gap: var(--esp-5);
+    padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
+  }
+
+  .cabecera__menu {
+    display: none;
+  }
+
+  .menu,
+  .cabecera__menu[aria-expanded="true"] + .menu {
+    display: block;
+    position: static;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .menu__lista {
+    display: flex;
+    gap: var(--esp-5);
+  }
+
+  .menu__lista a {
+    border: 0;
+    font-family: var(--fuente-texto);
+    font-size: 1rem;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .menu__lista a:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* --- Barra de llamada (móvil) ---------------------------------------------- */
+.barra-llamar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--alto-barra);
+  /* El área segura se suma por debajo para no quedar bajo la barra de gestos. */
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: content-box;
+  background: var(--baya);
+  color: var(--blanco);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.barra-llamar:active {
+  background: var(--baya-oscura);
+}
+
+/* Sobre el fondo baya el foco va en blanco y por dentro (la barra toca el
+   borde de la pantalla y el contorno por fuera no se vería). */
+.barra-llamar:focus-visible {
+  outline-color: var(--blanco);
+  outline-offset: -6px;
+}
+
+@media (min-width: 48em) {
+  .barra-llamar {
+    display: none;
+  }
 }
 
 /* --- Inicio --------------------------------------------------------------- */

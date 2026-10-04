@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- viewport-fit=cover: permite usar env(safe-area-inset-bottom) para que la
+       barra de llamada no quede bajo la barra de gestos del iPhone. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <!-- Demo privada: que ningún buscador la indexe mientras no sea la web real. -->
   <meta name="robots" content="noindex, nofollow">
   <title>Floristería Nekane Loreak · Errenteria</title>
@@ -25,11 +27,23 @@
 
   <!-- ============================ CABECERA ============================ -->
   <header class="cabecera">
+    <!-- El logo es cuadrado (palmera + nombre + lema): a tamaño de cabecera el
+         nombre no se leería. Aquí se muestra solo la palmera, recortada por CSS,
+         y el nombre en texto. El logo completo va en el pie. -->
     <a class="cabecera__marca" href="#inicio">
-      <img src="imagenes/logo.webp" width="1200" height="1200" alt="Floristería Nekane Loreak, ir al inicio">
+      <span class="cabecera__simbolo">
+        <img src="imagenes/logo.webp" width="1200" height="1200" alt="">
+      </span>
+      <span class="cabecera__nombre">
+        <span class="cabecera__tipo">Floristería</span>
+        Nekane Loreak
+      </span>
     </a>
 
+    <!-- El nombre accesible es siempre "Menú"; el estado abierto/cerrado lo
+         comunica aria-expanded, y el CSS se apoya en ese mismo atributo. -->
     <button class="cabecera__menu" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="cabecera__icono" aria-hidden="true"><span></span><span></span></span>
       Menú
     </button>
 
@@ -44,7 +58,8 @@
       </ul>
     </nav>
 
-    <a class="boton boton--llamar cabecera__llamar" href="tel:+34687865677">Llamar</a>
+    <!-- Solo visible desde tablet; en móvil la llamada está en la barra inferior. -->
+    <a class="boton boton--llamar cabecera__llamar" href="tel:+34687865677">Llamar · 687 86 56 77</a>
   </header>
 
   <main id="contenido">

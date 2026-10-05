@@ -365,18 +365,37 @@
 
   <!-- ============================ PIE ============================ -->
   <footer class="pie">
-    <p class="pie__marca">Floristería Nekane Loreak</p>
-    <p>
-      Fernandez de Landa Plaza, 1 · 20100 Errenteria, Gipuzkoa<br>
-      <a href="tel:+34687865677">687 86 56 77</a> ·
+    <!-- Logo completo dentro de un medallón crema: el logo tiene fondo blanco
+         y sobre el verde del pie se vería un cuadrado; en el medallón, el
+         blanco se funde con el crema (mix-blend-mode: multiply). -->
+    <div class="pie__marca">
+      <span class="pie__logo">
+        <img src="imagenes/logo.webp" width="1200" height="1200" loading="lazy" alt="Nekane, estilismo floral">
+      </span>
+      <p class="pie__nombre">Floristería Nekane Loreak</p>
+    </div>
+
+    <address class="pie__datos">
+      Fernandez de Landa Plaza, 1<br>
+      20100 Errenteria, Gipuzkoa<br>
+      <a href="tel:+34687865677">687 86 56 77</a><br>
       <a href="mailto:nekanedenda@hotmail.es">nekanedenda@hotmail.es</a>
-    </p>
-    <!-- Textos legales pendientes: los aporta el negocio. -->
-    <ul class="pie__legal">
-      <li><a href="pendiente.html">Aviso legal</a></li>
-      <li><a href="pendiente.html">Política de privacidad</a></li>
-      <li><a href="pendiente.html">Política de cookies</a></li>
+    </address>
+
+    <ul class="pie__redes">
+      <li><a href="https://www.instagram.com/loradendanekane/?hl=es" rel="noopener" target="_blank">Instagram<span class="oculto"> (se abre en otra pestaña)</span></a></li>
+      <li><a href="https://www.facebook.com/FloristeriaNekaneIrazu/?locale=es_ES" rel="noopener" target="_blank">Facebook<span class="oculto"> (se abre en otra pestaña)</span></a></li>
     </ul>
+
+    <div class="pie__final">
+      <!-- Textos legales pendientes: los aporta el negocio. -->
+      <ul class="pie__legal">
+        <li><a href="pendiente.html">Aviso legal</a></li>
+        <li><a href="pendiente.html">Política de privacidad</a></li>
+        <li><a href="pendiente.html">Política de cookies</a></li>
+      </ul>
+      <p class="pie__copy">© 2026 Floristería Nekane Loreak</p>
+    </div>
   </footer>
 
 </body>

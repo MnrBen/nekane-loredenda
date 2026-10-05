@@ -1282,10 +1282,314 @@ html:has(.visor[open]) {
 
 /* --- Ceremonias y despedidas --------------------------------------------- */
 
-/* --- Contacto: pide o visítanos ------------------------------------------- */
-.contacto__mapa iframe {
-  width: 100%;
-  border: 0;
+/* Sobria a propósito: fondo crema, sin color de acento, sin efectos al pasar
+   el ratón y sin animaciones. Las fotos no son enlaces. */
+.ceremonias {
+  display: grid;
+  gap: var(--esp-6);
 }
 
+/* Teléfono y horario en el propio bloque, para quien llega con prisa. */
+.ceremonias__contacto {
+  font-size: var(--texto-sm);
+  color: var(--tinta-suave);
+}
+
+.ceremonias__contacto a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-family: var(--fuente-titulos);
+  font-size: var(--titulo-3);
+  color: var(--tinta);
+}
+
+/* Dos fotos cuadradas arriba y la apaisada (el altar con los bancos) debajo,
+   a todo el ancho. */
+.ceremonias__fotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-2);
+}
+
+.ceremonias__fotos img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.ceremonias__fotos img:nth-child(2) {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  aspect-ratio: 843 / 563;
+}
+
+/* Reseña sobria: sin la comilla grande decorativa, con una línea fina. */
+.resena--sobria {
+  padding-left: var(--esp-4);
+  border-left: 2px solid var(--kraft);
+}
+
+.resena--sobria blockquote::before {
+  content: none;
+}
+
+.resena--sobria blockquote p {
+  font-size: var(--texto-base);
+}
+
+/* Escritorio: texto y reseña a la izquierda, fotos a la derecha.
+   Las fotos (782–922 px de ancho real) no pasan de ~540 px. */
+@media (min-width: 64em) {
+  .ceremonias {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "texto  fotos"
+      "resena fotos";
+    column-gap: var(--esp-8);
+    align-items: start;
+  }
+
+  .ceremonias__texto { grid-area: texto; }
+  .ceremonias__fotos { grid-area: fotos; }
+  .ceremonias .resena--sobria { grid-area: resena; }
+}
+
+
+/* --- Contacto: pide o visítanos ------------------------------------------- */
+.contacto {
+  display: grid;
+  gap: var(--esp-7);
+}
+
+.contacto__datos h3 {
+  margin: var(--esp-6) 0 var(--esp-3);
+}
+
+/* Botón grande de llamada: la acción final de la página. A todo el ancho en
+   móvil para que sea fácil de tocar. */
+.boton--grande {
+  width: 100%;
+  min-height: 3.5rem;
+  font-size: var(--texto-lg);
+}
+
+/* Cómo pedir: pasos numerados como los servicios de Bodas. */
+.pedir {
+  list-style: none;
+  counter-reset: paso;
+}
+
+.pedir li {
+  counter-increment: paso;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--esp-3);
+  padding-block: var(--esp-3);
+  border-top: 1px solid var(--kraft);
+}
+
+.pedir li::before {
+  content: counter(paso, decimal-leading-zero);
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--titulo-3);
+  line-height: 1.2;
+  color: var(--eucalipto-oscuro);   /* texto grande: 4,3:1 sobre rosa basta */
+}
+
+.contacto__direccion p {
+  margin-bottom: var(--esp-2);
+}
+
+/* Enlaces de contacto y redes con zona táctil de 44 px de alto. */
+.contacto__direccion a,
+.redes a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.redes {
+  list-style: none;
+  display: flex;
+  gap: var(--esp-5);
+  margin-top: var(--esp-3);
+}
+
+.redes a {
+  font-weight: 600;
+}
+
+/* Mapa enmarcado: borde crema y línea kraft, como una foto más de la web.
+   Un toque de desaturación lo acerca a la paleta sin dejar de leerse. */
+.contacto__mapa {
+  padding: var(--esp-2);
+  background: var(--crema);
+  border: 1px solid var(--kraft);
+}
+
+.contacto__mapa iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  filter: saturate(0.8);
+}
+
+/* Tablet: el botón grande deja de ocupar todo el ancho. */
+@media (min-width: 48em) {
+  .boton--grande {
+    width: auto;
+  }
+}
+
+/* Escritorio: datos a la izquierda y mapa a la derecha, a toda la altura. */
+@media (min-width: 64em) {
+  .contacto {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--esp-8);
+  }
+
+  .contacto__mapa {
+    display: flex;
+  }
+
+  .contacto__mapa iframe {
+    aspect-ratio: auto;
+    min-height: 28rem;
+  }
+}
+
+
 /* --- Pie ------------------------------------------------------------------ */
+.pie {
+  display: grid;
+  justify-items: center;
+  gap: var(--esp-6);
+  padding: var(--seccion) max(var(--margen), (100% - var(--ancho-max)) / 2) var(--esp-6);
+  background: var(--bosque);
+  color: var(--crema);
+  text-align: center;
+}
+
+.pie a {
+  color: inherit;
+}
+
+.pie :focus-visible {
+  outline-color: var(--crema);
+}
+
+.pie__marca {
+  display: grid;
+  justify-items: center;
+  gap: var(--esp-3);
+}
+
+/* Medallón crema con el logo completo. isolation hace que el multiply del
+   logo se mezcle solo con el crema del medallón, no con el verde del pie. */
+.pie__logo {
+  display: grid;
+  place-items: center;
+  width: 8.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--crema);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.pie__logo img {
+  width: 86%;
+  mix-blend-mode: multiply;
+}
+
+.pie__nombre {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: var(--titulo-3);
+}
+
+.pie__datos {
+  line-height: 1.8;
+  color: var(--kraft-claro);   /* 8,7:1 sobre bosque */
+}
+
+/* Teléfono y email con zona táctil de 44 px de alto (medido: con el alto
+   de línea solo llegaban a 39 px). */
+.pie__datos a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.pie__redes {
+  list-style: none;
+  display: flex;
+  gap: var(--esp-5);
+}
+
+.pie__redes a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 600;
+}
+
+.pie__final {
+  justify-self: stretch;
+  display: grid;
+  justify-items: center;
+  gap: var(--esp-3);
+  padding-top: var(--esp-5);
+  border-top: 1px solid rgb(246 241 232 / 0.2);
+  font-size: var(--texto-sm);
+  color: var(--kraft-claro);
+}
+
+.pie__legal {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--esp-5);
+}
+
+.pie__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.pie__copy {
+  margin: 0;
+}
+
+/* Tablet y escritorio: marca a la izquierda, datos en el centro y redes a
+   la derecha; la línea final (legal y ©) debajo, a todo el ancho. */
+@media (min-width: 48em) {
+  .pie {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: start;
+    column-gap: var(--esp-7);
+    text-align: left;
+  }
+
+  .pie__marca {
+    grid-auto-flow: column;
+    align-items: center;
+    gap: var(--esp-4);
+  }
+
+  .pie__logo {
+    width: 6.5rem;
+  }
+
+  .pie__final {
+    grid-column: 1 / -1;
+    grid-auto-flow: column;
+    justify-content: space-between;
+  }
+}

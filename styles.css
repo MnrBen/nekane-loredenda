@@ -28,8 +28,8 @@
   --bosque: #2F3D33;         /* montes de fondo: sección oscura */
   --baya: #8E3A4E;           /* acción principal (llamar) */
   --baya-oscura: #722C3E;
-  --salvia: #E4E9E0;         /* eucalipto muy claro: fondo alterno de secciones
-                                tinta 11,4:1 · tinta-suave 6,1:1 · baya 5,9:1 */
+  --rosa: #F2E1DC;           /* rosa empolvado: fondo alterno de secciones
+                                tinta 11,1:1 · tinta-suave 5,9:1 · baya 5,8:1 */
   --blanco: #FFFFFF;
 
   /* Tipografía */
@@ -310,13 +310,14 @@ figure {
   padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
 }
 
-/* Fondos alternos para que la página no resulte monótona: crema y salvia,
+/* Fondos alternos para que la página no resulte monótona: crema y rosa,
    con Flores secas en oscuro como sección diferenciada. */
 /* --fondo: el color de fondo de la sección, reutilizado en los marcos de
    las fotos de Celebraciones para que siempre coincidan. */
 .celebraciones,
-.ceremonias {
-  --fondo: var(--salvia);
+.nekane,
+.contacto {
+  --fondo: var(--rosa);
   background: var(--fondo);
 }
 
@@ -711,14 +712,10 @@ figure {
 /* Foto destacada con un bloque eucalipto desplazado detrás: da profundidad
    y enmarca la foto sin competir con ella. (La sombra no genera scroll
    horizontal: no cuenta como contenido desbordado.) */
-/* La foto original (635 × 635) trae una franja oscura arriba: se muestra un
-   poco más apaisada (635 × 600) y anclada abajo, así se recorta solo la
-   franja y el ramo, que está en la parte baja, queda entero. */
 .bodas__destacada {
   width: 100%;
-  aspect-ratio: 635 / 600;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
-  object-position: center bottom;
   box-shadow: calc(-1 * var(--esp-3)) var(--esp-3) 0 var(--eucalipto);
 }
 

@@ -614,8 +614,8 @@ figure {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top,
-    rgb(24 22 19 / 0.85) 0%,
-    rgb(24 22 19 / 0.65) 45%,
+    rgb(24 22 19 / 0.72) 0%,
+    rgb(24 22 19 / 0.5) 45%,
     rgb(24 22 19 / 0) 80%);
 }
 
@@ -634,37 +634,50 @@ figure {
   margin-bottom: 0;
 }
 
+/* Sombra muy difusa bajo el texto: con el velo más claro, asegura que el
+   antetítulo (letra pequeña) siga por encima del contraste mínimo. */
+.inicio__texto {
+  text-shadow: 0 1px 14px rgb(24 22 19 / 0.45);
+}
+
 /* Tablet y escritorio: texto sobre crema a la izquierda y la foto a la
-   derecha, de borde a borde (arriba, abajo y lado derecho).
-   Las fotos miden como mucho unos 925 px de ancho: a pantalla completa en
-   escritorio se verían borrosas. Aquí ocupan media pantalla y nunca más de
-   694 px, para que cualquiera de las fotos candidatas (la más estrecha mide
-   691 px) se vea nítida si se cambia la de portada. */
+   derecha, dentro del ancho de la página, con un marco de línea fina
+   desplazado detrás. La foto no pasa de 28rem (448 px), muy por debajo de
+   su ancho real, así que se ve nítida. */
 @media (min-width: 48em) {
   .inicio {
-    grid-template-columns: 1fr min(50vw, 694px);
-    align-content: stretch;
+    grid-template-columns: 1fr minmax(0, 22rem);
+    align-content: center;
     align-items: center;
     column-gap: var(--esp-7);
-    min-height: min(calc(100svh - var(--alto-cabecera)), 46rem);
-    padding-block: 0;
-    padding-right: 0;
+    min-height: auto;
     color: var(--tinta);
-  }
-
-  .inicio__texto {
-    padding-block: var(--seccion);
   }
 
   .inicio__figura {
     position: relative;
     inset: auto;
     z-index: auto;
-    align-self: stretch;
+    aspect-ratio: 4 / 5;
+  }
+
+  /* Marco desplazado hacia abajo y hacia la izquierda (hacia el texto), para
+     no salirse por el borde derecho de la pantalla. */
+  .inicio__figura::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--kraft);
+    transform: translate(calc(-1 * var(--esp-5)), var(--esp-5));
   }
 
   .inicio__figura::after {
     content: none;    /* sin velo: el texto ya no va encima de la foto */
+  }
+
+  .inicio__texto {
+    text-shadow: none;
   }
 
   .inicio .antetitulo {
@@ -673,6 +686,13 @@ figure {
 
   .inicio h1 em {
     color: var(--eucalipto-oscuro);   /* texto grande: 4,8:1 es suficiente */
+  }
+}
+
+@media (min-width: 64em) {
+  .inicio {
+    grid-template-columns: 1fr minmax(0, 28rem);
+    column-gap: var(--esp-8);
   }
 }
 

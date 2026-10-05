@@ -56,7 +56,7 @@
       <ul class="menu__lista">
         <li><a href="#bodas">Bodas</a></li>
         <li><a href="#celebraciones">Celebraciones</a></li>
-        <li><a href="#regalos">Regalos</a></li>
+        <li><a href="#regalos">Flores secas</a></li>
         <li><a href="#nekane">Nekane</a></li>
         <li><a href="#ceremonias">Ceremonias</a></li>
         <li><a href="#contacto">Contacto</a></li>
@@ -169,32 +169,35 @@
         </p>
       </div>
 
+      <!-- Orden: la primera es la grande; las siguientes, las pequeñas
+           escalonadas. La cuarta (corona) solo aparece desde tablet. -->
       <div class="celebraciones__fotos">
-        <img src="imagenes/corona-floral3.webp" width="835" height="622" loading="lazy"
-             alt="Corona redonda de flores de colores, con rosas, gerberas y crisantemos, y una cinta rosa">
-        <img src="imagenes/ramo-deco2.webp" width="480" height="578" loading="lazy"
-             alt="Ramo de gerberas naranjas con flores blancas y verde, atado con cinta naranja">
         <img src="imagenes/ramo-deco3.webp" width="486" height="630" loading="lazy"
              alt="Ramo de rosas, gerberas y cardos azules con eucalipto, envuelto en papel de cuadros rosa">
+        <img src="imagenes/ramo-deco2.webp" width="480" height="578" loading="lazy"
+             alt="Ramo de gerberas naranjas con flores blancas y verde, atado con cinta naranja">
         <img src="imagenes/ramo-deco4.webp" width="482" height="635" loading="lazy"
              alt="Ramo de liliums, rosas, crisantemos y cardos azules envuelto en papel blanco">
+        <img src="imagenes/corona-floral3.webp" width="835" height="622" loading="lazy"
+             alt="Corona redonda de flores de colores, con rosas, gerberas y crisantemos, y una cinta rosa">
       </div>
     </section>
 
-    <!-- ============================ PARA REGALAR ============================ -->
-    <!-- Flores preservadas como servicio diferenciado (sección oscura), junto
-         con los ramos para regalar y las plantas (estas solo en texto). -->
+    <!-- ============================ FLORES SECAS ============================ -->
+    <!-- Flores secas y preservadas como servicio diferenciado (sección oscura),
+         junto con los ramos para regalar y las plantas (estas solo en texto).
+         "Flores secas" es como la propia Nekane las llama en su Instagram. -->
     <section class="seccion regalos" id="regalos" aria-labelledby="regalos-titulo">
       <div class="regalos__texto">
-        <p class="antetitulo">Para regalar</p>
+        <p class="antetitulo">Flores secas</p>
         <h2 id="regalos-titulo">Flores que se quedan contigo</h2>
         <p>
-          Las flores preservadas son una forma distinta de regalar y de decorar,
-          pensadas para durar. Nekane también prepara ramos de novia preservados.
+          Ramos de flores secas y preservadas: una forma distinta de regalar y de
+          decorar, pensados para durar.
         </p>
         <p>
-          Y si prefieres algo fresco, en la tienda encontrarás ramos para regalar,
-          flores y plantas variadas.
+          En la tienda también encontrarás ramos para regalar, flores y plantas
+          variadas.
         </p>
       </div>
 
@@ -224,12 +227,17 @@
 
     <!-- ============================ NEKANE (con reseñas) ============================ -->
     <section class="seccion nekane" id="nekane" aria-labelledby="nekane-titulo">
+      <!-- En móvil el orden es título, foto y texto (la foto no aparece de
+           golpe sin presentar); en escritorio, la foto va a la izquierda. -->
+      <div class="nekane__cabecera">
+        <p class="antetitulo">Quién está detrás</p>
+        <h2 id="nekane-titulo">Nekane</h2>
+      </div>
+
       <img class="nekane__foto" src="imagenes/nekane.webp" width="922" height="922" loading="lazy"
            alt="Nekane sonriendo en su tienda, con un ramo de iris, gerberas y tulipanes en las manos">
 
       <div class="nekane__texto">
-        <p class="antetitulo">Quién está detrás</p>
-        <h2 id="nekane-titulo">Nekane</h2>
         <p>
           Nekane es la dueña y la florista de la tienda. Lleva años en Errenteria
           preparando ramos y encargos a la medida de cada persona: le cuentas qué
@@ -238,13 +246,15 @@
       </div>
 
       <!-- Reseñas literales tal como están en NEGOCIO.md. Sin fecha: la fuente
-           solo da fechas relativas ("hace 1 año") que se quedarían desfasadas. -->
+           solo da fechas relativas ("hace 1 año") que se quedarían desfasadas.
+           La de Ainara es un fragmento literal, marcado con (…); el texto
+           completo es la reseña 08 de NEGOCIO.md. -->
       <div class="nekane__resenas">
         <h3>Lo que cuentan sus clientes</h3>
 
         <figure class="resena">
           <blockquote>
-            <p>Encantada con su trabajo me preparo el ramo de novia y fue un ramo preservado precioso. Nekane un encanto muy profesional y muy cercana no me puso ningún problema ni para el ramo de novia ni para alguna cosa más que le pedimos que nos preparara volvería a ella con los ojos cerrados.</p>
+            <p>Encantada con su trabajo me preparo el ramo de novia y fue un ramo preservado precioso. Nekane un encanto muy profesional y muy cercana (…)</p>
           </blockquote>
           <figcaption><cite>AINARA GIRALDOS</cite> · reseña en Google</figcaption>
         </figure>

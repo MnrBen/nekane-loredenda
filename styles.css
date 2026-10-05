@@ -311,10 +311,13 @@ figure {
 }
 
 /* Fondos alternos para que la página no resulte monótona: crema y salvia,
-   con Para regalar en oscuro como sección diferenciada. */
+   con Flores secas en oscuro como sección diferenciada. */
+/* --fondo: el color de fondo de la sección, reutilizado en los marcos de
+   las fotos de Celebraciones para que siempre coincidan. */
 .celebraciones,
 .ceremonias {
-  background: var(--salvia);
+  --fondo: var(--salvia);
+  background: var(--fondo);
 }
 
 .regalos {
@@ -551,9 +554,11 @@ figure {
     box-shadow: none;
   }
 
+  /* Separación que crece con la pantalla: a 1024 px el menú cabe con
+     holgura (medido) y en pantallas grandes respira más. */
   .menu__lista {
     display: flex;
-    gap: var(--esp-5);
+    gap: clamp(1rem, 2vw, 1.5rem);
   }
 
   .menu__lista a {
@@ -1045,9 +1050,9 @@ html:has(.visor[open]) {
 
 /* --- Celebraciones y encargos -------------------------------------------- */
 
-/* Composición de fotos: la corona arriba a todo el ancho y los ramos debajo,
-   escalonados y montados sobre el borde inferior de la corona. El borde del
-   color del fondo separa cada ramo de la foto que pisa. */
+/* Composición de fotos: un ramo grande arriba y los demás debajo,
+   escalonados y montados sobre su borde inferior. El marco del color del
+   fondo separa cada foto pequeña de la grande que pisa. */
 .celebraciones {
   display: grid;
   gap: var(--esp-6);
@@ -1064,20 +1069,24 @@ html:has(.visor[open]) {
   object-fit: cover;
 }
 
+/* La grande es ramo-deco3 (486 px de ancho real): en formato apaisado 4:3
+   y nunca más ancha que 486 px, para que no se estire. */
 .celebraciones__fotos img:first-child {
   grid-column: 1 / -1;
   grid-row: 1;
+  max-width: 486px;
+  aspect-ratio: 4 / 3;
 }
 
 .celebraciones__fotos img:not(:first-child) {
   position: relative;      /* para quedar por encima de la corona */
   grid-row: 2;
   aspect-ratio: 3 / 4;
-  border: 5px solid var(--salvia);
+  border: 5px solid var(--fondo);
 }
 
-/* Móvil: dos ramos, el segundo más bajo. El tercero se reserva para pantallas
-   más anchas, donde cabe sin quedarse en miniatura y sin alargar la página. */
+/* Móvil: dos pequeñas, la segunda más baja. La tercera (la corona) se
+   reserva para pantallas más anchas, donde cabe sin quedarse en miniatura. */
 .celebraciones__fotos img:nth-child(2) {
   grid-column: 1 / 4;
   margin-top: -2.5rem;
@@ -1092,10 +1101,19 @@ html:has(.visor[open]) {
   display: none;
 }
 
-/* Tablet: los tres ramos, escalonados a distintas alturas. */
+/* Tablet y escritorio: tres pequeñas escalonadas a distintas alturas. La
+   composición no pasa de 34rem (544 px): así la grande, que ocupa 8 de las
+   9 columnas, se queda por debajo de sus 486 px reales. */
 @media (min-width: 48em) {
   .celebraciones__fotos {
     grid-template-columns: repeat(9, 1fr);
+    width: 100%;
+    max-width: 34rem;
+    justify-self: center;
+  }
+
+  .celebraciones__fotos img:first-child {
+    grid-column: 2 / -1;
   }
 
   .celebraciones__fotos img:nth-child(2) { grid-column: 1 / 4; margin-top: -4rem; }
@@ -1103,18 +1121,17 @@ html:has(.visor[open]) {
   .celebraciones__fotos img:nth-child(4) { grid-column: 7 / 10; margin-top: -5.5rem; display: block; }
 }
 
-/* Escritorio: texto a la izquierda y la composición a la derecha.
-   La corona (835 px de ancho real) no pasa de unos 670 px. */
+/* Escritorio: texto a la izquierda y la composición a la derecha. */
 @media (min-width: 64em) {
   .celebraciones {
-    grid-template-columns: 1fr 1.4fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     gap: var(--esp-8);
   }
 }
 
 
-/* --- Para regalar (flores preservadas) ------------------------------------ */
+/* --- Flores secas (y preservadas) ---------------------------------------- */
 
 /* Sección oscura: las fotos de flores secas tienen fondo negro y aquí lucen. */
 .regalos {
@@ -1229,17 +1246,27 @@ html:has(.visor[open]) {
   line-height: 1.5;
 }
 
-/* Tablet: foto y texto en dos columnas. */
+.nekane__cabecera h2 {
+  margin-bottom: 0;
+}
+
+/* Tablet: foto a la izquierda; título y texto a la derecha, centrados en
+   altura respecto a la foto. */
 @media (min-width: 48em) {
   .nekane {
     grid-template-columns: minmax(0, 22rem) 1fr;
+    grid-template-areas:
+      "foto     cabecera"
+      "foto     texto"
+      "resenas  resenas";
     column-gap: var(--esp-7);
-    align-items: center;
+    row-gap: var(--esp-4);
   }
 
-  .nekane__resenas {
-    grid-column: 1 / -1;
-  }
+  .nekane__cabecera { grid-area: cabecera; align-self: end; }
+  .nekane__foto     { grid-area: foto; }
+  .nekane__texto    { grid-area: texto; align-self: start; }
+  .nekane__resenas  { grid-area: resenas; margin-top: var(--esp-5); }
 }
 
 /* Escritorio: las tres reseñas una al lado de otra. */

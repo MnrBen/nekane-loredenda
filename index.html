@@ -70,7 +70,7 @@
     <section class="seccion inicio" id="inicio" aria-labelledby="inicio-titulo">
       <div class="inicio__texto">
         <p class="antetitulo">Floristería en Errenteria</p>
-        <h1 id="inicio-titulo">Estilismo floral hecho a tu medida</h1>
+        <h1 id="inicio-titulo">Estilismo floral <em>hecho a tu medida</em></h1>
         <!-- Sin botones aquí: Llamar ya está siempre visible en la cabecera y
              Bodas es la sección siguiente. -->
         <p class="entradilla">
@@ -79,10 +79,13 @@
         </p>
       </div>
 
-      <!-- Primera imagen visible: sin loading="lazy" y con prioridad alta
-           para que pinte cuanto antes. -->
-      <img class="inicio__foto" src="imagenes/ramo-boda2.webp" width="694" height="926" fetchpriority="high"
-           alt="Ramo de novia de peonías blancas, eucalipto y espigas verdes, con lazo de seda, frente a montes verdes">
+      <figure class="inicio__figura">
+        <!-- Primera imagen visible: sin loading="lazy" y con prioridad alta
+             para que pinte cuanto antes. -->
+        <img class="inicio__foto" src="imagenes/ramo-boda2.webp" width="694" height="926" fetchpriority="high"
+             alt="Ramo de novia de peonías blancas, eucalipto y espigas verdes, con lazo de seda, frente a montes verdes">
+        <figcaption class="etiqueta">Ramo de novia</figcaption>
+      </figure>
     </section>
 
     <!-- ============================ BODAS ============================ -->
@@ -117,7 +120,7 @@
       <!-- Galería: cada foto es un enlace a la imagen. Sin JS, abre la foto;
            con JS, main.js la muestra en el visor leyendo el href (no hay rutas
            de imagen escritas en main.js, así sirve igual en /v2/). -->
-      <ul class="galeria" aria-label="Más ramos de novia">
+      <ul class="galeria" id="galeria-bodas" aria-label="Más ramos de novia">
         <li><a class="galeria__enlace" href="imagenes/ramo-boda5.webp">
           <img src="imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
                alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
@@ -135,6 +138,13 @@
                alt="Ramo de novia de peonías, rosas y eucalipto tumbado sobre una colcha blanca">
         </a></li>
       </ul>
+
+      <!-- Flechas de la galería deslizable: ocultas sin JS (hidden) porque sin
+           JS no harían nada; en móvil también se puede deslizar con el dedo. -->
+      <div class="galeria__controles" hidden>
+        <button class="galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior">←</button>
+        <button class="galeria__flecha" type="button" data-direccion="1" aria-controls="galeria-bodas" aria-label="Foto siguiente">→</button>
+      </div>
     </section>
 
     <!-- ============================ CELEBRACIONES Y ENCARGOS ============================ -->

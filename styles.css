@@ -52,7 +52,7 @@
   --esp-6: 2rem;
   --esp-7: 3rem;
   --esp-8: 4rem;
-  --seccion: clamp(3.5rem, 2.5rem + 5vw, 7rem);  /* aire vertical entre secciones */
+  --seccion: clamp(3rem, 2rem + 4vw, 5rem);  /* aire vertical de cada sección (se suma al de la siguiente) */
   --margen: 1rem;                                  /* margen lateral en móvil (16 px) */
 
   /* Medidas */
@@ -228,8 +228,12 @@ figure {
   gap: var(--esp-3);
 }
 
-/* Antetítulo: etiqueta pequeña sobre cada título de sección. */
+/* Antetítulo: etiqueta pequeña sobre cada título de sección, con un trazo
+   fino delante, como el tallo de una flor. */
 .antetitulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
   margin-bottom: var(--esp-3);
   font-size: var(--texto-sm);
   font-weight: 600;
@@ -238,8 +242,29 @@ figure {
   color: var(--tinta-suave);
 }
 
+.antetitulo::before {
+  content: "";
+  flex: none;
+  width: 2rem;
+  height: 1px;
+  background: currentColor;
+}
+
 .entradilla {
   font-size: var(--texto-lg);
+}
+
+/* Etiqueta color kraft sobre una foto, como la que se pone a un ramo. */
+.etiqueta {
+  position: absolute;
+  left: var(--esp-4);
+  bottom: var(--esp-4);
+  padding: var(--esp-1) var(--esp-3);
+  background: var(--kraft);
+  color: var(--tinta);
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--texto-sm);
 }
 
 /* Horario: lista de definiciones día / horas. */
@@ -532,8 +557,308 @@ figure {
 }
 
 /* --- Inicio --------------------------------------------------------------- */
+.inicio {
+  display: grid;
+  gap: var(--esp-6);
+  padding-top: var(--esp-6);
+}
+
+.inicio h1 em {
+  font-style: italic;
+  color: var(--eucalipto-oscuro);   /* texto grande: 4,8:1 es suficiente */
+}
+
+.inicio__figura {
+  position: relative;
+  margin: 0;
+}
+
+/* Arco en la parte superior: solo en la foto de portada, para darle carácter
+   sin repetir el recurso en toda la web. El cielo de la foto admite el recorte. */
+.inicio__foto {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 999px 999px var(--radio) var(--radio);
+}
+
+/* Tablet y escritorio: texto a la izquierda, foto a la derecha.
+   La foto mide 694 px de ancho: no se muestra a más de 26rem (416 px)
+   para que no pierda nitidez. */
+@media (min-width: 48em) {
+  .inicio {
+    grid-template-columns: 1fr minmax(0, 26rem);
+    align-items: center;
+    gap: var(--esp-7);
+    padding-top: var(--esp-7);
+  }
+}
+
 
 /* --- Bodas ---------------------------------------------------------------- */
+.bodas {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+/* Foto destacada con un bloque eucalipto desplazado detrás: da profundidad
+   y enmarca la foto sin competir con ella. (La sombra no genera scroll
+   horizontal: no cuenta como contenido desbordado.) */
+/* La foto original (635 × 635) trae una franja oscura arriba: se muestra un
+   poco más apaisada (635 × 600) y anclada abajo, así se recorta solo la
+   franja y el ramo, que está en la parte baja, queda entero. */
+.bodas__destacada {
+  width: 100%;
+  aspect-ratio: 635 / 600;
+  object-fit: cover;
+  object-position: center bottom;
+  box-shadow: calc(-1 * var(--esp-3)) var(--esp-3) 0 var(--eucalipto);
+}
+
+/* Lista de servicios numerada con un contador de CSS (01, 02, 03). */
+.bodas__servicios {
+  list-style: none;
+  counter-reset: servicio;
+}
+
+.bodas__servicios li {
+  counter-increment: servicio;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--esp-3);
+  padding-block: var(--esp-4);
+  border-top: 1px solid var(--kraft);
+}
+
+.bodas__servicios li::before {
+  content: counter(servicio, decimal-leading-zero);
+  grid-row: span 2;
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--titulo-3);
+  line-height: 1.2;
+  color: var(--eucalipto-oscuro);
+}
+
+.bodas__servicios h3 {
+  margin-bottom: var(--esp-1);
+}
+
+.bodas__servicios p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+/* Tablet y escritorio: texto y servicios a la izquierda, foto a la derecha,
+   y la galería debajo a todo el ancho. */
+@media (min-width: 48em) {
+  .bodas {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "intro     destacada"
+      "servicios destacada"
+      "galeria   galeria"
+      "controles controles";
+    column-gap: var(--esp-7);
+    row-gap: var(--esp-5);
+  }
+
+  .bodas__intro      { grid-area: intro; align-self: end; }
+  .bodas__servicios  { grid-area: servicios; align-self: start; }
+  .bodas__destacada  { grid-area: destacada; align-self: center; }
+  .bodas .galeria             { grid-area: galeria; }
+  .bodas .galeria__controles  { grid-area: controles; }
+}
+
+
+/* --- Galería deslizable (Bodas) -------------------------------------------- */
+
+/* Móvil y tablet: fila horizontal que se desliza con el dedo y se detiene en
+   cada foto (scroll-snap). Llega hasta los bordes de la pantalla y deja ver
+   el principio de la siguiente foto, que invita a deslizar. */
+.galeria {
+  list-style: none;
+  display: flex;
+  gap: var(--esp-3);
+  margin-inline: calc(-1 * var(--margen));
+  padding: 0 var(--margen) var(--esp-2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--margen);
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kraft) transparent;
+}
+
+.galeria li {
+  flex: 0 0 72%;
+  scroll-snap-align: start;
+}
+
+/* Todas las fotos de la galería al mismo formato vertical (3:4). */
+.galeria img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* Enlace de cada foto (también en el mosaico): abre el visor. */
+.galeria__enlace {
+  display: block;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .galeria__enlace img {
+    transition: transform 0.4s ease;
+  }
+
+  .galeria__enlace:hover img {
+    transform: scale(1.03);
+  }
+}
+
+.galeria__controles {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--esp-2);
+}
+
+.galeria__controles[hidden] {
+  display: none;
+}
+
+.galeria__flecha {
+  width: var(--toque);
+  height: var(--toque);
+  border: 1px solid var(--tinta);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tinta);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.galeria__flecha:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+@media (min-width: 48em) {
+  .galeria li {
+    flex-basis: 40%;
+  }
+}
+
+/* Escritorio: las cuatro fotos caben a la vez; deja de deslizar y sobran
+   las flechas. */
+@media (min-width: 64em) {
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .galeria__controles,
+  .galeria__controles[hidden] {
+    display: none;
+  }
+}
+
+
+/* --- Visor de fotos ---------------------------------------------------------
+   Lo crea main.js con un <dialog> nativo: el navegador ya se encarga de
+   mantener el foco dentro, de cerrarlo con Escape y de bloquear el resto. */
+.visor {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--esp-4);
+  border: 0;
+  background: #1F1C19;   /* opaco: que no se vea la página de detrás */
+  color: var(--crema);
+}
+
+.visor[open] {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--esp-3);
+}
+
+.visor::backdrop {
+  background: transparent;
+}
+
+/* Mientras el visor está abierto, la página de detrás no se desplaza. */
+html:has(.visor[open]) {
+  overflow: hidden;
+}
+
+.visor__barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--texto-sm);
+}
+
+.visor__figura {
+  display: grid;
+  place-items: center;
+  min-height: 0;   /* permite que la foto encoja dentro de la fila del grid */
+  margin: 0;
+}
+
+.visor__foto {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.visor__pie {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+}
+
+.visor__texto {
+  flex: 1;
+  margin: 0;
+  font-size: var(--texto-sm);
+  text-align: center;
+}
+
+.visor button {
+  flex: none;
+  width: var(--toque);
+  height: var(--toque);
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.visor :focus-visible {
+  outline-color: var(--crema);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .visor[open] {
+    animation: visor-aparece 0.2s ease;
+  }
+}
+
+@keyframes visor-aparece {
+  from { opacity: 0; }
+}
 
 /* --- Celebraciones y encargos -------------------------------------------- */
 

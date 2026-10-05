@@ -9,6 +9,8 @@
    Índice
    1. Arranque
    2. Menú móvil
+   3. Galería deslizable (flechas)
+   4. Visor de fotos
    ========================================================================== */
 
 
@@ -63,5 +65,151 @@ document.documentElement.classList.add('js');
   const escritorio = window.matchMedia('(min-width: 64em)');
   escritorio.addEventListener('change', (consulta) => {
     if (consulta.matches) cerrar();
+  });
+})();
+
+
+// Preferencia de movimiento reducido, compartida por las secciones de abajo.
+const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+
+/* 3. Galería deslizable (flechas)
+   --------------------------------------------------------------------------
+   El deslizamiento es CSS puro (scroll-snap): con el dedo funciona sin JS.
+   Aquí solo se añaden las flechas para quien usa ratón o teclado. Cada
+   flecha sabe qué galería mueve por su aria-controls.
+   ========================================================================== */
+document.querySelectorAll('.galeria__controles').forEach((controles) => {
+  const flechas = controles.querySelectorAll('.galeria__flecha');
+  const galeria = document.getElementById(flechas[0]?.getAttribute('aria-controls'));
+  if (!galeria) return;
+
+  controles.hidden = false;
+
+  // Avanza exactamente una foto: ancho de una foto + el hueco entre fotos.
+  const paso = () => {
+    const foto = galeria.querySelector('li');
+    const hueco = parseFloat(getComputedStyle(galeria).columnGap) || 0;
+    return foto ? foto.getBoundingClientRect().width + hueco : galeria.clientWidth;
+  };
+
+  flechas.forEach((flecha) => {
+    flecha.addEventListener('click', () => {
+      galeria.scrollBy({
+        left: paso() * Number(flecha.dataset.direccion),
+        behavior: menosMovimiento.matches ? 'auto' : 'smooth',
+      });
+    });
+  });
+
+  // Desactiva la flecha que ya no lleva a ningún sitio (al principio o al
+  // final). El margen de 2 px evita fallos por redondeo de decimales.
+  const actualizar = () => {
+    const final = galeria.scrollWidth - galeria.clientWidth;
+    flechas[0].disabled = galeria.scrollLeft <= 2;
+    flechas[1].disabled = galeria.scrollLeft >= final - 2;
+  };
+
+  galeria.addEventListener('scroll', actualizar, { passive: true });
+  window.addEventListener('resize', actualizar);
+  actualizar();
+});
+
+
+/* 4. Visor de fotos
+   --------------------------------------------------------------------------
+   Al pulsar una foto de una galería (.galeria__enlace) se abre en grande en
+   un <dialog>. El <dialog> nativo ya mantiene el foco dentro, se cierra con
+   Escape y deja inerte el resto de la página. Se puede pasar de foto con las
+   flechas (botones o teclado) dentro de la misma galería.
+
+   La ruta, el texto alternativo y las medidas se leen del propio enlace y de
+   su miniatura: aquí no hay ninguna ruta escrita.
+   ========================================================================== */
+(function iniciarVisor() {
+  const enlaces = document.querySelectorAll('.galeria__enlace');
+  if (!enlaces.length || typeof HTMLDialogElement !== 'function') return;
+
+  // Estructura del visor, creada una sola vez.
+  const visor = document.createElement('dialog');
+  visor.className = 'visor';
+  visor.setAttribute('aria-label', 'Visor de fotos');
+  visor.innerHTML = `
+    <div class="visor__barra">
+      <span class="visor__contador"></span>
+      <button type="button" class="visor__cerrar" aria-label="Cerrar">✕</button>
+    </div>
+    <figure class="visor__figura">
+      <img class="visor__foto" alt="">
+    </figure>
+    <div class="visor__pie">
+      <button type="button" class="visor__anterior" aria-label="Foto anterior">←</button>
+      <p class="visor__texto" aria-live="polite"></p>
+      <button type="button" class="visor__siguiente" aria-label="Foto siguiente">→</button>
+    </div>`;
+  document.body.append(visor);
+
+  const foto = visor.querySelector('.visor__foto');
+  const texto = visor.querySelector('.visor__texto');
+  const contador = visor.querySelector('.visor__contador');
+  const botonAnterior = visor.querySelector('.visor__anterior');
+  const botonSiguiente = visor.querySelector('.visor__siguiente');
+
+  let grupo = [];        // enlaces de la galería abierta
+  let indice = 0;        // foto que se está viendo
+  let origen = null;     // enlace que abrió el visor, para devolverle el foco
+
+  const mostrar = (nuevoIndice) => {
+    // Circular: después de la última vuelve a la primera.
+    indice = (nuevoIndice + grupo.length) % grupo.length;
+    const enlace = grupo[indice];
+    const miniatura = enlace.querySelector('img');
+    foto.src = enlace.getAttribute('href');
+    foto.alt = miniatura.alt;
+    // Las medidas reales reservan el hueco y evitan saltos al cargar.
+    foto.width = miniatura.getAttribute('width');
+    foto.height = miniatura.getAttribute('height');
+    texto.textContent = miniatura.alt;
+    contador.textContent = `${indice + 1} / ${grupo.length}`;
+    const variasFotos = grupo.length > 1;
+    botonAnterior.hidden = !variasFotos;
+    botonSiguiente.hidden = !variasFotos;
+  };
+
+  enlaces.forEach((enlace) => {
+    enlace.addEventListener('click', (evento) => {
+      // Sin visor (o con Ctrl/Cmd para abrir en otra pestaña) el enlace
+      // funciona normal y abre la foto.
+      if (evento.ctrlKey || evento.metaKey || evento.shiftKey) return;
+      evento.preventDefault();
+      // El grupo es la lista (ul) en la que está la foto.
+      grupo = [...enlace.closest('ul').querySelectorAll('.galeria__enlace')];
+      origen = enlace;
+      mostrar(grupo.indexOf(enlace));
+      visor.showModal();
+    });
+  });
+
+  botonAnterior.addEventListener('click', () => mostrar(indice - 1));
+  botonSiguiente.addEventListener('click', () => mostrar(indice + 1));
+  visor.querySelector('.visor__cerrar').addEventListener('click', () => visor.close());
+
+  visor.addEventListener('keydown', (evento) => {
+    if (evento.key === 'ArrowLeft') mostrar(indice - 1);
+    if (evento.key === 'ArrowRight') mostrar(indice + 1);
+  });
+
+  // Tocar el fondo oscuro (fuera de la foto y de los botones) cierra.
+  visor.addEventListener('click', (evento) => {
+    if (evento.target === visor || evento.target.classList.contains('visor__figura')) {
+      visor.close();
+    }
+  });
+
+  // Al cerrar, el foco vuelve a la foto que se pulsó, para seguir navegando
+  // con el teclado desde donde se estaba.
+  visor.addEventListener('close', () => {
+    foto.removeAttribute('src');
+    origen?.focus();
   });
 })();

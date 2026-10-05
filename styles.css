@@ -28,7 +28,8 @@
   --bosque: #2F3D33;         /* montes de fondo: sección oscura */
   --baya: #8E3A4E;           /* acción principal (llamar) */
   --baya-oscura: #722C3E;
-  --piedra: #E9E6E1;         /* fondo neutro y sobrio de Tanatorios */
+  --salvia: #E4E9E0;         /* eucalipto muy claro: fondo alterno de secciones
+                                tinta 11,4:1 · tinta-suave 6,1:1 · baya 5,9:1 */
   --blanco: #FFFFFF;
 
   /* Tipografía */
@@ -254,19 +255,6 @@ figure {
   font-size: var(--texto-lg);
 }
 
-/* Etiqueta color kraft sobre una foto, como la que se pone a un ramo. */
-.etiqueta {
-  position: absolute;
-  left: var(--esp-4);
-  bottom: var(--esp-4);
-  padding: var(--esp-1) var(--esp-3);
-  background: var(--kraft);
-  color: var(--tinta);
-  font-family: var(--fuente-titulos);
-  font-style: italic;
-  font-size: var(--texto-sm);
-}
-
 /* Horario: lista de definiciones día / horas. */
 .horario {
   margin: 0 0 var(--esp-5);
@@ -314,11 +302,29 @@ figure {
 /* 5. Secciones
    ========================================================================== */
 
-/* Contenedor común de sección: margen lateral en móvil y ancho máximo en escritorio. */
+/* Contenedor común de sección: el fondo ocupa todo el ancho de la pantalla y
+   el contenido se limita con el relleno lateral (16 px en móvil; en pantallas
+   grandes, lo que sobre a cada lado del ancho máximo). */
 .seccion {
-  width: min(100% - 2 * var(--margen), var(--ancho-max));
-  margin-inline: auto;
   padding-block: var(--seccion);
+  padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
+}
+
+/* Fondos alternos para que la página no resulte monótona: crema y salvia,
+   con Para regalar en oscuro como sección diferenciada. */
+.celebraciones,
+.ceremonias {
+  background: var(--salvia);
+}
+
+.regalos {
+  background: var(--bosque);
+  color: var(--crema);
+}
+
+/* Sobre el fondo oscuro, los textos secundarios pasan a eucalipto (5,5:1). */
+.regalos .antetitulo {
+  color: var(--eucalipto);
 }
 
 /* --- Cabecera ------------------------------------------------------------ */
@@ -405,6 +411,7 @@ figure {
      punto es &nbsp; porque un espacio normal al inicio del span se perdería. */
   gap: 0;
   padding: 0 var(--esp-3);
+  font-size: 0.9375rem;   /* 15 px, uno más que el resto de la cabecera */
   background: var(--baya);
   color: var(--blanco);
   text-decoration: none;
@@ -412,6 +419,14 @@ figure {
 
 .cabecera__llamar:hover {
   background: var(--baya-oscura);
+}
+
+/* Más ancho desde 384 px. Medido: a 360 px, con este relleno el nombre del
+   negocio se partía en dos líneas; por debajo de 384 px se queda en 12 px. */
+@media (min-width: 24em) {
+  .cabecera__llamar {
+    padding-inline: 1.125rem;
+  }
 }
 
 /* En móvil solo "Llamar"; el número aparece cuando hay sitio (desde tablet). */
@@ -811,6 +826,10 @@ html:has(.visor[open]) {
   place-items: center;
   min-height: 0;   /* permite que la foto encoja dentro de la fila del grid */
   margin: 0;
+  /* El deslizamiento horizontal lo gestiona main.js; el navegador solo se
+     queda el zoom con dos dedos. */
+  touch-action: pinch-zoom;
+  user-select: none;
 }
 
 .visor__foto {
@@ -823,15 +842,7 @@ html:has(.visor[open]) {
 
 .visor__pie {
   display: flex;
-  align-items: center;
-  gap: var(--esp-3);
-}
-
-.visor__texto {
-  flex: 1;
-  margin: 0;
-  font-size: var(--texto-sm);
-  text-align: center;
+  justify-content: space-between;
 }
 
 .visor button {

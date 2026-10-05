@@ -120,8 +120,9 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
    --------------------------------------------------------------------------
    Al pulsar una foto de una galería (.galeria__enlace) se abre en grande en
    un <dialog>. El <dialog> nativo ya mantiene el foco dentro, se cierra con
-   Escape y deja inerte el resto de la página. Se puede pasar de foto con las
-   flechas (botones o teclado) dentro de la misma galería.
+   Escape y deja inerte el resto de la página. Se pasa de foto deslizando con
+   el dedo, con los botones de flecha o con las flechas del teclado, siempre
+   dentro de la misma galería.
 
    La ruta, el texto alternativo y las medidas se leen del propio enlace y de
    su miniatura: aquí no hay ninguna ruta escrita.
@@ -144,13 +145,15 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     </figure>
     <div class="visor__pie">
       <button type="button" class="visor__anterior" aria-label="Foto anterior">←</button>
-      <p class="visor__texto" aria-live="polite"></p>
       <button type="button" class="visor__siguiente" aria-label="Foto siguiente">→</button>
-    </div>`;
+    </div>
+    <p class="oculto" aria-live="polite"></p>`;
   document.body.append(visor);
 
   const foto = visor.querySelector('.visor__foto');
-  const texto = visor.querySelector('.visor__texto');
+  // Sin texto visible bajo la foto; solo se anuncia "Foto 2 de 4" a quien
+  // usa lector de pantalla (la descripción ya va en el alt de la imagen).
+  const aviso = visor.querySelector('[aria-live]');
   const contador = visor.querySelector('.visor__contador');
   const botonAnterior = visor.querySelector('.visor__anterior');
   const botonSiguiente = visor.querySelector('.visor__siguiente');
@@ -169,7 +172,7 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     // Las medidas reales reservan el hueco y evitan saltos al cargar.
     foto.width = miniatura.getAttribute('width');
     foto.height = miniatura.getAttribute('height');
-    texto.textContent = miniatura.alt;
+    aviso.textContent = `Foto ${indice + 1} de ${grupo.length}`;
     contador.textContent = `${indice + 1} / ${grupo.length}`;
     const variasFotos = grupo.length > 1;
     botonAnterior.hidden = !variasFotos;
@@ -199,9 +202,42 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     if (evento.key === 'ArrowRight') mostrar(indice + 1);
   });
 
+  // Deslizar con el dedo (o arrastrar con el ratón) sobre la foto: hacia la
+  // izquierda, siguiente; hacia la derecha, anterior. Solo cuenta si el
+  // movimiento es sobre todo horizontal y de al menos 50 px, para no
+  // confundirlo con un toque.
+  const figura = visor.querySelector('.visor__figura');
+  foto.draggable = false;   // evita la "imagen fantasma" al arrastrar con ratón
+  let inicioX = null;
+  let inicioY = null;
+  let acabaDeDeslizar = false;
+
+  figura.addEventListener('pointerdown', (evento) => {
+    acabaDeDeslizar = false;
+    inicioX = evento.clientX;
+    inicioY = evento.clientY;
+  });
+
+  figura.addEventListener('pointerup', (evento) => {
+    if (inicioX === null) return;
+    const dx = evento.clientX - inicioX;
+    const dy = evento.clientY - inicioY;
+    inicioX = null;
+    if (Math.abs(dx) >= 50 && Math.abs(dx) > Math.abs(dy) && grupo.length > 1) {
+      mostrar(indice + (dx < 0 ? 1 : -1));
+      acabaDeDeslizar = true;   // que el "clic" que sigue no cierre el visor
+    }
+  });
+
+  figura.addEventListener('pointercancel', () => { inicioX = null; });
+
   // Tocar el fondo oscuro (fuera de la foto y de los botones) cierra.
   visor.addEventListener('click', (evento) => {
-    if (evento.target === visor || evento.target.classList.contains('visor__figura')) {
+    if (acabaDeDeslizar) {
+      acabaDeDeslizar = false;
+      return;
+    }
+    if (evento.target === visor || evento.target === figura) {
       visor.close();
     }
   });

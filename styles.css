@@ -572,40 +572,106 @@ figure {
 }
 
 /* --- Inicio --------------------------------------------------------------- */
+
+/* Móvil: la foto ocupa toda la primera pantalla (menos la cabecera) y el
+   texto va encima, abajo, sobre un velo oscuro que garantiza que se lea.
+   La foto es un <img> del HTML colocado detrás con z-index, no un
+   background-image: así el navegador la descubre antes (es la imagen más
+   importante para la velocidad) y conserva su alt y sus medidas. */
 .inicio {
+  position: relative;
+  isolation: isolate;      /* el z-index negativo de la foto no se sale de aquí */
   display: grid;
-  gap: var(--esp-6);
-  padding-top: var(--esp-6);
+  align-content: end;
+  min-height: calc(100svh - var(--alto-cabecera));
+  color: var(--crema);
+}
+
+.inicio__figura {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: 0;
+}
+
+/* Para cambiar la foto de portada basta con tocar el HTML (src, width,
+   height y alt). Si el motivo no queda centrado, se ajusta --inicio-foco. */
+/* Posición absoluta también en escritorio: así la foto no empuja la altura
+   de la portada (medido: sin esto, cada foto daba una altura distinta). */
+.inicio__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--inicio-foco, center);
+}
+
+/* Velo oscuro solo en la mitad de abajo, donde va el texto. No es un
+   degradado decorativo: es lo que permite leer texto claro sobre una foto. */
+.inicio__figura::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgb(24 22 19 / 0.85) 0%,
+    rgb(24 22 19 / 0.65) 45%,
+    rgb(24 22 19 / 0) 80%);
+}
+
+/* Antetítulo en crema sobre la foto: es letra pequeña y en kraft no llegaba
+   al contraste mínimo (medido sobre las fotos candidatas). */
+.inicio .antetitulo {
+  color: var(--crema);
 }
 
 .inicio h1 em {
   font-style: italic;
-  color: var(--eucalipto-oscuro);   /* texto grande: 4,8:1 es suficiente */
+  color: var(--kraft);
 }
 
-.inicio__figura {
-  position: relative;
-  margin: 0;
+.inicio .entradilla {
+  margin-bottom: 0;
 }
 
-/* Arco en la parte superior: solo en la foto de portada, para darle carácter
-   sin repetir el recurso en toda la web. El cielo de la foto admite el recorte. */
-.inicio__foto {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 999px 999px var(--radio) var(--radio);
-}
-
-/* Tablet y escritorio: texto a la izquierda, foto a la derecha.
-   La foto mide 694 px de ancho: no se muestra a más de 26rem (416 px)
-   para que no pierda nitidez. */
+/* Tablet y escritorio: texto sobre crema a la izquierda y la foto a la
+   derecha, de borde a borde (arriba, abajo y lado derecho).
+   Las fotos miden como mucho unos 925 px de ancho: a pantalla completa en
+   escritorio se verían borrosas. Aquí ocupan media pantalla y nunca más de
+   694 px, el ancho real de ramo-boda2. */
 @media (min-width: 48em) {
   .inicio {
-    grid-template-columns: 1fr minmax(0, 26rem);
+    grid-template-columns: 1fr min(50vw, 694px);
+    align-content: stretch;
     align-items: center;
-    gap: var(--esp-7);
-    padding-top: var(--esp-7);
+    column-gap: var(--esp-7);
+    min-height: min(calc(100svh - var(--alto-cabecera)), 46rem);
+    padding-block: 0;
+    padding-right: 0;
+    color: var(--tinta);
+  }
+
+  .inicio__texto {
+    padding-block: var(--seccion);
+  }
+
+  .inicio__figura {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    align-self: stretch;
+  }
+
+  .inicio__figura::after {
+    content: none;    /* sin velo: el texto ya no va encima de la foto */
+  }
+
+  .inicio .antetitulo {
+    color: var(--tinta-suave);
+  }
+
+  .inicio h1 em {
+    color: var(--eucalipto-oscuro);   /* texto grande: 4,8:1 es suficiente */
   }
 }
 

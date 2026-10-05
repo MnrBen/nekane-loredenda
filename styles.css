@@ -638,7 +638,8 @@ figure {
    derecha, de borde a borde (arriba, abajo y lado derecho).
    Las fotos miden como mucho unos 925 px de ancho: a pantalla completa en
    escritorio se verían borrosas. Aquí ocupan media pantalla y nunca más de
-   694 px, el ancho real de ramo-boda2. */
+   694 px, para que cualquiera de las fotos candidatas (la más estrecha mide
+   691 px) se vea nítida si se cambia la de portada. */
 @media (min-width: 48em) {
   .inicio {
     grid-template-columns: 1fr min(50vw, 694px);
@@ -939,9 +940,216 @@ html:has(.visor[open]) {
 
 /* --- Celebraciones y encargos -------------------------------------------- */
 
+/* Composición de fotos: la corona arriba a todo el ancho y los ramos debajo,
+   escalonados y montados sobre el borde inferior de la corona. El borde del
+   color del fondo separa cada ramo de la foto que pisa. */
+.celebraciones {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+.celebraciones__fotos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: start;
+}
+
+.celebraciones__fotos img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.celebraciones__fotos img:first-child {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.celebraciones__fotos img:not(:first-child) {
+  position: relative;      /* para quedar por encima de la corona */
+  grid-row: 2;
+  aspect-ratio: 3 / 4;
+  border: 5px solid var(--salvia);
+}
+
+/* Móvil: dos ramos, el segundo más bajo. El tercero se reserva para pantallas
+   más anchas, donde cabe sin quedarse en miniatura y sin alargar la página. */
+.celebraciones__fotos img:nth-child(2) {
+  grid-column: 1 / 4;
+  margin-top: -2.5rem;
+}
+
+.celebraciones__fotos img:nth-child(3) {
+  grid-column: 4 / 7;
+  margin-top: 1rem;
+}
+
+.celebraciones__fotos img:nth-child(4) {
+  display: none;
+}
+
+/* Tablet: los tres ramos, escalonados a distintas alturas. */
+@media (min-width: 48em) {
+  .celebraciones__fotos {
+    grid-template-columns: repeat(9, 1fr);
+  }
+
+  .celebraciones__fotos img:nth-child(2) { grid-column: 1 / 4; margin-top: -4rem; }
+  .celebraciones__fotos img:nth-child(3) { grid-column: 4 / 7; margin-top: -1rem; }
+  .celebraciones__fotos img:nth-child(4) { grid-column: 7 / 10; margin-top: -5.5rem; display: block; }
+}
+
+/* Escritorio: texto a la izquierda y la composición a la derecha.
+   La corona (835 px de ancho real) no pasa de unos 670 px. */
+@media (min-width: 64em) {
+  .celebraciones {
+    grid-template-columns: 1fr 1.4fr;
+    align-items: center;
+    gap: var(--esp-8);
+  }
+}
+
+
 /* --- Para regalar (flores preservadas) ------------------------------------ */
 
+/* Sección oscura: las fotos de flores secas tienen fondo negro y aquí lucen. */
+.regalos {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+.regalos__texto p {
+  color: var(--kraft-claro);   /* 8,7:1 sobre bosque */
+}
+
+.regalos :focus-visible {
+  outline-color: var(--crema);
+}
+
+/* Mosaico. Móvil: cuadrícula de 2 × 2 (la quinta foto se reserva para
+   pantallas más anchas, para no alargar la página). */
+.mosaico {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--esp-2);
+}
+
+.mosaico img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.mosaico li:nth-child(5) {
+  display: none;
+}
+
+/* Tablet y escritorio: la primera foto grande (2 × 2) y las otras cuatro
+   alrededor, en una rejilla de 4 columnas. La foto grande no pasa de
+   ~570 px (922 px de ancho real). */
+@media (min-width: 48em) {
+  .regalos__texto {
+    max-width: 40rem;
+  }
+
+  .mosaico {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--esp-3);
+  }
+
+  .mosaico li:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .mosaico li:nth-child(5) {
+    display: block;
+  }
+
+  /* La grande ocupa dos filas: que su foto llene el alto completo. */
+  .mosaico li:first-child,
+  .mosaico li:first-child .galeria__enlace,
+  .mosaico li:first-child img {
+    height: 100%;
+  }
+}
+
+
 /* --- Nekane (con reseñas) ------------------------------------------------- */
+.nekane {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+/* Retrato en arco: el único recurso de este tipo en la web, reservado a la
+   persona detrás de la tienda. */
+.nekane__foto {
+  width: 100%;
+  max-width: 26rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 30%;   /* la cara queda en el tercio superior */
+  border-radius: 999px 999px var(--radio) var(--radio);
+}
+
+.nekane__texto p {
+  font-size: var(--texto-lg);
+}
+
+.nekane__resenas {
+  display: grid;
+  gap: var(--esp-5);
+  padding-top: var(--esp-6);
+  border-top: 1px solid var(--kraft);
+}
+
+.nekane__resenas h3 {
+  margin: 0;
+}
+
+/* Reseña: comilla grande decorativa en kraft. El texto alternativo vacío
+   (/ "") evita que el lector de pantalla lea la comilla. */
+.resena blockquote::before {
+  content: "“" / "";
+  display: block;
+  height: 2.25rem;
+  font-family: var(--fuente-titulos);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--kraft);
+}
+
+.resena blockquote p {
+  margin-bottom: var(--esp-3);
+  line-height: 1.5;
+}
+
+/* Tablet: foto y texto en dos columnas. */
+@media (min-width: 48em) {
+  .nekane {
+    grid-template-columns: minmax(0, 22rem) 1fr;
+    column-gap: var(--esp-7);
+    align-items: center;
+  }
+
+  .nekane__resenas {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Escritorio: las tres reseñas una al lado de otra. */
+@media (min-width: 64em) {
+  .nekane__resenas {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: var(--esp-6);
+    align-items: start;
+  }
+
+  .nekane__resenas h3 {
+    grid-column: 1 / -1;
+  }
+}
+
 
 /* --- Ceremonias y despedidas --------------------------------------------- */
 

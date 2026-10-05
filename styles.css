@@ -823,7 +823,7 @@ figure {
 
 .galeria__controles {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
   gap: var(--esp-2);
 }
 
@@ -831,19 +831,74 @@ figure {
   display: none;
 }
 
-.galeria__flecha {
-  width: var(--toque);
+/* Barra de progreso: una línea fina (la galería completa) con un tramo más
+   oscuro (lo que se está viendo) que se mueve al deslizar. main.js le da
+   el ancho y la posición con dos variables. */
+.galeria__progreso {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  margin-right: var(--esp-4);
+  background: var(--kraft);
+}
+
+.galeria__progreso span {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 3px;
+  width: var(--progreso-ancho, 30%);
+  background: var(--tinta);
+  transform: translateX(var(--progreso-x, 0));
+}
+
+
+/* --- Flecha de línea fina (galería y visor) -------------------------------- */
+.flecha {
+  display: inline-grid;
+  place-items: center;
+  width: 3.5rem;
   height: var(--toque);
-  border: 1px solid var(--tinta);
-  border-radius: 50%;
+  padding: 0;
+  border: 0;
   background: transparent;
-  color: var(--tinta);
-  font-size: 1.25rem;
+  color: inherit;
   cursor: pointer;
 }
 
-.galeria__flecha:disabled {
-  opacity: 0.3;
+.flecha svg {
+  width: 2.75rem;
+  height: 0.75rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+
+/* La flecha "anterior" es la misma, girada. */
+.flecha--anterior svg {
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flecha svg {
+    transition: translate 0.25s ease;
+  }
+
+  /* Al pasar el ratón, la flecha avanza un poco en su dirección. */
+  .flecha:not(:disabled):hover svg {
+    translate: 4px 0;
+  }
+
+  .flecha--anterior:not(:disabled):hover svg {
+    translate: -4px 0;
+  }
+}
+
+.flecha:disabled {
+  opacity: 0.25;
   cursor: default;
 }
 
@@ -873,14 +928,17 @@ figure {
 
 /* --- Visor de fotos ---------------------------------------------------------
    Lo crea main.js con un <dialog> nativo: el navegador ya se encarga de
-   mantener el foco dentro, de cerrarlo con Escape y de bloquear el resto. */
+   mantener el foco dentro, de cerrarlo con Escape y de bloquear el resto.
+   Las fotos van en una tira horizontal con scroll-snap: al deslizar, la foto
+   sigue al dedo (con la inercia nativa del móvil) y se asienta en la
+   siguiente, igual que la galería de la página. */
 .visor {
   width: 100%;
   max-width: none;
   height: 100%;
   max-height: none;
   margin: 0;
-  padding: var(--esp-4);
+  padding: var(--esp-4) 0;
   border: 0;
   background: #1F1C19;   /* opaco: que no se vea la página de detrás */
   color: var(--crema);
@@ -901,47 +959,73 @@ html:has(.visor[open]) {
   overflow: hidden;
 }
 
-.visor__barra {
+.visor__barra,
+.visor__pie {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--texto-sm);
+  padding-inline: var(--esp-4);
 }
 
-.visor__figura {
+.visor__contador {
+  font-size: var(--texto-sm);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tira de fotos: cada diapositiva ocupa todo el ancho. */
+.visor__pista {
+  list-style: none;
+  display: flex;
+  min-height: 0;          /* permite que las fotos encojan dentro del grid */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.visor__pista::-webkit-scrollbar {
+  display: none;
+}
+
+.visor__diapositiva {
+  flex: 0 0 100%;
   display: grid;
   place-items: center;
-  min-height: 0;   /* permite que la foto encoja dentro de la fila del grid */
-  margin: 0;
-  /* El deslizamiento horizontal lo gestiona main.js; el navegador solo se
-     queda el zoom con dos dedos. */
-  touch-action: pinch-zoom;
-  user-select: none;
+  padding-inline: var(--esp-4);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;   /* una foto por gesto, sin saltarse ninguna */
 }
 
-.visor__foto {
+.visor__diapositiva img {
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
+  user-select: none;
 }
 
-.visor__pie {
-  display: flex;
-  justify-content: space-between;
-}
-
-.visor button {
-  flex: none;
+/* Cerrar: aspa de líneas finas, a juego con las flechas. */
+.visor__cerrar {
+  display: grid;
+  place-items: center;
   width: var(--toque);
   height: var(--toque);
-  border: 1px solid currentColor;
-  border-radius: 50%;
+  padding: 0;
+  border: 0;
   background: transparent;
   color: inherit;
-  font-size: 1.25rem;
   cursor: pointer;
+}
+
+.visor__cerrar svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
 }
 
 .visor :focus-visible {
@@ -957,6 +1041,7 @@ html:has(.visor[open]) {
 @keyframes visor-aparece {
   from { opacity: 0; }
 }
+
 
 /* --- Celebraciones y encargos -------------------------------------------- */
 

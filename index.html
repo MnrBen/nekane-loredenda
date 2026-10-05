@@ -141,8 +141,16 @@
       <!-- Flechas de la galería deslizable: ocultas sin JS (hidden) porque sin
            JS no harían nada; en móvil también se puede deslizar con el dedo. -->
       <div class="galeria__controles" hidden>
-        <button class="galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior">←</button>
-        <button class="galeria__flecha" type="button" data-direccion="1" aria-controls="galeria-bodas" aria-label="Foto siguiente">→</button>
+        <!-- Barra de progreso: indica qué parte de la galería se está viendo. -->
+        <div class="galeria__progreso" aria-hidden="true"><span></span></div>
+        <!-- Flecha de línea fina dibujada en SVG; la de "anterior" es la misma
+             girada con CSS. -->
+        <button class="flecha flecha--anterior galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior">
+          <svg viewBox="0 0 44 12" aria-hidden="true" focusable="false"><path d="M1 6h41M36 1l6 5-6 5"/></svg>
+        </button>
+        <button class="flecha galeria__flecha" type="button" data-direccion="1" aria-controls="galeria-bodas" aria-label="Foto siguiente">
+          <svg viewBox="0 0 44 12" aria-hidden="true" focusable="false"><path d="M1 6h41M36 1l6 5-6 5"/></svg>
+        </button>
       </div>
     </section>
 

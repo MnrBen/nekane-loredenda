@@ -9,7 +9,7 @@
    Índice
    1. Arranque
    2. Menú móvil
-   3. Galería deslizable (flechas)
+   3. Galería deslizable (flechas y barra de progreso)
    4. Visor de fotos
    ========================================================================== */
 
@@ -73,16 +73,17 @@ document.documentElement.classList.add('js');
 const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 
-/* 3. Galería deslizable (flechas)
+/* 3. Galería deslizable (flechas y barra de progreso)
    --------------------------------------------------------------------------
    El deslizamiento es CSS puro (scroll-snap): con el dedo funciona sin JS.
-   Aquí solo se añaden las flechas para quien usa ratón o teclado. Cada
-   flecha sabe qué galería mueve por su aria-controls.
+   Aquí se añaden las flechas, para quien usa ratón o teclado, y la barra de
+   progreso. Cada flecha sabe qué galería mueve por su aria-controls.
    ========================================================================== */
 document.querySelectorAll('.galeria__controles').forEach((controles) => {
   const flechas = controles.querySelectorAll('.galeria__flecha');
   const galeria = document.getElementById(flechas[0]?.getAttribute('aria-controls'));
   if (!galeria) return;
+  const progreso = controles.querySelector('.galeria__progreso');
 
   controles.hidden = false;
 
@@ -102,12 +103,22 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     });
   });
 
-  // Desactiva la flecha que ya no lleva a ningún sitio (al principio o al
-  // final). El margen de 2 px evita fallos por redondeo de decimales.
+  // Estado de flechas y barra según la posición del scroll. La flecha que
+  // ya no lleva a ningún sitio se desactiva (margen de 2 px por redondeos).
   const actualizar = () => {
     const final = galeria.scrollWidth - galeria.clientWidth;
     flechas[0].disabled = galeria.scrollLeft <= 2;
     flechas[1].disabled = galeria.scrollLeft >= final - 2;
+
+    if (progreso) {
+      // Tramo oscuro = parte visible de la galería; se desplaza por la línea
+      // en proporción a lo que se ha deslizado.
+      const visible = galeria.clientWidth / galeria.scrollWidth;
+      const avance = final > 0 ? galeria.scrollLeft / final : 0;
+      const anchoBarra = progreso.clientWidth;
+      progreso.style.setProperty('--progreso-ancho', `${visible * 100}%`);
+      progreso.style.setProperty('--progreso-x', `${avance * anchoBarra * (1 - visible)}px`);
+    }
   };
 
   galeria.addEventListener('scroll', actualizar, { passive: true });
@@ -120,9 +131,12 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
    --------------------------------------------------------------------------
    Al pulsar una foto de una galería (.galeria__enlace) se abre en grande en
    un <dialog>. El <dialog> nativo ya mantiene el foco dentro, se cierra con
-   Escape y deja inerte el resto de la página. Se pasa de foto deslizando con
-   el dedo, con los botones de flecha o con las flechas del teclado, siempre
-   dentro de la misma galería.
+   Escape y deja inerte el resto de la página.
+
+   Las fotos de la galería pulsada se colocan en una tira horizontal con
+   scroll-snap (ver CSS): al deslizar con el dedo la foto le sigue y se
+   asienta en la siguiente, con la inercia nativa del móvil. Las flechas
+   (botones y teclado) mueven la misma tira.
 
    La ruta, el texto alternativo y las medidas se leen del propio enlace y de
    su miniatura: aquí no hay ninguna ruta escrita.
@@ -131,113 +145,110 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
   const enlaces = document.querySelectorAll('.galeria__enlace');
   if (!enlaces.length || typeof HTMLDialogElement !== 'function') return;
 
+  // Flecha de línea fina, la misma que la de la galería de la página.
+  const flecha = '<svg viewBox="0 0 44 12" aria-hidden="true" focusable="false"><path d="M1 6h41M36 1l6 5-6 5"/></svg>';
+
   // Estructura del visor, creada una sola vez.
   const visor = document.createElement('dialog');
   visor.className = 'visor';
   visor.setAttribute('aria-label', 'Visor de fotos');
   visor.innerHTML = `
     <div class="visor__barra">
-      <span class="visor__contador"></span>
-      <button type="button" class="visor__cerrar" aria-label="Cerrar">✕</button>
+      <span class="visor__contador" aria-hidden="true"></span>
+      <button type="button" class="visor__cerrar" aria-label="Cerrar">
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2 2l16 16M18 2L2 18"/></svg>
+      </button>
     </div>
-    <figure class="visor__figura">
-      <img class="visor__foto" alt="">
-    </figure>
+    <ul class="visor__pista"></ul>
     <div class="visor__pie">
-      <button type="button" class="visor__anterior" aria-label="Foto anterior">←</button>
-      <button type="button" class="visor__siguiente" aria-label="Foto siguiente">→</button>
+      <button type="button" class="flecha flecha--anterior" aria-label="Foto anterior">${flecha}</button>
+      <button type="button" class="flecha" aria-label="Foto siguiente">${flecha}</button>
     </div>
     <p class="oculto" aria-live="polite"></p>`;
   document.body.append(visor);
 
-  const foto = visor.querySelector('.visor__foto');
-  // Sin texto visible bajo la foto; solo se anuncia "Foto 2 de 4" a quien
-  // usa lector de pantalla (la descripción ya va en el alt de la imagen).
-  const aviso = visor.querySelector('[aria-live]');
+  const pista = visor.querySelector('.visor__pista');
   const contador = visor.querySelector('.visor__contador');
-  const botonAnterior = visor.querySelector('.visor__anterior');
-  const botonSiguiente = visor.querySelector('.visor__siguiente');
+  const aviso = visor.querySelector('[aria-live]');
+  const [botonAnterior, botonSiguiente] = visor.querySelectorAll('.visor__pie .flecha');
 
-  let grupo = [];        // enlaces de la galería abierta
-  let indice = 0;        // foto que se está viendo
+  let total = 0;         // fotos de la galería abierta
+  let indice = -1;       // foto que se está viendo
   let origen = null;     // enlace que abrió el visor, para devolverle el foco
 
-  const mostrar = (nuevoIndice) => {
-    // Circular: después de la última vuelve a la primera.
-    indice = (nuevoIndice + grupo.length) % grupo.length;
-    const enlace = grupo[indice];
-    const miniatura = enlace.querySelector('img');
-    foto.src = enlace.getAttribute('href');
-    foto.alt = miniatura.alt;
-    // Las medidas reales reservan el hueco y evitan saltos al cargar.
-    foto.width = miniatura.getAttribute('width');
-    foto.height = miniatura.getAttribute('height');
-    aviso.textContent = `Foto ${indice + 1} de ${grupo.length}`;
-    contador.textContent = `${indice + 1} / ${grupo.length}`;
-    const variasFotos = grupo.length > 1;
-    botonAnterior.hidden = !variasFotos;
-    botonSiguiente.hidden = !variasFotos;
+  // Foto visible según la posición del scroll de la tira.
+  const indiceActual = () => Math.round(pista.scrollLeft / pista.clientWidth);
+
+  const actualizar = () => {
+    const actual = indiceActual();
+    if (actual === indice) return;
+    indice = actual;
+    contador.textContent = `${indice + 1} / ${total}`;
+    // Sin texto visible bajo la foto; solo se anuncia "Foto 2 de 4" a quien
+    // usa lector de pantalla (la descripción va en el alt de cada imagen).
+    aviso.textContent = `Foto ${indice + 1} de ${total}`;
+    botonAnterior.disabled = indice === 0;
+    botonSiguiente.disabled = indice === total - 1;
+  };
+
+  const mover = (direccion) => {
+    pista.scrollBy({
+      left: pista.clientWidth * direccion,
+      behavior: menosMovimiento.matches ? 'auto' : 'smooth',
+    });
   };
 
   enlaces.forEach((enlace) => {
     enlace.addEventListener('click', (evento) => {
-      // Sin visor (o con Ctrl/Cmd para abrir en otra pestaña) el enlace
-      // funciona normal y abre la foto.
+      // Con Ctrl/Cmd/Mayús el enlace funciona normal y abre la foto aparte.
       if (evento.ctrlKey || evento.metaKey || evento.shiftKey) return;
       evento.preventDefault();
-      // El grupo es la lista (ul) en la que está la foto.
-      grupo = [...enlace.closest('ul').querySelectorAll('.galeria__enlace')];
+
+      // El grupo es la lista (ul) en la que está la foto pulsada.
+      const grupo = [...enlace.closest('ul').querySelectorAll('.galeria__enlace')];
+      pista.innerHTML = '';
+      grupo.forEach((item) => {
+        const miniatura = item.querySelector('img');
+        const diapositiva = document.createElement('li');
+        diapositiva.className = 'visor__diapositiva';
+        const foto = document.createElement('img');
+        foto.src = item.getAttribute('href');
+        foto.alt = miniatura.alt;
+        // Las medidas reales reservan el hueco y evitan saltos al cargar.
+        foto.width = miniatura.getAttribute('width');
+        foto.height = miniatura.getAttribute('height');
+        foto.draggable = false;
+        diapositiva.append(foto);
+        pista.append(diapositiva);
+      });
+
+      total = grupo.length;
+      indice = -1;
       origen = enlace;
-      mostrar(grupo.indexOf(enlace));
       visor.showModal();
+      // Se abre directamente en la foto pulsada, sin animación.
+      pista.scrollLeft = grupo.indexOf(enlace) * pista.clientWidth;
+      actualizar();
     });
   });
 
-  botonAnterior.addEventListener('click', () => mostrar(indice - 1));
-  botonSiguiente.addEventListener('click', () => mostrar(indice + 1));
+  pista.addEventListener('scroll', actualizar, { passive: true });
+  botonAnterior.addEventListener('click', () => mover(-1));
+  botonSiguiente.addEventListener('click', () => mover(1));
   visor.querySelector('.visor__cerrar').addEventListener('click', () => visor.close());
 
   visor.addEventListener('keydown', (evento) => {
-    if (evento.key === 'ArrowLeft') mostrar(indice - 1);
-    if (evento.key === 'ArrowRight') mostrar(indice + 1);
-  });
-
-  // Deslizar con el dedo (o arrastrar con el ratón) sobre la foto: hacia la
-  // izquierda, siguiente; hacia la derecha, anterior. Solo cuenta si el
-  // movimiento es sobre todo horizontal y de al menos 50 px, para no
-  // confundirlo con un toque.
-  const figura = visor.querySelector('.visor__figura');
-  foto.draggable = false;   // evita la "imagen fantasma" al arrastrar con ratón
-  let inicioX = null;
-  let inicioY = null;
-  let acabaDeDeslizar = false;
-
-  figura.addEventListener('pointerdown', (evento) => {
-    acabaDeDeslizar = false;
-    inicioX = evento.clientX;
-    inicioY = evento.clientY;
-  });
-
-  figura.addEventListener('pointerup', (evento) => {
-    if (inicioX === null) return;
-    const dx = evento.clientX - inicioX;
-    const dy = evento.clientY - inicioY;
-    inicioX = null;
-    if (Math.abs(dx) >= 50 && Math.abs(dx) > Math.abs(dy) && grupo.length > 1) {
-      mostrar(indice + (dx < 0 ? 1 : -1));
-      acabaDeDeslizar = true;   // que el "clic" que sigue no cierre el visor
+    if (evento.key === 'ArrowLeft' || evento.key === 'ArrowRight') {
+      evento.preventDefault();   // evita el desplazamiento corto por defecto
+      mover(evento.key === 'ArrowLeft' ? -1 : 1);
     }
   });
 
-  figura.addEventListener('pointercancel', () => { inicioX = null; });
-
-  // Tocar el fondo oscuro (fuera de la foto y de los botones) cierra.
+  // Tocar el fondo oscuro (fuera de la foto y de los botones) cierra. Al
+  // deslizar con el dedo el navegador no genera clic, así que deslizar no
+  // cierra el visor.
   visor.addEventListener('click', (evento) => {
-    if (acabaDeDeslizar) {
-      acabaDeDeslizar = false;
-      return;
-    }
-    if (evento.target === visor || evento.target === figura) {
+    if (evento.target === visor || evento.target.classList.contains('visor__diapositiva')) {
       visor.close();
     }
   });
@@ -245,7 +256,7 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
   // Al cerrar, el foco vuelve a la foto que se pulsó, para seguir navegando
   // con el teclado desde donde se estaba.
   visor.addEventListener('close', () => {
-    foto.removeAttribute('src');
+    pista.innerHTML = '';
     origen?.focus();
   });
 })();

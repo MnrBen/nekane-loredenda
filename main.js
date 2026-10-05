@@ -59,8 +59,8 @@ document.documentElement.classList.add('js');
   });
 
   // Si se pasa a escritorio con el panel abierto, se resetea el estado para
-  // que al volver a móvil no aparezca abierto. 75em = el mismo corte del CSS.
-  const escritorio = window.matchMedia('(min-width: 75em)');
+  // que al volver a móvil no aparezca abierto. 64em = el mismo corte del CSS.
+  const escritorio = window.matchMedia('(min-width: 64em)');
   escritorio.addEventListener('change', (consulta) => {
     if (consulta.matches) cerrar();
   });

@@ -394,18 +394,15 @@ figure {
   display: none;
 }
 
-/* Menú: en móvil estrecho solo el icono (botón cuadrado de 44 × 44). */
+/* Menú: solo las tres rayas, sin borde. El botón sigue midiendo 44 × 44
+   aunque no se vea su contorno, para que sea fácil de tocar. */
 .cabecera__menu {
   width: 2.75rem;
   padding: 0;
-  border: 1px solid var(--tinta);
+  border: 0;
   background: transparent;
   color: var(--tinta);
   cursor: pointer;
-}
-
-.cabecera__menu-texto {
-  display: none;
 }
 
 /* Icono de tres rayas dibujado con CSS. */
@@ -435,20 +432,6 @@ figure {
 .cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(1) { transform: rotate(45deg); }
 .cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(2) { opacity: 0; }
 .cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(3) { transform: rotate(-45deg); }
-
-/* Con sitio suficiente, el botón Menú recupera la palabra. Corte en 26em
-   (416 px), medido: con la palabra visible, entre 360 y 390 px solo quedan
-   8 px entre el nombre y Llamar; a 414 px ya quedan 32 px. */
-@media (min-width: 26em) {
-  .cabecera__menu {
-    width: auto;
-    padding: 0 var(--esp-3);
-  }
-
-  .cabecera__menu-texto {
-    display: inline;
-  }
-}
 
 /* Panel del menú en móvil: plegado por defecto y desplegado cuando el botón
    tiene aria-expanded="true" (el JS solo cambia ese atributo). */
@@ -496,10 +479,9 @@ figure {
   }
 }
 
-/* Escritorio: menú en línea, sin botón. Desde 75em (1200 px): por debajo,
-   los seis enlaces + nombre + Llamar con número no caben en una línea
-   (medido a 1024 px: "Eventos y fiestas" y "Dónde estamos" se partían). */
-@media (min-width: 75em) {
+/* Escritorio: menú en línea, sin botón. Desde 64em (1024 px): medido,
+   nombre + seis enlaces + Llamar con número ocupan 958 px. */
+@media (min-width: 64em) {
   .cabecera {
     gap: var(--esp-5);
     padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
@@ -553,20 +535,16 @@ figure {
 
 /* --- Bodas ---------------------------------------------------------------- */
 
-/* --- Eventos y fiestas ---------------------------------------------------- */
+/* --- Celebraciones y encargos -------------------------------------------- */
 
-/* --- Flores preservadas --------------------------------------------------- */
+/* --- Para regalar (flores preservadas) ------------------------------------ */
 
-/* --- Nekane --------------------------------------------------------------- */
-
-/* --- Encargos ------------------------------------------------------------- */
-
-/* --- Reseñas -------------------------------------------------------------- */
+/* --- Nekane (con reseñas) ------------------------------------------------- */
 
 /* --- Ceremonias y despedidas --------------------------------------------- */
 
-/* --- Dónde estamos -------------------------------------------------------- */
-.visitanos__mapa iframe {
+/* --- Contacto: pide o visítanos ------------------------------------------- */
+.contacto__mapa iframe {
   width: 100%;
   border: 0;
 }

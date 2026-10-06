@@ -772,14 +772,31 @@ figure {
   gap: var(--esp-6);
 }
 
-/* Foto destacada con un bloque eucalipto desplazado detrás: da profundidad
-   y enmarca la foto sin competir con ella. (La sombra no genera scroll
-   horizontal: no cuenta como contenido desbordado.) */
-.bodas__destacada {
-  width: 100%;
+/* Composición principal: la novia en grande con un bloque eucalipto
+   desplazado detrás (da profundidad; la sombra no genera scroll horizontal),
+   y el tocado más pequeño sobre su esquina inferior derecha, con margen
+   crema y sombra suave, como un detalle que la acompaña. */
+.bodas__composicion {
+  position: relative;
+  padding-bottom: var(--esp-7);   /* hueco para que el detalle sobresalga */
+}
+
+.bodas__principal {
+  width: 84%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   box-shadow: calc(-1 * var(--esp-3)) var(--esp-3) 0 var(--eucalipto);
+}
+
+.bodas__detalle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 6px solid var(--crema);
+  box-shadow: 0 14px 28px -14px rgb(46 43 38 / 0.5);
 }
 
 /* Lista de servicios numerada con un contador de CSS (01, 02, 03). */
@@ -822,9 +839,9 @@ figure {
   .bodas {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "intro     destacada"
-      "servicios destacada"
-      "accion    destacada"
+      "intro     composicion"
+      "servicios composicion"
+      "accion    composicion"
       "galeria   galeria"
       "controles controles";
     column-gap: var(--esp-7);
@@ -834,7 +851,7 @@ figure {
   .bodas__intro      { grid-area: intro; align-self: end; }
   .bodas__servicios  { grid-area: servicios; align-self: start; }
   .bodas__accion     { grid-area: accion; align-self: start; }
-  .bodas__destacada  { grid-area: destacada; align-self: center; }
+  .bodas__composicion { grid-area: composicion; align-self: center; }
   .bodas .galeria             { grid-area: galeria; }
   .bodas .galeria__controles  { grid-area: controles; }
 }
@@ -970,15 +987,20 @@ figure {
   }
 }
 
-/* Escritorio: las cuatro fotos caben a la vez; deja de deslizar y sobran
-   las flechas. */
+/* Escritorio: las cinco fotos caben a la vez, con alturas alternas, como en
+   una pasarela; deja de deslizar y sobran las flechas. */
 @media (min-width: 64em) {
   .galeria {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    align-items: start;
     margin-inline: 0;
-    padding: 0;
+    padding: 0 0 var(--esp-7);
     overflow: visible;
+  }
+
+  .galeria li:nth-child(even) {
+    margin-top: var(--esp-7);
   }
 
   .galeria__controles,
@@ -1183,12 +1205,12 @@ html:has(.visor[open]) {
   box-shadow: 0 12px 24px -14px rgb(46 43 38 / 0.45);
 }
 
-/* La grande es ramo-deco4 (482 px de ancho real): en formato apaisado 4:3
-   y nunca más ancha que 482 px, para que no se estire. */
+/* La grande es ramo-deco2 (480 px de ancho real): en formato apaisado 4:3
+   y nunca más ancha que 480 px, para que no se estire. */
 .celebraciones__fotos img:first-child {
   grid-column: 1 / -1;
   grid-row: 1;
-  max-width: 482px;
+  max-width: 480px;
   aspect-ratio: 4 / 3;
   rotate: -1.5deg;
 }
@@ -1392,32 +1414,35 @@ html:has(.visor[open]) {
 }
 
 
-/* --- Ceremonias y despedidas --------------------------------------------- */
+/* --- Ceremonias ----------------------------------------------------------- */
 
-/* Sobria a propósito: fondo crema, sin color de acento, sin efectos al pasar
-   el ratón y sin animaciones. Las fotos no son enlaces. */
+/* Franja corta y sobria: fondo crema, sin color de acento, sin efectos ni
+   animaciones. Las fotos no son enlaces. */
 .ceremonias {
   display: grid;
-  gap: var(--esp-6);
+  gap: var(--esp-5);
 }
 
-/* Teléfono y horario en el propio bloque, para quien llega con prisa. */
-.ceremonias__contacto {
+.ceremonias__texto p:last-child {
+  margin-bottom: 0;
+}
+
+/* Tanatorios en una línea discreta, con el teléfono a mano. */
+.ceremonias__nota {
   font-size: var(--texto-sm);
   color: var(--tinta-suave);
 }
 
-.ceremonias__contacto a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  font-family: var(--fuente-titulos);
-  font-size: var(--titulo-3);
+/* Zona táctil de 44 px con relleno vertical compensado por margen negativo:
+   se toca igual de bien pero no separa las líneas del párrafo. */
+.ceremonias__nota a {
+  display: inline-block;
+  padding-block: 0.75rem;
+  margin-block: -0.75rem;
+  font-weight: 600;
   color: var(--tinta);
 }
 
-/* Dos fotos cuadradas arriba y la apaisada (el altar con los bancos) debajo,
-   a todo el ancho. */
 .ceremonias__fotos {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1430,41 +1455,13 @@ html:has(.visor[open]) {
   object-fit: cover;
 }
 
-.ceremonias__fotos img:nth-child(2) {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  aspect-ratio: 843 / 563;
-}
-
-/* Reseña sobria: sin la comilla grande decorativa, con una línea fina. */
-.resena--sobria {
-  padding-left: var(--esp-4);
-  border-left: 2px solid var(--kraft);
-}
-
-.resena--sobria blockquote::before {
-  content: none;
-}
-
-.resena--sobria blockquote p {
-  font-size: var(--texto-base);
-}
-
-/* Escritorio: texto y reseña a la izquierda, fotos a la derecha.
-   Las fotos (782–922 px de ancho real) no pasan de ~540 px. */
+/* Escritorio: texto a la izquierda y las dos fotos a la derecha. */
 @media (min-width: 64em) {
   .ceremonias {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "texto  fotos"
-      "resena fotos";
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
     column-gap: var(--esp-8);
-    align-items: start;
   }
-
-  .ceremonias__texto { grid-area: texto; }
-  .ceremonias__fotos { grid-area: fotos; }
-  .ceremonias .resena--sobria { grid-area: resena; }
 }
 
 

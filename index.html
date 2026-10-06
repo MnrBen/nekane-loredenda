@@ -116,12 +116,12 @@
       <!-- Orden: la primera es la grande; las siguientes, las pequeñas
            escalonadas. La cuarta (corona) solo aparece desde tablet. -->
       <div class="celebraciones__fotos">
-        <img src="imagenes/ramo-deco4.webp" width="482" height="635" loading="lazy"
-             alt="Ramo de liliums, rosas, crisantemos y cardos azules envuelto en papel blanco">
-        <img src="imagenes/ramo-deco3.webp" width="486" height="630" loading="lazy"
-             alt="Ramo de rosas, gerberas y cardos azules con eucalipto, envuelto en papel de cuadros rosa">
         <img src="imagenes/ramo-deco2.webp" width="480" height="578" loading="lazy"
              alt="Ramo de gerberas naranjas con flores blancas y verde, atado con cinta naranja">
+        <img src="imagenes/ramo-deco3.webp" width="486" height="630" loading="lazy"
+             alt="Ramo de rosas, gerberas y cardos azules con eucalipto, envuelto en papel de cuadros rosa">
+        <img src="imagenes/ramo-deco4.webp" width="482" height="635" loading="lazy"
+             alt="Ramo de liliums, rosas, crisantemos y cardos azules envuelto en papel blanco">
         <img src="imagenes/corona-floral3.webp" width="835" height="622" loading="lazy"
              alt="Corona redonda de flores de colores, con rosas, gerberas y crisantemos, y una cinta rosa">
       </div>
@@ -180,8 +180,14 @@
         </p>
       </div>
 
-      <img class="bodas__destacada" src="imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
-           alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
+      <!-- Composición principal: la novia en grande y, sobre su esquina, un
+           detalle (el tocado) como segunda foto que la acompaña. -->
+      <div class="bodas__composicion">
+        <img class="bodas__principal" src="imagenes/ramo-boda8.webp" width="922" height="925" loading="lazy"
+             alt="Novia de espaldas, con velo y un ramo de flores rosas y blancas, en una calle con pétalos en el suelo">
+        <img class="bodas__detalle" src="imagenes/ramo-deco5.webp" width="741" height="856" loading="lazy"
+             alt="Tocado de flores secas blancas y rosas en un recogido de pelo">
+      </div>
 
       <ul class="bodas__servicios">
         <li>
@@ -205,7 +211,15 @@
       <!-- Galería: cada foto es un enlace a la imagen. Sin JS, abre la foto;
            con JS, main.js la muestra en el visor leyendo el href (no hay rutas
            de imagen escritas en main.js, así sirve igual en /v2/). -->
-      <ul class="galeria" id="galeria-bodas" aria-label="Más ramos de novia">
+      <ul class="galeria" id="galeria-bodas" aria-label="Más fotos de bodas">
+        <li><a class="galeria__enlace" href="imagenes/ramo-boda7.webp">
+          <img src="imagenes/ramo-boda7.webp" width="925" height="925" loading="lazy"
+               alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
+        </a></li>
+        <li><a class="galeria__enlace" href="imagenes/ramo-boda1.webp">
+          <img src="imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
+               alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
+        </a></li>
         <li><a class="galeria__enlace" href="imagenes/ramo-boda5.webp">
           <img src="imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
                alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
@@ -217,10 +231,6 @@
         <li><a class="galeria__enlace" href="imagenes/ramo-boda3.webp">
           <img src="imagenes/ramo-boda3.webp" width="691" height="927" loading="lazy"
                alt="Ramo de novia blanco con eucalipto y lazo, sobre una pared clara">
-        </a></li>
-        <li><a class="galeria__enlace" href="imagenes/ramo-boda4.webp">
-          <img src="imagenes/ramo-boda4.webp" width="694" height="929" loading="lazy"
-               alt="Ramo de novia de peonías, rosas y eucalipto tumbado sobre una colcha blanca">
         </a></li>
       </ul>
 
@@ -292,23 +302,21 @@
       </div>
     </section>
 
-    <!-- ============================ CEREMONIAS Y DESPEDIDAS ============================ -->
-    <!-- Bloque sobrio a propósito: fondo neutro, sin color de acento y sin
-         animaciones, para no mezclar los tanatorios con el tono festivo.
-         Teléfono y horario en el propio bloque para quien llega con prisa,
-         en una línea para no repetir el horario completo de Contacto. -->
+    <!-- ============================ CEREMONIAS ============================ -->
+    <!-- Franja corta y sobria: el servicio de tanatorios está para quien lo
+         busca (menú y teléfono), sin protagonismo, para que la página termine
+         en un tono positivo. -->
     <section class="seccion ceremonias" id="ceremonias" aria-labelledby="ceremonias-titulo">
       <div class="ceremonias__texto">
         <p class="antetitulo">Ceremonias</p>
-        <h2 id="ceremonias-titulo">Ceremonias y despedidas</h2>
+        <h2 id="ceremonias-titulo">Flores para cada ceremonia</h2>
         <p>
           Flores para altares de iglesia, para el pasillo de una boda y para
-          otras ceremonias. También preparamos ramos y arreglos florales para
-          tanatorios: llámanos y nos ocupamos del encargo.
+          otras ceremonias.
         </p>
-        <p class="ceremonias__contacto">
-          <a href="tel:+34687865677">687 86 56 77</a><br>
-          Lunes a viernes, 9:15–13:30 y 17:00–19:30 · Sábado, 9:15–13:30 · Domingo, cerrado
+        <p class="ceremonias__nota">
+          También preparamos ramos y arreglos florales para tanatorios:
+          <a href="tel:+34687865677">687 86 56 77</a>
         </p>
       </div>
 
@@ -317,16 +325,7 @@
              alt="Altar de una iglesia con un gran centro de liliums amarillos y flores blancas">
         <img src="imagenes/flores-iglesia2.webp" width="843" height="563" loading="lazy"
              alt="Altar y bancos de una iglesia decorados con flores blancas">
-        <img src="imagenes/corona-floral2.webp" width="922" height="928" loading="lazy"
-             alt="Corona de flores blancas y verdes, con liliums, rosas, crisantemos y cardos">
       </div>
-
-      <figure class="resena resena--sobria">
-        <blockquote>
-          <p>Contacté con la floristería sobre las 12 del mediodía para hacer un encargo para el tanatorio de Zetolen. Prepararon un ramo muy bonito y antes de las 14:00 lo entregaron. Buenísima experiencia, recomiendo 100%.</p>
-        </blockquote>
-        <figcaption><cite>Pedro</cite> · reseña en Google</figcaption>
-      </figure>
     </section>
 
     <!-- ============================ CONTACTO: PIDE O VISÍTANOS ============================ -->

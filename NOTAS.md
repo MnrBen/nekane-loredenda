@@ -15,11 +15,13 @@ Pendientes y decisiones a revisar antes de pasar de demo a web real.
 - **Textos legales**: aviso legal, política de privacidad y política de cookies
   apuntan a `pendiente.html`. Los aporta el negocio.
 - **Personas en fotos**: en `ramo-boda5`, `ramo-boda6` y `nekane` se reconoce a
-  personas. Confirmar que han dado su permiso para publicarlas.
+  personas; en `ramo-boda8` aparecen viandantes al fondo. Confirmar los
+  permisos para publicarlas.
 - **Derechos de autor**: `ramo-boda6` parece de un fotógrafo profesional.
   Confirmar el permiso del autor.
 - **Reseñas**: se citan literales, con el nombre del autor tal como aparece en
-  Google. Confirmar que se pueden publicar en la web.
+  Google. Confirmar que se pueden publicar en la web. La de Pedro (tanatorio)
+  se quitó de la one-page para no dar protagonismo a ese servicio.
 - **`<meta name="robots" content="noindex, nofollow">`**: está en todas las
   páginas mientras sea una demo. Quitarlo en la versión real.
 
@@ -39,8 +41,8 @@ Pendientes y decisiones a revisar antes de pasar de demo a web real.
 ## Imágenes que no se usan en la fase 1
 
 `flores-deco1–4`, `flores-deco6`, `flores-SV1`, `san-valentin1–3`,
-`corona-floral1`, `ramo-boda2` (fue la portada; candidata a volver) y
-`ramo-deco1`. Esta última **no debe usarse**: muestra el rótulo de otra
+`corona-floral1`, `corona-floral2`, `ramo-boda2` (fue la portada; candidata a
+volver), `ramo-boda4` (repetía el ramo de `ramo-boda1`) y `ramo-deco1`. Esta última **no debe usarse**: muestra el rótulo de otra
 floristería (probablemente del propietario anterior).
 
 ## Estructura de la fase 2

@@ -362,22 +362,21 @@ figure {
   padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
 }
 
-/* Fondos de sección, con una regla: entre dos secciones de color siempre va
-   una crema, y cada color tiene un papel.
-   - Kraft claro (el papel de envolver) abre y cierra la página: portada y
-     contacto. Tinta 10,7:1 · tinta-suave 5,7:1 · baya 5,6:1.
-   - Rosa en las secciones cálidas y personales: Preservadas y Nekane.
-   - Crema (el fondo de la página) en las sobrias o con fotos muy coloridas:
-     Celebraciones, Bodas y Ceremonias.
-   En móvil la portada es la foto, así que el primer rosa aparece en la
-   tercera sección y no se suma al rosa de la foto de portada. */
-.inicio,
-.contacto {
+/* Fondos de sección, con una regla: nunca dos fondos iguales seguidos.
+   - Crema (el fondo de la página) en la portada y en las secciones sobrias:
+     Bodas y Ceremonias.
+   - Las demás alternan kraft claro y rosa por orden: Celebraciones (kraft),
+     Preservadas (rosa), Nekane (kraft) y Contacto (rosa).
+   Kraft claro: tinta 10,7:1 · tinta-suave 5,7:1 · baya 5,6:1.
+   El rosa no aparece hasta la cuarta sección, lejos del rosa de la foto de
+   portada. */
+.celebraciones,
+.nekane {
   background: var(--kraft-claro);
 }
 
 .preservadas,
-.nekane {
+.contacto {
   background: var(--rosa);
 }
 
@@ -842,8 +841,7 @@ figure {
       "intro     composicion"
       "servicios composicion"
       "accion    composicion"
-      "galeria   galeria"
-      "controles controles";
+      "galeria   galeria";
     column-gap: var(--esp-7);
     row-gap: var(--esp-5);
   }
@@ -852,8 +850,7 @@ figure {
   .bodas__servicios  { grid-area: servicios; align-self: start; }
   .bodas__accion     { grid-area: accion; align-self: start; }
   .bodas__composicion { grid-area: composicion; align-self: center; }
-  .bodas .galeria             { grid-area: galeria; }
-  .bodas .galeria__controles  { grid-area: controles; }
+  .bodas .galeria__marco      { grid-area: galeria; }
 }
 
 
@@ -905,16 +902,47 @@ figure {
   }
 }
 
-/* Controles bajo la galería: anterior, contador y siguiente, a la derecha. */
-.galeria__controles {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--esp-3);
+/* Marco de la galería: referencia para colocar las flechas encima. */
+.galeria__marco {
+  position: relative;
 }
 
-.galeria__controles[hidden] {
-  display: none;
+/* Flechas superpuestas a media altura de la foto, en crema para que se vean
+   sobre cualquier imagen. main.js añade .es-oculta a la que no lleva a
+   ningún sitio (al principio, la izquierda; al final, la derecha). */
+.galeria__marco .galeria__flecha {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 1.375rem - var(--esp-1));   /* centrada en la foto */
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--crema);
+  color: var(--tinta);
+  box-shadow: 0 4px 14px rgb(46 43 38 / 0.3);
+}
+
+.galeria__marco .galeria__flecha.flecha--anterior {
+  left: var(--esp-1);
+}
+
+.galeria__marco .galeria__flecha:not(.flecha--anterior) {
+  right: var(--esp-1);
+}
+
+.galeria__marco .galeria__flecha:not(:disabled):hover {
+  background: var(--kraft);
+}
+
+/* Oculta pero animable (opacity) y fuera del tabulador (visibility). */
+.galeria__marco .galeria__flecha.es-oculta {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .galeria__marco .galeria__flecha {
+    transition: opacity 0.25s ease, visibility 0.25s ease, background-color 0.2s ease, scale 0.2s ease;
+  }
 }
 
 
@@ -1003,8 +1031,7 @@ figure {
     margin-top: var(--esp-7);
   }
 
-  .galeria__controles,
-  .galeria__controles[hidden] {
+  .galeria__marco .galeria__flecha {
     display: none;
   }
 }
@@ -1475,6 +1502,10 @@ html:has(.visor[open]) {
   margin: var(--esp-6) 0 var(--esp-3);
 }
 
+.contacto__datos h2 {
+  margin-bottom: var(--esp-5);
+}
+
 /* Botón grande de llamada: la acción final de la página. A todo el ancho en
    móvil para que sea fácil de tocar. */
 .boton--grande {
@@ -1483,28 +1514,51 @@ html:has(.visor[open]) {
   font-size: var(--texto-lg);
 }
 
-/* Cómo pedir: pasos numerados como los servicios de Bodas. */
-.pedir {
+/* Formas de pedir: tres iconos con su texto en una fila, entre el título y
+   el botón de llamada. Sustituye a la lista "Cómo pedir", más larga. */
+.formas {
   list-style: none;
-  counter-reset: paso;
-}
-
-.pedir li {
-  counter-increment: paso;
   display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  column-gap: var(--esp-3);
-  padding-block: var(--esp-3);
-  border-top: 1px solid var(--kraft);
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--esp-3);
+  margin-bottom: var(--esp-5);
+  font-size: var(--texto-sm);
+  line-height: 1.35;
+  text-align: center;
 }
 
-.pedir li::before {
-  content: counter(paso, decimal-leading-zero);
-  font-family: var(--fuente-titulos);
-  font-style: italic;
-  font-size: var(--titulo-3);
-  line-height: 1.2;
-  color: var(--eucalipto-oscuro);   /* texto grande: 4,3:1 sobre rosa basta */
+.formas li {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--esp-2);
+}
+
+.formas svg {
+  box-sizing: content-box;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: var(--esp-3);
+  border-radius: 50%;
+  background: var(--crema);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Desde tablet, cada forma en línea: icono a la izquierda y texto al lado. */
+@media (min-width: 48em) {
+  .formas {
+    text-align: left;
+  }
+
+  .formas li {
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: center;
+  }
 }
 
 .contacto__direccion p {

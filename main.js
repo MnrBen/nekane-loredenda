@@ -9,7 +9,7 @@
    Índice
    1. Arranque
    2. Menú móvil
-   3. Galería deslizable (flechas y contador)
+   3. Galería deslizable (flechas superpuestas)
    4. Visor de fotos
    ========================================================================== */
 
@@ -73,21 +73,20 @@ document.documentElement.classList.add('js');
 const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 
-/* 3. Galería deslizable (flechas y contador)
+/* 3. Galería deslizable (flechas superpuestas)
    --------------------------------------------------------------------------
    El deslizamiento es CSS puro (scroll-snap): con el dedo funciona sin JS.
-   Aquí se añaden las flechas, para quien usa ratón o teclado, y el contador
-   "02 / 04". Cada flecha sabe qué galería mueve por su aria-controls.
+   Aquí se activan las flechas superpuestas, para quien usa ratón o teclado.
+   Solo se ve la flecha que lleva a algún sitio: al principio, la derecha;
+   al deslizar, las dos; al final, solo la izquierda.
    ========================================================================== */
-document.querySelectorAll('.galeria__controles').forEach((controles) => {
-  const flechas = controles.querySelectorAll('.galeria__flecha');
-  const galeria = document.getElementById(flechas[0]?.getAttribute('aria-controls'));
-  if (!galeria) return;
-  const contador = controles.querySelector('.galeria__contador');
-  const total = galeria.querySelectorAll('li').length;
-  const dosCifras = (n) => String(n).padStart(2, '0');
+document.querySelectorAll('.galeria__marco').forEach((marco) => {
+  const galeria = marco.querySelector('.galeria');
+  const [anterior, siguiente] = marco.querySelectorAll('.galeria__flecha');
+  if (!galeria || !anterior || !siguiente) return;
 
-  controles.hidden = false;
+  anterior.hidden = false;
+  siguiente.hidden = false;
 
   // Avanza exactamente una foto: ancho de una foto + el hueco entre fotos.
   const paso = () => {
@@ -96,7 +95,7 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     return foto ? foto.getBoundingClientRect().width + hueco : galeria.clientWidth;
   };
 
-  flechas.forEach((flecha) => {
+  [anterior, siguiente].forEach((flecha) => {
     flecha.addEventListener('click', () => {
       galeria.scrollBy({
         left: paso() * Number(flecha.dataset.direccion),
@@ -105,20 +104,17 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     });
   });
 
-  // Estado de flechas y contador según la posición del scroll. La flecha que
-  // ya no lleva a ningún sitio se desactiva (margen de 2 px por redondeos).
+  // Muestra u oculta cada flecha según la posición (margen de 2 px por
+  // redondeos). Si la flecha que se oculta tenía el foco, el foco pasa a la
+  // otra, para no dejar a quien usa teclado sin referencia.
   const actualizar = () => {
     const final = galeria.scrollWidth - galeria.clientWidth;
+    const alPrincipio = galeria.scrollLeft <= 2;
     const alFinal = galeria.scrollLeft >= final - 2;
-    flechas[0].disabled = galeria.scrollLeft <= 2;
-    flechas[1].disabled = alFinal;
-
-    if (contador) {
-      // Al final del recorrido cuenta la última foto, aunque no llegue a
-      // alinearse a la izquierda (se ve entera, pero no hay más sitio).
-      const actual = alFinal ? total : Math.round(galeria.scrollLeft / paso()) + 1;
-      contador.textContent = `${dosCifras(actual)} / ${dosCifras(total)}`;
-    }
+    [[anterior, alPrincipio, siguiente], [siguiente, alFinal, anterior]].forEach(([flecha, ocultar, otra]) => {
+      if (ocultar && document.activeElement === flecha) otra.focus();
+      flecha.classList.toggle('es-oculta', ocultar);
+    });
   };
 
   galeria.addEventListener('scroll', actualizar, { passive: true });

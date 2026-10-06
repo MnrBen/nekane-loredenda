@@ -40,10 +40,12 @@ Pendientes y decisiones a revisar antes de pasar de demo a web real.
 
 ## Imágenes que no se usan en la fase 1
 
-`flores-deco1–4`, `flores-deco6`, `flores-SV1`, `san-valentin1–3`,
+`flores-deco1–3`, `flores-deco6`, `flores-SV1`, `san-valentin1–3`,
 `corona-floral1`, `corona-floral2`, `ramo-boda2` (fue la portada; candidata a
 volver), `ramo-boda4` (repetía el ramo de `ramo-boda1`) y `ramo-deco1`. Esta última **no debe usarse**: muestra el rótulo de otra
 floristería (probablemente del propietario anterior).
+
+`corona-floral3` se ha eliminado de la carpeta: no aporta y no se va a usar.
 
 ## Estructura de la fase 2
 

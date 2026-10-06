@@ -55,8 +55,8 @@
     <nav class="menu" id="menu-principal" aria-label="Principal">
       <ul class="menu__lista">
         <li><a href="#celebraciones">Celebraciones</a></li>
-        <li><a href="#preservadas">Preservadas</a></li>
         <li><a href="#bodas">Bodas</a></li>
+        <li><a href="#preservadas">Preservadas</a></li>
         <li><a href="#nekane">Nekane</a></li>
         <li><a href="#ceremonias">Ceremonias</a></li>
         <li><a href="#contacto">Contacto</a></li>
@@ -73,7 +73,7 @@
         <h1 id="inicio-titulo">Estilismo floral <em>hecho a tu medida</em></h1>
         <!-- Sin botones aquí: Llamar ya está siempre visible en la cabecera. -->
         <p class="entradilla">
-          Ramos a tu gusto, flores para celebrar, flores preservadas y ramos de novia.
+          Ramos a tu gusto, flores para celebrar, ramos de novia y flores preservadas.
           Pídelo por teléfono o pásate por la tienda.
         </p>
         <div class="acciones">
@@ -114,7 +114,7 @@
       </div>
 
       <!-- Orden: la primera es la grande; las siguientes, las pequeñas
-           escalonadas. La cuarta (corona) solo aparece desde tablet. -->
+           escalonadas. La cuarta solo aparece desde tablet. -->
       <div class="celebraciones__fotos">
         <img src="imagenes/ramo-deco2.webp" width="480" height="578" loading="lazy"
              alt="Ramo de gerberas naranjas con flores blancas y verde, atado con cinta naranja">
@@ -122,8 +122,86 @@
              alt="Ramo de rosas, gerberas y cardos azules con eucalipto, envuelto en papel de cuadros rosa">
         <img src="imagenes/ramo-deco4.webp" width="482" height="635" loading="lazy"
              alt="Ramo de liliums, rosas, crisantemos y cardos azules envuelto en papel blanco">
-        <img src="imagenes/corona-floral3.webp" width="835" height="622" loading="lazy"
-             alt="Corona redonda de flores de colores, con rosas, gerberas y crisantemos, y una cinta rosa">
+        <img src="imagenes/flores-deco4.webp" width="691" height="929" loading="lazy"
+             alt="Ramo de margaritas y astilbe con hojas verdes, sostenido sobre una calle">
+      </div>
+    </section>
+
+    <!-- ============================ BODAS ============================ -->
+    <section class="seccion bodas" id="bodas" aria-labelledby="bodas-titulo">
+      <div class="bodas__intro">
+        <p class="antetitulo">Bodas</p>
+        <h2 id="bodas-titulo">Tu ramo de novia, pensado contigo</h2>
+        <p>
+          Una boda se decide con calma y con mucho cariño. Cuéntale a Nekane cómo
+          lo imaginas, los colores, las flores, el estilo, y lo prepara a tu medida.
+        </p>
+      </div>
+
+      <!-- Composición principal: la novia en grande y, sobre su esquina, un
+           detalle (el tocado) como segunda foto que la acompaña. -->
+      <div class="bodas__composicion">
+        <img class="bodas__principal" src="imagenes/ramo-boda8.webp" width="922" height="925" loading="lazy"
+             alt="Novia de espaldas, con velo y un ramo de flores rosas y blancas, en una calle con pétalos en el suelo">
+        <img class="bodas__detalle" src="imagenes/ramo-deco5.webp" width="741" height="856" loading="lazy"
+             alt="Tocado de flores secas blancas y rosas en un recogido de pelo">
+      </div>
+
+      <ul class="bodas__servicios">
+        <li>
+          <h3>Ramo de novia</h3>
+          <p>Con las flores que elijas, pensado para ti y para tu día.</p>
+        </li>
+        <li>
+          <h3>Ramo de novia preservado</h3>
+          <p>Flores preservadas para guardar tu ramo como recuerdo de la boda.</p>
+        </li>
+        <li>
+          <h3>Otros elementos florales</h3>
+          <p>Además del ramo, Nekane prepara otros elementos florales para la boda.</p>
+        </li>
+      </ul>
+
+      <div class="bodas__accion">
+        <a class="boton boton--llamar" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Cuéntanos tu boda<span class="oculto"> (llamar al 687 86 56 77)</span></a>
+      </div>
+
+      <!-- Galería deslizable. Cada foto es un enlace a la imagen: sin JS abre
+           la foto; con JS, main.js la muestra en el visor leyendo el href (no
+           hay rutas de imagen en main.js, así sirve igual en /v2/).
+           Flechas superpuestas a media altura de la foto: al principio solo
+           se ve la de la derecha; al deslizar aparece la de la izquierda, y al
+           llegar al final desaparece la de la derecha. Llevan hidden porque
+           sin JS no harían nada (con el dedo se desliza igual). -->
+      <div class="galeria__marco">
+        <ul class="galeria" id="galeria-bodas" aria-label="Más fotos de bodas">
+          <li><a class="galeria__enlace" href="imagenes/ramo-boda7.webp">
+            <img src="imagenes/ramo-boda7.webp" width="925" height="925" loading="lazy"
+                 alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
+          </a></li>
+          <li><a class="galeria__enlace" href="imagenes/ramo-boda1.webp">
+            <img src="imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
+                 alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
+          </a></li>
+          <li><a class="galeria__enlace" href="imagenes/ramo-boda5.webp">
+            <img src="imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
+                 alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
+          </a></li>
+          <li><a class="galeria__enlace" href="imagenes/ramo-boda6.webp">
+            <img src="imagenes/ramo-boda6.webp" width="635" height="635" loading="lazy"
+                 alt="Pareja de novios en el campo; la novia sostiene un ramo redondo de flores blancas y rosa pálido">
+          </a></li>
+          <li><a class="galeria__enlace" href="imagenes/ramo-boda3.webp">
+            <img src="imagenes/ramo-boda3.webp" width="691" height="927" loading="lazy"
+                 alt="Ramo de novia blanco con eucalipto y lazo, sobre una pared clara">
+          </a></li>
+        </ul>
+        <button class="flecha flecha--anterior galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
+        </button>
+        <button class="flecha galeria__flecha" type="button" data-direccion="1" aria-controls="galeria-bodas" aria-label="Foto siguiente" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
+        </button>
       </div>
     </section>
 
@@ -167,86 +245,6 @@
                alt="Ramo de flores secas en morado, lila y blanco con hojas verdes">
         </a></li>
       </ul>
-    </section>
-
-    <!-- ============================ BODAS ============================ -->
-    <section class="seccion bodas" id="bodas" aria-labelledby="bodas-titulo">
-      <div class="bodas__intro">
-        <p class="antetitulo">Bodas</p>
-        <h2 id="bodas-titulo">Tu ramo de novia, pensado contigo</h2>
-        <p>
-          Una boda se decide con calma y con mucho cariño. Cuéntale a Nekane cómo
-          lo imaginas, los colores, las flores, el estilo, y lo prepara a tu medida.
-        </p>
-      </div>
-
-      <!-- Composición principal: la novia en grande y, sobre su esquina, un
-           detalle (el tocado) como segunda foto que la acompaña. -->
-      <div class="bodas__composicion">
-        <img class="bodas__principal" src="imagenes/ramo-boda8.webp" width="922" height="925" loading="lazy"
-             alt="Novia de espaldas, con velo y un ramo de flores rosas y blancas, en una calle con pétalos en el suelo">
-        <img class="bodas__detalle" src="imagenes/ramo-deco5.webp" width="741" height="856" loading="lazy"
-             alt="Tocado de flores secas blancas y rosas en un recogido de pelo">
-      </div>
-
-      <ul class="bodas__servicios">
-        <li>
-          <h3>Ramo de novia</h3>
-          <p>Con las flores que elijas, pensado para ti y para tu día.</p>
-        </li>
-        <li>
-          <h3>Ramo de novia preservado</h3>
-          <p>Flores preservadas para guardar tu ramo como recuerdo de la boda.</p>
-        </li>
-        <li>
-          <h3>Otros elementos florales</h3>
-          <p>Además del ramo, Nekane prepara otros elementos florales para la boda.</p>
-        </li>
-      </ul>
-
-      <div class="bodas__accion">
-        <a class="boton boton--llamar" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Cuéntanos tu boda<span class="oculto"> (llamar al 687 86 56 77)</span></a>
-      </div>
-
-      <!-- Galería: cada foto es un enlace a la imagen. Sin JS, abre la foto;
-           con JS, main.js la muestra en el visor leyendo el href (no hay rutas
-           de imagen escritas en main.js, así sirve igual en /v2/). -->
-      <ul class="galeria" id="galeria-bodas" aria-label="Más fotos de bodas">
-        <li><a class="galeria__enlace" href="imagenes/ramo-boda7.webp">
-          <img src="imagenes/ramo-boda7.webp" width="925" height="925" loading="lazy"
-               alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
-        </a></li>
-        <li><a class="galeria__enlace" href="imagenes/ramo-boda1.webp">
-          <img src="imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
-               alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
-        </a></li>
-        <li><a class="galeria__enlace" href="imagenes/ramo-boda5.webp">
-          <img src="imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
-               alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
-        </a></li>
-        <li><a class="galeria__enlace" href="imagenes/ramo-boda6.webp">
-          <img src="imagenes/ramo-boda6.webp" width="635" height="635" loading="lazy"
-               alt="Pareja de novios en el campo; la novia sostiene un ramo redondo de flores blancas y rosa pálido">
-        </a></li>
-        <li><a class="galeria__enlace" href="imagenes/ramo-boda3.webp">
-          <img src="imagenes/ramo-boda3.webp" width="691" height="927" loading="lazy"
-               alt="Ramo de novia blanco con eucalipto y lazo, sobre una pared clara">
-        </a></li>
-      </ul>
-
-      <!-- Flechas de la galería deslizable: ocultas sin JS (hidden) porque sin
-           JS no harían nada; en móvil también se puede deslizar con el dedo. -->
-      <div class="galeria__controles" hidden>
-        <!-- Botones redondos con un chevron curvo dibujado en SVG; el de
-             "anterior" es el mismo girado con CSS. Entre ellos, el contador. -->
-        <button class="flecha flecha--anterior galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
-        </button>
-        <span class="contador galeria__contador" aria-hidden="true"></span>
-        <button class="flecha galeria__flecha" type="button" data-direccion="1" aria-controls="galeria-bodas" aria-label="Foto siguiente">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
-        </button>
-      </div>
     </section>
 
     <!-- ============================ NEKANE (con reseñas) ============================ -->
@@ -332,16 +330,17 @@
     <section class="seccion contacto" id="contacto" aria-labelledby="contacto-titulo">
       <div class="contacto__datos">
         <p class="antetitulo">Pide o visítanos</p>
-        <h2 id="contacto-titulo">Llámanos o pásate por la tienda</h2>
+        <h2 id="contacto-titulo">Pide tus flores</h2>
+
+        <!-- Formas de pedir: lo mismo que antes era la lista "Cómo pedir", en
+             una sola fila visual. -->
+        <ul class="formas" aria-label="Cómo pedir">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Por teléfono</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16M4 9.5c0 1.4 1.1 2.5 2.6 2.5s2.7-1.1 2.7-2.5c0 1.4 1.2 2.5 2.7 2.5s2.7-1.1 2.7-2.5c0 1.4 1.1 2.5 2.6 2.5S20 10.9 20 9.5M5.5 12v8h13v-8M10 20v-5h4v5"/></svg>En la tienda</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 11 12 4l8.5 7M6 9.3V20h12V9.3"/><path d="M12 17.4l-2.2-2.1a1.35 1.35 0 0 1 2.2-1.6 1.35 1.35 0 0 1 2.2 1.6z"/></svg>Entrega a domicilio y en otras localidades</li>
+        </ul>
 
         <a class="boton boton--llamar boton--grande" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Llamar al 687 86 56 77</a>
-
-        <h3>Cómo pedir</h3>
-        <ol class="pedir">
-          <li>Llámanos o pásate por la tienda.</li>
-          <li>Cuéntanos para quién es, la ocasión y lo que te gusta.</li>
-          <li>Hacemos entrega a domicilio y también en otras localidades.</li>
-        </ol>
 
         <h3>Horario</h3>
         <dl class="horario">

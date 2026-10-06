@@ -9,7 +9,7 @@
    Índice
    1. Arranque
    2. Menú móvil
-   3. Galería deslizable (flechas y barra de progreso)
+   3. Galería deslizable (flechas y contador)
    4. Visor de fotos
    ========================================================================== */
 
@@ -73,17 +73,19 @@ document.documentElement.classList.add('js');
 const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 
-/* 3. Galería deslizable (flechas y barra de progreso)
+/* 3. Galería deslizable (flechas y contador)
    --------------------------------------------------------------------------
    El deslizamiento es CSS puro (scroll-snap): con el dedo funciona sin JS.
-   Aquí se añaden las flechas, para quien usa ratón o teclado, y la barra de
-   progreso. Cada flecha sabe qué galería mueve por su aria-controls.
+   Aquí se añaden las flechas, para quien usa ratón o teclado, y el contador
+   "02 / 04". Cada flecha sabe qué galería mueve por su aria-controls.
    ========================================================================== */
 document.querySelectorAll('.galeria__controles').forEach((controles) => {
   const flechas = controles.querySelectorAll('.galeria__flecha');
   const galeria = document.getElementById(flechas[0]?.getAttribute('aria-controls'));
   if (!galeria) return;
-  const progreso = controles.querySelector('.galeria__progreso');
+  const contador = controles.querySelector('.galeria__contador');
+  const total = galeria.querySelectorAll('li').length;
+  const dosCifras = (n) => String(n).padStart(2, '0');
 
   controles.hidden = false;
 
@@ -103,21 +105,19 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     });
   });
 
-  // Estado de flechas y barra según la posición del scroll. La flecha que
+  // Estado de flechas y contador según la posición del scroll. La flecha que
   // ya no lleva a ningún sitio se desactiva (margen de 2 px por redondeos).
   const actualizar = () => {
     const final = galeria.scrollWidth - galeria.clientWidth;
+    const alFinal = galeria.scrollLeft >= final - 2;
     flechas[0].disabled = galeria.scrollLeft <= 2;
-    flechas[1].disabled = galeria.scrollLeft >= final - 2;
+    flechas[1].disabled = alFinal;
 
-    if (progreso) {
-      // Tramo oscuro = parte visible de la galería; se desplaza por la línea
-      // en proporción a lo que se ha deslizado.
-      const visible = galeria.clientWidth / galeria.scrollWidth;
-      const avance = final > 0 ? galeria.scrollLeft / final : 0;
-      const anchoBarra = progreso.clientWidth;
-      progreso.style.setProperty('--progreso-ancho', `${visible * 100}%`);
-      progreso.style.setProperty('--progreso-x', `${avance * anchoBarra * (1 - visible)}px`);
+    if (contador) {
+      // Al final del recorrido cuenta la última foto, aunque no llegue a
+      // alinearse a la izquierda (se ve entera, pero no hay más sitio).
+      const actual = alFinal ? total : Math.round(galeria.scrollLeft / paso()) + 1;
+      contador.textContent = `${dosCifras(actual)} / ${dosCifras(total)}`;
     }
   };
 
@@ -145,8 +145,8 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
   const enlaces = document.querySelectorAll('.galeria__enlace');
   if (!enlaces.length || typeof HTMLDialogElement !== 'function') return;
 
-  // Flecha de línea fina, la misma que la de la galería de la página.
-  const flecha = '<svg viewBox="0 0 44 12" aria-hidden="true" focusable="false"><path d="M1 6h41M36 1l6 5-6 5"/></svg>';
+  // Chevron curvo, el mismo que el de los botones de la galería de la página.
+  const flecha = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>';
 
   // Estructura del visor, creada una sola vez.
   const visor = document.createElement('dialog');
@@ -154,7 +154,6 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
   visor.setAttribute('aria-label', 'Visor de fotos');
   visor.innerHTML = `
     <div class="visor__barra">
-      <span class="visor__contador" aria-hidden="true"></span>
       <button type="button" class="visor__cerrar" aria-label="Cerrar">
         <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2 2l16 16M18 2L2 18"/></svg>
       </button>
@@ -162,6 +161,7 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     <ul class="visor__pista"></ul>
     <div class="visor__pie">
       <button type="button" class="flecha flecha--anterior" aria-label="Foto anterior">${flecha}</button>
+      <span class="contador visor__contador" aria-hidden="true"></span>
       <button type="button" class="flecha" aria-label="Foto siguiente">${flecha}</button>
     </div>
     <p class="oculto" aria-live="polite"></p>`;
@@ -183,7 +183,7 @@ document.querySelectorAll('.galeria__controles').forEach((controles) => {
     const actual = indiceActual();
     if (actual === indice) return;
     indice = actual;
-    contador.textContent = `${indice + 1} / ${total}`;
+    contador.textContent = `${String(indice + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
     // Sin texto visible bajo la foto; solo se anuncia "Foto 2 de 4" a quien
     // usa lector de pantalla (la descripción va en el alt de cada imagen).
     aviso.textContent = `Foto ${indice + 1} de ${total}`;

@@ -202,6 +202,7 @@ figure {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--esp-2);
   min-height: var(--toque);
   padding: var(--esp-2) var(--esp-5);
   border: 1px solid transparent;
@@ -221,6 +222,58 @@ figure {
 
 .boton--secundario {
   border-color: currentColor;
+}
+
+/* Icono de teléfono en los botones que llaman: deja claro que el botón
+   llama aunque el texto no lo diga ("Pide tus flores"). */
+.boton .icono {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+/* Botón de llamada al final de un texto de sección. */
+.celebraciones__texto .boton,
+.nekane__texto .boton {
+  margin-top: var(--esp-2);
+}
+
+/* Icono redondo de red social (contacto y pie): 44 × 44 px de zona táctil. */
+.red {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.red svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.red .relleno {
+  fill: currentColor;
+  stroke: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .red {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+.red:hover {
+  background: var(--tinta);
+  color: var(--crema);
 }
 
 .acciones {
@@ -310,25 +363,21 @@ figure {
   padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
 }
 
-/* Fondos alternos para que la página no resulte monótona: crema y rosa,
-   con Flores secas en oscuro como sección diferenciada. */
-/* --fondo: el color de fondo de la sección, reutilizado en los marcos de
+/* Fondos alternos con tres tonos sacados de las fotos: crema, kraft claro
+   (el papel de envolver) y rosa empolvado. El rosa no aparece hasta la
+   tercera sección, para no sumarse al rosa de la foto de portada.
+   --fondo: el color de fondo de la sección, reutilizado en los marcos de
    las fotos de Celebraciones para que siempre coincidan. */
 .celebraciones,
-.nekane,
-.contacto {
-  --fondo: var(--rosa);
+.nekane {
+  --fondo: var(--kraft-claro);   /* tinta 10,7:1 · tinta-suave 5,7:1 · baya 5,6:1 */
   background: var(--fondo);
 }
 
-.regalos {
-  background: var(--bosque);
-  color: var(--crema);
-}
-
-/* Sobre el fondo oscuro, los textos secundarios pasan a eucalipto (5,5:1). */
-.regalos .antetitulo {
-  color: var(--eucalipto);
+.preservadas,
+.contacto {
+  --fondo: var(--rosa);
+  background: var(--fondo);
 }
 
 /* --- Cabecera ------------------------------------------------------------ */
@@ -613,22 +662,25 @@ figure {
   object-position: var(--inicio-foco, center);
 }
 
-/* Velo oscuro solo en la mitad de abajo, donde va el texto. No es un
-   degradado decorativo: es lo que permite leer texto claro sobre una foto. */
+/* Velo oscuro de abajo arriba, que cubre el bloque de texto (con los botones
+   el texto ocupa más de la mitad de la foto en móvil). No es un degradado
+   decorativo: es lo que permite leer texto claro sobre una foto. */
 .inicio__figura::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(to top,
     rgb(24 22 19 / 0.72) 0%,
-    rgb(24 22 19 / 0.5) 45%,
-    rgb(24 22 19 / 0) 80%);
+    rgb(24 22 19 / 0.55) 65%,
+    rgb(24 22 19 / 0.2) 100%);
 }
 
 /* Antetítulo en crema sobre la foto: es letra pequeña y en kraft no llegaba
-   al contraste mínimo (medido sobre las fotos candidatas). */
+   al contraste mínimo. Lleva además una sombra ceñida a las letras porque,
+   a 360 px, queda encima de flores blancas (medido). */
 .inicio .antetitulo {
   color: var(--crema);
+  text-shadow: 0 0 6px rgb(24 22 19 / 0.75), 0 0 2px rgb(24 22 19 / 0.6);
 }
 
 .inicio h1 em {
@@ -637,7 +689,12 @@ figure {
 }
 
 .inicio .entradilla {
-  margin-bottom: 0;
+  margin-bottom: var(--esp-5);
+}
+
+/* Sobre la foto (móvil), el botón secundario va en crema. */
+.inicio .boton--secundario {
+  color: var(--crema);
 }
 
 /* Sombra muy difusa bajo el texto: con el velo más claro, asegura que el
@@ -688,6 +745,11 @@ figure {
 
   .inicio .antetitulo {
     color: var(--tinta-suave);
+    text-shadow: none;
+  }
+
+  .inicio .boton--secundario {
+    color: var(--tinta);
   }
 
   .inicio h1 em {
@@ -761,6 +823,7 @@ figure {
     grid-template-areas:
       "intro     destacada"
       "servicios destacada"
+      "accion    destacada"
       "galeria   galeria"
       "controles controles";
     column-gap: var(--esp-7);
@@ -769,6 +832,7 @@ figure {
 
   .bodas__intro      { grid-area: intro; align-self: end; }
   .bodas__servicios  { grid-area: servicios; align-self: start; }
+  .bodas__accion     { grid-area: accion; align-self: start; }
   .bodas__destacada  { grid-area: destacada; align-self: center; }
   .bodas .galeria             { grid-area: galeria; }
   .bodas .galeria__controles  { grid-area: controles; }
@@ -823,60 +887,45 @@ figure {
   }
 }
 
+/* Controles bajo la galería: anterior, contador y siguiente, a la derecha. */
 .galeria__controles {
   display: flex;
   align-items: center;
-  gap: var(--esp-2);
+  justify-content: flex-end;
+  gap: var(--esp-3);
 }
 
 .galeria__controles[hidden] {
   display: none;
 }
 
-/* Barra de progreso: una línea fina (la galería completa) con un tramo más
-   oscuro (lo que se está viendo) que se mueve al deslizar. main.js le da
-   el ancho y la posición con dos variables. */
-.galeria__progreso {
-  position: relative;
-  flex: 1;
-  height: 1px;
-  margin-right: var(--esp-4);
-  background: var(--kraft);
-}
 
-.galeria__progreso span {
-  position: absolute;
-  left: 0;
-  top: -1px;
-  height: 3px;
-  width: var(--progreso-ancho, 30%);
-  background: var(--tinta);
-  transform: translateX(var(--progreso-x, 0));
-}
+/* --- Botón de flecha y contador (galería y visor) ------------------------- */
 
-
-/* --- Flecha de línea fina (galería y visor) -------------------------------- */
+/* Botón redondo sólido con un chevron curvo de trazo fino: con presencia,
+   pero sin la dureza de una flecha de sistema. */
 .flecha {
   display: inline-grid;
   place-items: center;
-  width: 3.5rem;
-  height: var(--toque);
+  flex: none;
+  width: 3.25rem;
+  height: 3.25rem;
   padding: 0;
   border: 0;
-  background: transparent;
-  color: inherit;
+  border-radius: 50%;
+  background: var(--tinta);
+  color: var(--crema);
   cursor: pointer;
 }
 
 .flecha svg {
-  width: 2.75rem;
-  height: 0.75rem;
+  width: 1.375rem;
+  height: 1.375rem;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.25;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-  overflow: visible;
 }
 
 /* La flecha "anterior" es la misma, girada. */
@@ -884,24 +933,34 @@ figure {
   transform: scaleX(-1);
 }
 
+.flecha:not(:disabled):hover {
+  background: var(--eucalipto-oscuro);
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .flecha svg {
-    transition: translate 0.25s ease;
+  .flecha {
+    transition: background-color 0.2s ease, scale 0.2s ease;
   }
 
-  /* Al pasar el ratón, la flecha avanza un poco en su dirección. */
-  .flecha:not(:disabled):hover svg {
-    translate: 4px 0;
-  }
-
-  .flecha--anterior:not(:disabled):hover svg {
-    translate: -4px 0;
+  .flecha:not(:disabled):hover {
+    scale: 1.06;
   }
 }
 
 .flecha:disabled {
   opacity: 0.25;
   cursor: default;
+}
+
+/* Contador "02 / 05" en la cursiva de los títulos. Cifras de ancho fijo para
+   que no baile al cambiar de número. */
+.contador {
+  min-width: 4.5em;
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
 }
 
 @media (min-width: 48em) {
@@ -964,15 +1023,27 @@ html:has(.visor[open]) {
 .visor__barra,
 .visor__pie {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-inline: var(--esp-4);
 }
 
-.visor__contador {
-  font-size: var(--texto-sm);
-  letter-spacing: 0.08em;
-  font-variant-numeric: tabular-nums;
+.visor__barra {
+  justify-content: flex-end;
+}
+
+.visor__pie {
+  justify-content: center;
+  gap: var(--esp-4);
+}
+
+/* Sobre el fondo oscuro, botones crema con la flecha oscura. */
+.visor .flecha {
+  background: var(--crema);
+  color: var(--tinta);
+}
+
+.visor .flecha:not(:disabled):hover {
+  background: var(--kraft);
 }
 
 /* Tira de fotos: cada diapositiva ocupa todo el ancho. */
@@ -981,6 +1052,7 @@ html:has(.visor[open]) {
   display: flex;
   min-height: 0;          /* permite que las fotos encojan dentro del grid */
   overflow-x: auto;
+  overflow-y: hidden;     /* solo se desliza en horizontal */
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
@@ -990,13 +1062,25 @@ html:has(.visor[open]) {
   display: none;
 }
 
+/* Flex (no grid) a propósito: así el max-height: 100% de la foto se calcula
+   sobre el alto real de la diapositiva. Con grid, el navegador no tenía un
+   alto de referencia y la foto salía a tamaño real, más alta que la
+   pantalla en portátiles (medido a 1280 × 800: 922 px de foto en 648 px). */
 .visor__diapositiva {
   flex: 0 0 100%;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding-inline: var(--esp-4);
   scroll-snap-align: center;
   scroll-snap-stop: always;   /* una foto por gesto, sin saltarse ninguna */
+}
+
+/* En escritorio, un poco de aire alrededor de la foto. */
+@media (min-width: 64em) {
+  .visor__diapositiva {
+    padding-block: var(--esp-5);
+  }
 }
 
 .visor__diapositiva img {
@@ -1066,12 +1150,12 @@ html:has(.visor[open]) {
   object-fit: cover;
 }
 
-/* La grande es ramo-deco3 (486 px de ancho real): en formato apaisado 4:3
-   y nunca más ancha que 486 px, para que no se estire. */
+/* La grande es ramo-deco2 (480 px de ancho real): en formato apaisado 4:3
+   y nunca más ancha que 480 px, para que no se estire. */
 .celebraciones__fotos img:first-child {
   grid-column: 1 / -1;
   grid-row: 1;
-  max-width: 486px;
+  max-width: 480px;
   aspect-ratio: 4 / 3;
 }
 
@@ -1100,7 +1184,7 @@ html:has(.visor[open]) {
 
 /* Tablet y escritorio: tres pequeñas escalonadas a distintas alturas. La
    composición no pasa de 34rem (544 px): así la grande, que ocupa 8 de las
-   9 columnas, se queda por debajo de sus 486 px reales. */
+   9 columnas, se queda en sus 480 px reales como mucho. */
 @media (min-width: 48em) {
   .celebraciones__fotos {
     grid-template-columns: repeat(9, 1fr);
@@ -1128,20 +1212,13 @@ html:has(.visor[open]) {
 }
 
 
-/* --- Flores secas (y preservadas) ---------------------------------------- */
+/* --- Flores preservadas -------------------------------------------------- */
 
-/* Sección oscura: las fotos de flores secas tienen fondo negro y aquí lucen. */
-.regalos {
+/* Las fotos tienen fondo negro: sobre el rosa claro se ven como cuadros
+   enmarcados, sin oscurecer la sección. */
+.preservadas {
   display: grid;
   gap: var(--esp-6);
-}
-
-.regalos__texto p {
-  color: var(--kraft-claro);   /* 8,7:1 sobre bosque */
-}
-
-.regalos :focus-visible {
-  outline-color: var(--crema);
 }
 
 /* Mosaico. Móvil: cuadrícula de 2 × 2 (la quinta foto se reserva para
@@ -1167,7 +1244,7 @@ html:has(.visor[open]) {
    alrededor, en una rejilla de 4 columnas. La foto grande no pasa de
    ~570 px (922 px de ancho real). */
 @media (min-width: 48em) {
-  .regalos__texto {
+  .preservadas__texto {
     max-width: 40rem;
   }
 
@@ -1402,9 +1479,8 @@ html:has(.visor[open]) {
   margin-bottom: var(--esp-2);
 }
 
-/* Enlaces de contacto y redes con zona táctil de 44 px de alto. */
-.contacto__direccion a,
-.redes a {
+/* Enlaces de contacto con zona táctil de 44 px de alto. */
+.contacto__direccion a {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
@@ -1413,12 +1489,8 @@ html:has(.visor[open]) {
 .redes {
   list-style: none;
   display: flex;
-  gap: var(--esp-5);
+  gap: var(--esp-3);
   margin-top: var(--esp-3);
-}
-
-.redes a {
-  font-weight: 600;
 }
 
 /* Mapa enmarcado: borde crema y línea kraft, como una foto más de la web.
@@ -1525,16 +1597,13 @@ html:has(.visor[open]) {
 }
 
 .pie__redes {
-  list-style: none;
-  display: flex;
-  gap: var(--esp-5);
+  margin-top: 0;
 }
 
-.pie__redes a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  font-weight: 600;
+/* En el pie, al pasar el ratón el icono se invierte a crema. */
+.pie .red:hover {
+  background: var(--crema);
+  color: var(--bosque);
 }
 
 .pie__final {

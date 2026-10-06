@@ -362,19 +362,14 @@ figure {
   padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
 }
 
-/* Fondos de sección, con una regla: nunca dos fondos iguales seguidos.
-   - Crema (el fondo de la página) en la portada y en las secciones sobrias:
-     Bodas y Ceremonias.
-   - Las demás alternan kraft claro y rosa por orden: Celebraciones (kraft),
-     Preservadas (rosa), Nekane (kraft) y Contacto (rosa).
-   Kraft claro: tinta 10,7:1 · tinta-suave 5,7:1 · baya 5,6:1.
-   El rosa no aparece hasta la cuarta sección, lejos del rosa de la foto de
-   portada. */
+/* Fondos de sección: rosa y crema alternos de principio a fin.
+   - Rosa empolvado: Celebraciones, Preservadas y Contacto.
+   - Crema (el fondo de la página, sin regla propia): portada, Bodas, Nekane
+     y Ceremonias.
+   Ceremonias va al final, después de Contacto, para que la alternancia sea
+   perfecta y para que Nekane (confianza) enlace directamente con Contacto
+   (la llamada a la acción). */
 .celebraciones,
-.nekane {
-  background: var(--kraft-claro);
-}
-
 .preservadas,
 .contacto {
   background: var(--rosa);

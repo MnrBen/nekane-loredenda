@@ -11,6 +11,7 @@
    2. Menú móvil
    3. Galería deslizable (flechas superpuestas)
    4. Visor de fotos
+   5. Animaciones de entrada
    ========================================================================== */
 
 
@@ -254,5 +255,36 @@ document.querySelectorAll('.galeria__marco').forEach((marco) => {
   visor.addEventListener('close', () => {
     pista.innerHTML = '';
     origen?.focus();
+  });
+})();
+
+
+/* 5. Animaciones de entrada
+   --------------------------------------------------------------------------
+   Los bloques de cada sección aparecen con un fundido suave al entrar en
+   pantalla, escalonados dentro de su sección. Sin animación en la portada
+   (ya está a la vista al cargar) ni en Ceremonias (sección sobria).
+   Si la persona pide menos movimiento, o el navegador no tiene
+   IntersectionObserver, no se marca nada y todo se ve desde el principio.
+   ========================================================================== */
+(function iniciarAnimaciones() {
+  if (menosMovimiento.matches || !('IntersectionObserver' in window)) return;
+
+  const bloques = document.querySelectorAll('main > .seccion:not(.inicio):not(.ceremonias) > *');
+
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (!entrada.isIntersecting) return;
+      entrada.target.classList.add('es-visible');
+      observador.unobserve(entrada.target);   // solo la primera vez
+    });
+  }, { rootMargin: '0px 0px -10% 0px' });
+
+  bloques.forEach((bloque) => {
+    // Retraso según su posición dentro de la sección (máximo 0,24 s).
+    const posicion = [...bloque.parentElement.children].indexOf(bloque);
+    bloque.style.setProperty('--retraso', `${Math.min(posicion, 3) * 0.08}s`);
+    bloque.classList.add('revelar');
+    observador.observe(bloque);
   });
 })();

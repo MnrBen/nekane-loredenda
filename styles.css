@@ -197,6 +197,24 @@ figure {
 }
 
 
+/* Animaciones de entrada: main.js marca con .revelar los bloques de cada
+   sección y les añade .es-visible al entrar en pantalla. Solo con JS y solo
+   si la persona no ha pedido menos movimiento: sin JS no se oculta nada. */
+@media (prefers-reduced-motion: no-preference) {
+  .revelar {
+    opacity: 0;
+    translate: 0 1.5rem;
+    transition: opacity 0.7s ease, translate 0.7s ease;
+    transition-delay: var(--retraso, 0s);
+  }
+
+  .revelar.es-visible {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+
 /* 4. Componentes compartidos
    ========================================================================== */
 

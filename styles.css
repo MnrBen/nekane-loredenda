@@ -7,8 +7,11 @@
    1. Variables
    2. Base y reset
    3. Utilidades y accesibilidad
-   4. Componentes compartidos (botones, antetítulo, horario, reseña)
-   5. Secciones (cada una autocontenida, para poder pasar a página en la v2)
+   4. Componentes compartidos (botones, antetítulo, horario, reseña,
+      galería deslizable, botón de flecha y visor de fotos)
+   5. Secciones, en el orden de la página (cada una autocontenida, para poder
+      pasar a página en la v2): cabecera, inicio, celebraciones, bodas,
+      preservadas, nekane, contacto, ceremonias y pie
    ========================================================================== */
 
 
@@ -351,505 +354,7 @@ figure {
 }
 
 
-/* 5. Secciones
-   ========================================================================== */
-
-/* Contenedor común de sección: el fondo ocupa todo el ancho de la pantalla y
-   el contenido se limita con el relleno lateral (16 px en móvil; en pantallas
-   grandes, lo que sobre a cada lado del ancho máximo). */
-.seccion {
-  padding-block: var(--seccion);
-  padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
-}
-
-/* Fondos de sección: rosa y crema alternos de principio a fin.
-   - Rosa empolvado: Celebraciones, Preservadas y Contacto.
-   - Crema (el fondo de la página, sin regla propia): portada, Bodas, Nekane
-     y Ceremonias.
-   Ceremonias va al final, después de Contacto, para que la alternancia sea
-   perfecta y para que Nekane (confianza) enlace directamente con Contacto
-   (la llamada a la acción). */
-.celebraciones,
-.preservadas,
-.contacto {
-  background: var(--rosa);
-}
-
-/* --- Cabecera ------------------------------------------------------------ */
-.cabecera {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  gap: var(--esp-2);
-  min-height: var(--alto-cabecera);
-  padding: var(--esp-2) var(--margen);
-  background: var(--crema);
-  border-bottom: 1px solid var(--kraft-claro);
-}
-
-.cabecera__marca {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-2);
-  margin-right: auto;      /* empuja menú y botón a la derecha */
-  min-height: var(--toque);
-  text-decoration: none;
-}
-
-/* Recorte de la palmera dentro del logo cuadrado (1200 × 1200).
-   Caja medida de la palmera, con margen: x 300–912, y 85–810 (612 × 725 px).
-   Los márgenes en % se calculan sobre el ancho del contenedor, también los
-   verticales, así que el recorte se mantiene a cualquier tamaño:
-     ancho imagen = 1200 / 612 = 196,08 %
-     margen izq.  = -300 / 612 = -49,02 %
-     margen sup.  =  -85 / 612 = -13,89 % */
-.cabecera__simbolo {
-  flex: none;
-  width: 2.4rem;
-  aspect-ratio: 612 / 725;
-  overflow: hidden;
-}
-
-.cabecera__simbolo img {
-  width: 196.08%;
-  max-width: none;
-  margin: -13.89% 0 0 -49.02%;
-  /* El logo tiene fondo blanco: multiply lo funde con el crema de la cabecera
-     (blanco × crema = crema) sin tener que editar la imagen. */
-  mix-blend-mode: multiply;
-}
-
-.cabecera__nombre {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--fuente-titulos);
-  font-size: 1.25rem;
-  line-height: 1.1;
-}
-
-.cabecera__tipo {
-  font-family: var(--fuente-texto);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--tinta-suave);
-}
-
-/* Botones de la cabecera (Llamar y Menú): la misma altura, 44 px, que es la
-   zona táctil mínima; más compactos que los botones de contenido. */
-.cabecera__llamar,
-.cabecera__menu {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--esp-2);
-  height: 2.75rem;
-  border-radius: var(--radio);
-  font: 600 var(--texto-sm) / 1 var(--fuente-texto);
-  white-space: nowrap;
-  flex: none;   /* nunca se estrechan por debajo de su tamaño táctil */
-}
-
-/* Llamar: la acción principal de la web, siempre visible en la cabecera. */
-.cabecera__llamar {
-  /* Sin gap: "Llamar" y el número son un solo texto. El espacio antes del
-     punto es &nbsp; porque un espacio normal al inicio del span se perdería. */
-  gap: 0;
-  padding: 0 var(--esp-3);
-  font-size: 0.9375rem;   /* 15 px, uno más que el resto de la cabecera */
-  background: var(--baya);
-  color: var(--blanco);
-  text-decoration: none;
-}
-
-.cabecera__llamar:hover {
-  background: var(--baya-oscura);
-}
-
-/* Más ancho desde 384 px. Medido: a 360 px, con este relleno el nombre del
-   negocio se partía en dos líneas; por debajo de 384 px se queda en 12 px. */
-@media (min-width: 24em) {
-  .cabecera__llamar {
-    padding-inline: 1.125rem;
-  }
-}
-
-/* En móvil solo "Llamar"; el número aparece cuando hay sitio (desde tablet). */
-.cabecera__numero {
-  display: none;
-}
-
-/* Menú: solo las tres rayas, sin borde. El botón sigue midiendo 44 × 44
-   aunque no se vea su contorno, para que sea fácil de tocar. */
-.cabecera__menu {
-  width: 2.75rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--tinta);
-  cursor: pointer;
-}
-
-/* Icono de tres rayas dibujado con CSS. */
-.cabecera__icono {
-  position: relative;
-  width: 1.125rem;
-  height: 0.75rem;
-}
-
-.cabecera__icono span {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: currentColor;
-  transition: transform 0.2s ease, top 0.2s ease, opacity 0.2s ease;
-}
-
-.cabecera__icono span:nth-child(1) { top: 0; }
-.cabecera__icono span:nth-child(2) { top: calc(50% - 1px); }
-.cabecera__icono span:nth-child(3) { top: calc(100% - 2px); }
-
-/* Abierto: la raya central desaparece y las otras dos se cruzan en una X. */
-.cabecera__menu[aria-expanded="true"] .cabecera__icono span {
-  top: calc(50% - 1px);
-}
-.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(1) { transform: rotate(45deg); }
-.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(2) { opacity: 0; }
-.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(3) { transform: rotate(-45deg); }
-
-/* Panel del menú en móvil: plegado por defecto y desplegado cuando el botón
-   tiene aria-expanded="true" (el JS solo cambia ese atributo). */
-.menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  padding: var(--esp-2) var(--margen) var(--esp-5);
-  background: var(--crema);
-  border-bottom: 1px solid var(--kraft);
-  box-shadow: 0 12px 24px -16px rgb(46 43 38 / 0.35);
-}
-
-.cabecera__menu[aria-expanded="true"] + .menu {
-  display: block;
-}
-
-.menu__lista {
-  list-style: none;
-}
-
-.menu__lista a {
-  display: flex;
-  align-items: center;
-  min-height: var(--toque);
-  border-bottom: 1px solid var(--kraft-claro);
-  font-family: var(--fuente-titulos);
-  font-size: 1.375rem;
-  text-decoration: none;
-}
-
-/* Sin JavaScript el botón no haría nada: se oculta y el menú queda visible. */
-@media (scripting: none) {
-  .cabecera { flex-wrap: wrap; }
-  .cabecera__menu { display: none; }
-  .menu { display: block; position: static; width: 100%; padding: 0; box-shadow: none; border: 0; }
-}
-
-/* Desde tablet, el botón Llamar incluye el número. */
-@media (min-width: 48em) {
-  .cabecera__numero {
-    display: inline;
-  }
-}
-
-/* Escritorio: menú en línea, sin botón. Desde 64em (1024 px): medido,
-   nombre + seis enlaces + Llamar con número ocupan 958 px. */
-@media (min-width: 64em) {
-  .cabecera {
-    gap: var(--esp-5);
-    padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
-  }
-
-  .cabecera__menu {
-    display: none;
-  }
-
-  /* Los enlaces se colocan antes del botón Llamar. En el HTML van después
-     porque en móvil el panel tiene que seguir al botón Menú. */
-  .menu {
-    order: 1;
-  }
-
-  .cabecera__llamar {
-    order: 2;
-  }
-
-  .menu,
-  .cabecera__menu[aria-expanded="true"] + .menu {
-    display: block;
-    position: static;
-    padding: 0;
-    background: none;
-    border: 0;
-    box-shadow: none;
-  }
-
-  /* Separación que crece con la pantalla: a 1024 px el menú cabe con
-     holgura (medido) y en pantallas grandes respira más. */
-  .menu__lista {
-    display: flex;
-    gap: clamp(1rem, 2vw, 1.5rem);
-  }
-
-  .menu__lista a {
-    border: 0;
-    white-space: nowrap;
-    font-family: var(--fuente-texto);
-    font-size: 1rem;
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    transition: text-decoration-color 0.2s ease;
-  }
-
-  .menu__lista a:hover {
-    text-decoration-color: currentColor;
-  }
-}
-
-/* --- Inicio --------------------------------------------------------------- */
-
-/* Móvil: la foto ocupa toda la primera pantalla (menos la cabecera) y el
-   texto va encima, abajo, sobre un velo oscuro que garantiza que se lea.
-   La foto es un <img> del HTML colocado detrás con z-index, no un
-   background-image: así el navegador la descubre antes (es la imagen más
-   importante para la velocidad) y conserva su alt y sus medidas. */
-.inicio {
-  position: relative;
-  isolation: isolate;      /* el z-index negativo de la foto no se sale de aquí */
-  display: grid;
-  align-content: end;
-  min-height: calc(100svh - var(--alto-cabecera));
-  color: var(--crema);
-}
-
-.inicio__figura {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  margin: 0;
-}
-
-/* Para cambiar la foto de portada basta con tocar el HTML (src, width,
-   height y alt). Si el motivo no queda centrado, se ajusta --inicio-foco. */
-/* Posición absoluta también en escritorio: así la foto no empuja la altura
-   de la portada (medido: sin esto, cada foto daba una altura distinta). */
-.inicio__foto {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: var(--inicio-foco, center);
-}
-
-/* Velo oscuro de abajo arriba, que cubre el bloque de texto (con los botones
-   el texto ocupa más de la mitad de la foto en móvil). No es un degradado
-   decorativo: es lo que permite leer texto claro sobre una foto. */
-.inicio__figura::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top,
-    rgb(24 22 19 / 0.72) 0%,
-    rgb(24 22 19 / 0.55) 65%,
-    rgb(24 22 19 / 0.2) 100%);
-}
-
-/* Antetítulo en crema sobre la foto: es letra pequeña y en kraft no llegaba
-   al contraste mínimo. Lleva además una sombra ceñida a las letras porque,
-   a 360 px, queda encima de flores blancas (medido). */
-.inicio .antetitulo {
-  color: var(--crema);
-  text-shadow: 0 0 6px rgb(24 22 19 / 0.75), 0 0 2px rgb(24 22 19 / 0.6);
-}
-
-.inicio h1 em {
-  font-style: italic;
-  color: var(--kraft);
-}
-
-.inicio .entradilla {
-  margin-bottom: var(--esp-5);
-}
-
-/* Sobre la foto (móvil), el botón secundario va en crema. */
-.inicio .boton--secundario {
-  color: var(--crema);
-}
-
-/* Sombra muy difusa bajo el texto: con el velo más claro, asegura que el
-   antetítulo (letra pequeña) siga por encima del contraste mínimo. */
-.inicio__texto {
-  text-shadow: 0 1px 14px rgb(24 22 19 / 0.45);
-}
-
-/* Tablet y escritorio: texto sobre crema a la izquierda y la foto a la
-   derecha, dentro del ancho de la página, con un marco de línea fina
-   desplazado detrás. La foto no pasa de 28rem (448 px), muy por debajo de
-   su ancho real, así que se ve nítida. */
-@media (min-width: 48em) {
-  .inicio {
-    grid-template-columns: 1fr minmax(0, 22rem);
-    align-content: center;
-    align-items: center;
-    column-gap: var(--esp-7);
-    min-height: auto;
-    color: var(--tinta);
-  }
-
-  .inicio__figura {
-    position: relative;
-    inset: auto;
-    z-index: auto;
-    aspect-ratio: 4 / 5;
-  }
-
-  /* Marco desplazado hacia abajo y hacia la izquierda (hacia el texto), para
-     no salirse por el borde derecho de la pantalla. */
-  .inicio__figura::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border: 1px solid var(--tinta-suave);
-    transform: translate(calc(-1 * var(--esp-5)), var(--esp-5));
-  }
-
-  .inicio__figura::after {
-    content: none;    /* sin velo: el texto ya no va encima de la foto */
-  }
-
-  .inicio__texto {
-    text-shadow: none;
-  }
-
-  .inicio .antetitulo {
-    color: var(--tinta-suave);
-    text-shadow: none;
-  }
-
-  .inicio .boton--secundario {
-    color: var(--tinta);
-  }
-
-  .inicio h1 em {
-    color: var(--eucalipto-oscuro);   /* texto grande: 4,8:1 es suficiente */
-  }
-}
-
-@media (min-width: 64em) {
-  .inicio {
-    grid-template-columns: 1fr minmax(0, 28rem);
-    column-gap: var(--esp-8);
-  }
-}
-
-
-/* --- Bodas ---------------------------------------------------------------- */
-.bodas {
-  display: grid;
-  gap: var(--esp-6);
-}
-
-/* Composición principal: la novia en grande con un bloque eucalipto
-   desplazado detrás (da profundidad; la sombra no genera scroll horizontal),
-   y el tocado más pequeño sobre su esquina inferior derecha, con margen
-   crema y sombra suave, como un detalle que la acompaña. */
-.bodas__composicion {
-  position: relative;
-  padding-bottom: var(--esp-7);   /* hueco para que el detalle sobresalga */
-}
-
-.bodas__principal {
-  width: 84%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  box-shadow: calc(-1 * var(--esp-3)) var(--esp-3) 0 var(--eucalipto);
-}
-
-.bodas__detalle {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 42%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border: 6px solid var(--crema);
-  box-shadow: 0 14px 28px -14px rgb(46 43 38 / 0.5);
-}
-
-/* Lista de servicios numerada con un contador de CSS (01, 02, 03). */
-.bodas__servicios {
-  list-style: none;
-  counter-reset: servicio;
-}
-
-.bodas__servicios li {
-  counter-increment: servicio;
-  display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  column-gap: var(--esp-3);
-  padding-block: var(--esp-4);
-  border-top: 1px solid var(--kraft);
-}
-
-.bodas__servicios li::before {
-  content: counter(servicio, decimal-leading-zero);
-  grid-row: span 2;
-  font-family: var(--fuente-titulos);
-  font-style: italic;
-  font-size: var(--titulo-3);
-  line-height: 1.2;
-  color: var(--eucalipto-oscuro);
-}
-
-.bodas__servicios h3 {
-  margin-bottom: var(--esp-1);
-}
-
-.bodas__servicios p {
-  margin: 0;
-  color: var(--tinta-suave);
-}
-
-/* Tablet y escritorio: texto y servicios a la izquierda, foto a la derecha,
-   y la galería debajo a todo el ancho. */
-@media (min-width: 48em) {
-  .bodas {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "intro     composicion"
-      "servicios composicion"
-      "accion    composicion"
-      "galeria   galeria";
-    column-gap: var(--esp-7);
-    row-gap: var(--esp-5);
-  }
-
-  .bodas__intro      { grid-area: intro; align-self: end; }
-  .bodas__servicios  { grid-area: servicios; align-self: start; }
-  .bodas__accion     { grid-area: accion; align-self: start; }
-  .bodas__composicion { grid-area: composicion; align-self: center; }
-  .bodas .galeria__marco      { grid-area: galeria; }
-}
-
-
-/* --- Galería deslizable (Bodas) -------------------------------------------- */
+/* --- Galería deslizable --------------------------------------------------- */
 
 /* Móvil y tablet: fila horizontal que se desliza con el dedo y se detiene en
    cada foto (scroll-snap). Llega hasta los bordes de la pantalla y deja ver
@@ -1174,6 +679,417 @@ html:has(.visor[open]) {
 }
 
 
+/* 5. Secciones
+   ========================================================================== */
+
+/* Contenedor común de sección: el fondo ocupa todo el ancho de la pantalla y
+   el contenido se limita con el relleno lateral (16 px en móvil; en pantallas
+   grandes, lo que sobre a cada lado del ancho máximo). */
+.seccion {
+  padding-block: var(--seccion);
+  padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
+}
+
+/* Fondos de sección: rosa y crema alternos de principio a fin.
+   - Rosa empolvado: Celebraciones, Preservadas y Contacto.
+   - Crema (el fondo de la página, sin regla propia): portada, Bodas, Nekane
+     y Ceremonias.
+   Ceremonias va al final, después de Contacto, para que la alternancia sea
+   perfecta y para que Nekane (confianza) enlace directamente con Contacto
+   (la llamada a la acción). */
+.celebraciones,
+.preservadas,
+.contacto {
+  background: var(--rosa);
+}
+
+
+/* --- Cabecera ------------------------------------------------------------ */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--alto-cabecera);
+  padding: var(--esp-2) var(--margen);
+  background: var(--crema);
+  border-bottom: 1px solid var(--kraft-claro);
+}
+
+.cabecera__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  margin-right: auto;      /* empuja menú y botón a la derecha */
+  min-height: var(--toque);
+  text-decoration: none;
+}
+
+/* Recorte de la palmera dentro del logo cuadrado (1200 × 1200).
+   Caja medida de la palmera, con margen: x 300–912, y 85–810 (612 × 725 px).
+   Los márgenes en % se calculan sobre el ancho del contenedor, también los
+   verticales, así que el recorte se mantiene a cualquier tamaño:
+     ancho imagen = 1200 / 612 = 196,08 %
+     margen izq.  = -300 / 612 = -49,02 %
+     margen sup.  =  -85 / 612 = -13,89 % */
+.cabecera__simbolo {
+  flex: none;
+  width: 2.4rem;
+  aspect-ratio: 612 / 725;
+  overflow: hidden;
+}
+
+.cabecera__simbolo img {
+  width: 196.08%;
+  max-width: none;
+  margin: -13.89% 0 0 -49.02%;
+  /* El logo tiene fondo blanco: multiply lo funde con el crema de la cabecera
+     (blanco × crema = crema) sin tener que editar la imagen. */
+  mix-blend-mode: multiply;
+}
+
+.cabecera__nombre {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.cabecera__tipo {
+  font-family: var(--fuente-texto);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+/* Botones de la cabecera (Llamar y Menú): la misma altura, 44 px, que es la
+   zona táctil mínima; más compactos que los botones de contenido. */
+.cabecera__llamar,
+.cabecera__menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  height: 2.75rem;
+  border-radius: var(--radio);
+  font: 600 var(--texto-sm) / 1 var(--fuente-texto);
+  white-space: nowrap;
+  flex: none;   /* nunca se estrechan por debajo de su tamaño táctil */
+}
+
+/* Llamar: la acción principal de la web, siempre visible en la cabecera. */
+.cabecera__llamar {
+  /* Sin gap: "Llamar" y el número son un solo texto. El espacio antes del
+     punto es &nbsp; porque un espacio normal al inicio del span se perdería. */
+  gap: 0;
+  padding: 0 var(--esp-3);
+  font-size: 0.9375rem;   /* 15 px, uno más que el resto de la cabecera */
+  background: var(--baya);
+  color: var(--blanco);
+  text-decoration: none;
+}
+
+.cabecera__llamar:hover {
+  background: var(--baya-oscura);
+}
+
+/* Más ancho desde 384 px. Medido: a 360 px, con este relleno el nombre del
+   negocio se partía en dos líneas; por debajo de 384 px se queda en 12 px. */
+@media (min-width: 24em) {
+  .cabecera__llamar {
+    padding-inline: 1.125rem;
+  }
+}
+
+/* En móvil solo "Llamar"; el número aparece cuando hay sitio (desde tablet). */
+.cabecera__numero {
+  display: none;
+}
+
+/* Menú: solo las tres rayas, sin borde. El botón sigue midiendo 44 × 44
+   aunque no se vea su contorno, para que sea fácil de tocar. */
+.cabecera__menu {
+  width: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--tinta);
+  cursor: pointer;
+}
+
+/* Icono de tres rayas dibujado con CSS. */
+.cabecera__icono {
+  position: relative;
+  width: 1.125rem;
+  height: 0.75rem;
+}
+
+.cabecera__icono span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, top 0.2s ease, opacity 0.2s ease;
+}
+
+.cabecera__icono span:nth-child(1) { top: 0; }
+.cabecera__icono span:nth-child(2) { top: calc(50% - 1px); }
+.cabecera__icono span:nth-child(3) { top: calc(100% - 2px); }
+
+/* Abierto: la raya central desaparece y las otras dos se cruzan en una X. */
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span {
+  top: calc(50% - 1px);
+}
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(1) { transform: rotate(45deg); }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(2) { opacity: 0; }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(3) { transform: rotate(-45deg); }
+
+/* Panel del menú en móvil: plegado por defecto y desplegado cuando el botón
+   tiene aria-expanded="true" (el JS solo cambia ese atributo). */
+.menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: var(--esp-2) var(--margen) var(--esp-5);
+  background: var(--crema);
+  border-bottom: 1px solid var(--kraft);
+  box-shadow: 0 12px 24px -16px rgb(46 43 38 / 0.35);
+}
+
+.cabecera__menu[aria-expanded="true"] + .menu {
+  display: block;
+}
+
+.menu__lista {
+  list-style: none;
+}
+
+.menu__lista a {
+  display: flex;
+  align-items: center;
+  min-height: var(--toque);
+  border-bottom: 1px solid var(--kraft-claro);
+  font-family: var(--fuente-titulos);
+  font-size: 1.375rem;
+  text-decoration: none;
+}
+
+/* Sin JavaScript el botón no haría nada: se oculta y el menú queda visible. */
+@media (scripting: none) {
+  .cabecera { flex-wrap: wrap; }
+  .cabecera__menu { display: none; }
+  .menu { display: block; position: static; width: 100%; padding: 0; box-shadow: none; border: 0; }
+}
+
+/* Desde tablet, el botón Llamar incluye el número. */
+@media (min-width: 48em) {
+  .cabecera__numero {
+    display: inline;
+  }
+}
+
+/* Escritorio: menú en línea, sin botón. Desde 64em (1024 px): medido,
+   nombre + seis enlaces + Llamar con número ocupan 958 px. */
+@media (min-width: 64em) {
+  .cabecera {
+    gap: var(--esp-5);
+    padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
+  }
+
+  .cabecera__menu {
+    display: none;
+  }
+
+  /* Los enlaces se colocan antes del botón Llamar. En el HTML van después
+     porque en móvil el panel tiene que seguir al botón Menú. */
+  .menu {
+    order: 1;
+  }
+
+  .cabecera__llamar {
+    order: 2;
+  }
+
+  .menu,
+  .cabecera__menu[aria-expanded="true"] + .menu {
+    display: block;
+    position: static;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* Separación que crece con la pantalla: a 1024 px el menú cabe con
+     holgura (medido) y en pantallas grandes respira más. */
+  .menu__lista {
+    display: flex;
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .menu__lista a {
+    border: 0;
+    white-space: nowrap;
+    font-family: var(--fuente-texto);
+    font-size: 1rem;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .menu__lista a:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+
+/* --- Inicio --------------------------------------------------------------- */
+
+/* Móvil: la foto ocupa toda la primera pantalla (menos la cabecera) y el
+   texto va encima, abajo, sobre un velo oscuro que garantiza que se lea.
+   La foto es un <img> del HTML colocado detrás con z-index, no un
+   background-image: así el navegador la descubre antes (es la imagen más
+   importante para la velocidad) y conserva su alt y sus medidas. */
+.inicio {
+  position: relative;
+  isolation: isolate;      /* el z-index negativo de la foto no se sale de aquí */
+  display: grid;
+  align-content: end;
+  min-height: calc(100svh - var(--alto-cabecera));
+  color: var(--crema);
+}
+
+.inicio__figura {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: 0;
+}
+
+/* Para cambiar la foto de portada basta con tocar el HTML (src, width,
+   height y alt). Si el motivo no queda centrado, se ajusta --inicio-foco. */
+/* Posición absoluta también en escritorio: así la foto no empuja la altura
+   de la portada (medido: sin esto, cada foto daba una altura distinta). */
+.inicio__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--inicio-foco, center);
+}
+
+/* Velo oscuro de abajo arriba, que cubre el bloque de texto (con los botones
+   el texto ocupa más de la mitad de la foto en móvil). No es un degradado
+   decorativo: es lo que permite leer texto claro sobre una foto. */
+.inicio__figura::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgb(24 22 19 / 0.72) 0%,
+    rgb(24 22 19 / 0.55) 65%,
+    rgb(24 22 19 / 0.2) 100%);
+}
+
+/* Antetítulo en crema sobre la foto: es letra pequeña y en kraft no llegaba
+   al contraste mínimo. Lleva además una sombra ceñida a las letras porque,
+   a 360 px, queda encima de flores blancas (medido). */
+.inicio .antetitulo {
+  color: var(--crema);
+  text-shadow: 0 0 6px rgb(24 22 19 / 0.75), 0 0 2px rgb(24 22 19 / 0.6);
+}
+
+.inicio h1 em {
+  font-style: italic;
+  color: var(--kraft);
+}
+
+.inicio .entradilla {
+  margin-bottom: var(--esp-5);
+}
+
+/* Sobre la foto (móvil), el botón secundario va en crema. */
+.inicio .boton--secundario {
+  color: var(--crema);
+}
+
+/* Sombra muy difusa bajo el texto: con el velo más claro, asegura que el
+   antetítulo (letra pequeña) siga por encima del contraste mínimo. */
+.inicio__texto {
+  text-shadow: 0 1px 14px rgb(24 22 19 / 0.45);
+}
+
+/* Tablet y escritorio: texto sobre crema a la izquierda y la foto a la
+   derecha, dentro del ancho de la página, con un marco de línea fina
+   desplazado detrás. La foto no pasa de 28rem (448 px), muy por debajo de
+   su ancho real, así que se ve nítida. */
+@media (min-width: 48em) {
+  .inicio {
+    grid-template-columns: 1fr minmax(0, 22rem);
+    align-content: center;
+    align-items: center;
+    column-gap: var(--esp-7);
+    min-height: auto;
+    color: var(--tinta);
+  }
+
+  .inicio__figura {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    aspect-ratio: 4 / 5;
+  }
+
+  /* Marco desplazado hacia abajo y hacia la izquierda (hacia el texto), para
+     no salirse por el borde derecho de la pantalla. */
+  .inicio__figura::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--tinta-suave);
+    transform: translate(calc(-1 * var(--esp-5)), var(--esp-5));
+  }
+
+  .inicio__figura::after {
+    content: none;    /* sin velo: el texto ya no va encima de la foto */
+  }
+
+  .inicio__texto {
+    text-shadow: none;
+  }
+
+  .inicio .antetitulo {
+    color: var(--tinta-suave);
+    text-shadow: none;
+  }
+
+  .inicio .boton--secundario {
+    color: var(--tinta);
+  }
+
+  .inicio h1 em {
+    color: var(--eucalipto-oscuro);   /* texto grande: 4,8:1 es suficiente */
+  }
+}
+
+@media (min-width: 64em) {
+  .inicio {
+    grid-template-columns: 1fr minmax(0, 28rem);
+    column-gap: var(--esp-8);
+  }
+}
+
+
 /* --- Celebraciones y encargos -------------------------------------------- */
 
 /* Composición de fotos como copias impresas dejadas sobre la mesa: un ramo
@@ -1288,6 +1204,95 @@ html:has(.visor[open]) {
     align-items: center;
     gap: var(--esp-8);
   }
+}
+
+
+/* --- Bodas ---------------------------------------------------------------- */
+.bodas {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+/* Composición principal: la novia en grande con un bloque eucalipto
+   desplazado detrás (da profundidad; la sombra no genera scroll horizontal),
+   y el tocado más pequeño sobre su esquina inferior derecha, con margen
+   crema y sombra suave, como un detalle que la acompaña. */
+.bodas__composicion {
+  position: relative;
+  padding-bottom: var(--esp-7);   /* hueco para que el detalle sobresalga */
+}
+
+.bodas__principal {
+  width: 84%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  box-shadow: calc(-1 * var(--esp-3)) var(--esp-3) 0 var(--eucalipto);
+}
+
+.bodas__detalle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 6px solid var(--crema);
+  box-shadow: 0 14px 28px -14px rgb(46 43 38 / 0.5);
+}
+
+/* Lista de servicios numerada con un contador de CSS (01, 02, 03). */
+.bodas__servicios {
+  list-style: none;
+  counter-reset: servicio;
+}
+
+.bodas__servicios li {
+  counter-increment: servicio;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--esp-3);
+  padding-block: var(--esp-4);
+  border-top: 1px solid var(--kraft);
+}
+
+.bodas__servicios li::before {
+  content: counter(servicio, decimal-leading-zero);
+  grid-row: span 2;
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--titulo-3);
+  line-height: 1.2;
+  color: var(--eucalipto-oscuro);
+}
+
+.bodas__servicios h3 {
+  margin-bottom: var(--esp-1);
+}
+
+.bodas__servicios p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+/* Tablet y escritorio: texto y servicios a la izquierda, foto a la derecha,
+   y la galería debajo a todo el ancho. */
+@media (min-width: 48em) {
+  .bodas {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "intro     composicion"
+      "servicios composicion"
+      "accion    composicion"
+      "galeria   galeria";
+    column-gap: var(--esp-7);
+    row-gap: var(--esp-5);
+  }
+
+  .bodas__intro      { grid-area: intro; align-self: end; }
+  .bodas__servicios  { grid-area: servicios; align-self: start; }
+  .bodas__accion     { grid-area: accion; align-self: start; }
+  .bodas__composicion { grid-area: composicion; align-self: center; }
+  .bodas .galeria__marco      { grid-area: galeria; }
 }
 
 
@@ -1436,57 +1441,6 @@ html:has(.visor[open]) {
 }
 
 
-/* --- Ceremonias ----------------------------------------------------------- */
-
-/* Franja corta y sobria: fondo crema, sin color de acento, sin efectos ni
-   animaciones. Las fotos no son enlaces. */
-.ceremonias {
-  display: grid;
-  gap: var(--esp-5);
-}
-
-.ceremonias__texto p:last-child {
-  margin-bottom: 0;
-}
-
-/* Tanatorios en una línea discreta, con el teléfono a mano. */
-.ceremonias__nota {
-  font-size: var(--texto-sm);
-  color: var(--tinta-suave);
-}
-
-/* Zona táctil de 44 px con relleno vertical compensado por margen negativo:
-   se toca igual de bien pero no separa las líneas del párrafo. */
-.ceremonias__nota a {
-  display: inline-block;
-  padding-block: 0.75rem;
-  margin-block: -0.75rem;
-  font-weight: 600;
-  color: var(--tinta);
-}
-
-.ceremonias__fotos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--esp-2);
-}
-
-.ceremonias__fotos img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-
-/* Escritorio: texto a la izquierda y las dos fotos a la derecha. */
-@media (min-width: 64em) {
-  .ceremonias {
-    grid-template-columns: 1fr 1.2fr;
-    align-items: center;
-    column-gap: var(--esp-8);
-  }
-}
-
-
 /* --- Contacto: pide o visítanos ------------------------------------------- */
 .contacto {
   display: grid;
@@ -1596,6 +1550,57 @@ html:has(.visor[open]) {
   .contacto__mapa iframe {
     aspect-ratio: auto;
     min-height: 28rem;
+  }
+}
+
+
+/* --- Ceremonias ----------------------------------------------------------- */
+
+/* Franja corta y sobria: fondo crema, sin color de acento, sin efectos ni
+   animaciones. Las fotos no son enlaces. */
+.ceremonias {
+  display: grid;
+  gap: var(--esp-5);
+}
+
+.ceremonias__texto p:last-child {
+  margin-bottom: 0;
+}
+
+/* Tanatorios en una línea discreta, con el teléfono a mano. */
+.ceremonias__nota {
+  font-size: var(--texto-sm);
+  color: var(--tinta-suave);
+}
+
+/* Zona táctil de 44 px con relleno vertical compensado por margen negativo:
+   se toca igual de bien pero no separa las líneas del párrafo. */
+.ceremonias__nota a {
+  display: inline-block;
+  padding-block: 0.75rem;
+  margin-block: -0.75rem;
+  font-weight: 600;
+  color: var(--tinta);
+}
+
+.ceremonias__fotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-2);
+}
+
+.ceremonias__fotos img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* Escritorio: texto a la izquierda y las dos fotos a la derecha. */
+@media (min-width: 64em) {
+  .ceremonias {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    column-gap: var(--esp-8);
   }
 }
 

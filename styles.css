@@ -1498,7 +1498,7 @@ html:has(.visor[open]) {
 }
 
 .contacto__datos h2 {
-  margin-bottom: var(--esp-5);
+  margin-bottom: var(--esp-4);
 }
 
 /* Botón grande de llamada: la acción final de la página. A todo el ancho en
@@ -1509,74 +1509,35 @@ html:has(.visor[open]) {
   font-size: var(--texto-lg);
 }
 
-/* Formas de pedir: tres iconos con su texto en una fila, entre el título y
-   el botón de llamada. Sustituye a la lista "Cómo pedir", más larga. */
-.formas {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--esp-3);
-  margin-bottom: var(--esp-5);
-  font-size: var(--texto-sm);
-  line-height: 1.35;
-  text-align: center;
-}
-
-.formas li {
-  display: grid;
-  justify-items: center;
-  align-content: start;
-  gap: var(--esp-2);
-}
-
-.formas svg {
-  box-sizing: content-box;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: var(--esp-3);
-  border-radius: 50%;
-  background: var(--crema);
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Desde tablet, cada forma en línea: icono a la izquierda y texto al lado. */
-@media (min-width: 48em) {
-  .formas {
-    text-align: left;
-  }
-
-  .formas li {
-    grid-auto-flow: column;
-    justify-content: start;
-    align-items: center;
-  }
-}
-
-/* Cómo pedir: pasos numerados como los servicios de Bodas. */
+/* Cómo pedir: pasos numerados como los servicios de Bodas, más compactos
+   (va entre el título y el botón, y no debe empujar el botón muy abajo). */
 .pedir {
   list-style: none;
   counter-reset: paso;
+  margin-bottom: var(--esp-5);
+  line-height: 1.45;
 }
 
 .pedir li {
   counter-increment: paso;
   display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  column-gap: var(--esp-3);
-  padding-block: var(--esp-3);
+  grid-template-columns: 2.25rem 1fr;
+  align-items: baseline;
+  column-gap: var(--esp-2);
+  padding-block: var(--esp-2);
   border-top: 1px solid var(--kraft);
+}
+
+.pedir li:last-child {
+  border-bottom: 1px solid var(--kraft);
 }
 
 .pedir li::before {
   content: counter(paso, decimal-leading-zero);
   font-family: var(--fuente-titulos);
   font-style: italic;
-  font-size: var(--titulo-3);
-  line-height: 1.2;
+  font-size: 1.25rem;
+  line-height: 1;
   color: var(--eucalipto-oscuro);   /* texto grande: 4,3:1 sobre rosa basta */
 }
 

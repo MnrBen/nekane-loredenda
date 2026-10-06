@@ -306,22 +306,15 @@
         <p class="antetitulo">Pide o visítanos</p>
         <h2 id="contacto-titulo">Pide tus flores</h2>
 
-        <!-- Formas de pedir: lo mismo que antes era la lista "Cómo pedir", en
-             una sola fila visual. -->
-        <ul class="formas" aria-label="Cómo pedir">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Por teléfono</li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16M4 9.5c0 1.4 1.1 2.5 2.6 2.5s2.7-1.1 2.7-2.5c0 1.4 1.2 2.5 2.7 2.5s2.7-1.1 2.7-2.5c0 1.4 1.1 2.5 2.6 2.5S20 10.9 20 9.5M5.5 12v8h13v-8M10 20v-5h4v5"/></svg>En la tienda</li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 11 12 4l8.5 7M6 9.3V20h12V9.3"/><path d="M12 17.4l-2.2-2.1a1.35 1.35 0 0 1 2.2-1.6 1.35 1.35 0 0 1 2.2 1.6z"/></svg>Entrega a domicilio y en otras localidades</li>
-        </ul>
-
-        <a class="boton boton--llamar boton--grande" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Llamar al 687 86 56 77</a>
-
-        <h3>Cómo pedir</h3>
-        <ol class="pedir">
+        <!-- Cómo pedir, entre el título y el botón de llamada. El título
+             "Pide tus flores" ya la presenta: el nombre queda en aria-label. -->
+        <ol class="pedir" aria-label="Cómo pedir">
           <li>Llámanos o pásate por la tienda.</li>
           <li>Cuéntanos para quién es, la ocasión y lo que te gusta.</li>
           <li>Hacemos entrega a domicilio y también en otras localidades.</li>
         </ol>
+
+        <a class="boton boton--llamar boton--grande" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Llamar al 687 86 56 77</a>
 
         <h3>Horario</h3>
         <dl class="horario">

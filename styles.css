@@ -1556,6 +1556,30 @@ html:has(.visor[open]) {
   }
 }
 
+/* Cómo pedir: pasos numerados como los servicios de Bodas. */
+.pedir {
+  list-style: none;
+  counter-reset: paso;
+}
+
+.pedir li {
+  counter-increment: paso;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--esp-3);
+  padding-block: var(--esp-3);
+  border-top: 1px solid var(--kraft);
+}
+
+.pedir li::before {
+  content: counter(paso, decimal-leading-zero);
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--titulo-3);
+  line-height: 1.2;
+  color: var(--eucalipto-oscuro);   /* texto grande: 4,3:1 sobre rosa basta */
+}
+
 .contacto__direccion p {
   margin-bottom: var(--esp-2);
 }

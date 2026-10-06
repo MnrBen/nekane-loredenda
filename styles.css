@@ -237,7 +237,7 @@ figure {
 }
 
 /* Botón de llamada al final de un texto de sección. */
-.nekane__texto .boton {
+.nekane__texto .acciones {
   margin-top: var(--esp-2);
 }
 

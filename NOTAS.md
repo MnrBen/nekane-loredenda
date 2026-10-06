@@ -47,6 +47,16 @@ floristería (probablemente del propietario anterior).
 
 `corona-floral3` se ha eliminado de la carpeta: no aporta y no se va a usar.
 
+## Accesibilidad y comportamiento (comprobado al cerrar la fase 1)
+
+- El mapa de Google gestiona su propio foco de teclado: al tabular, el foco
+  entra en sus controles ("Abrir en Maps", etc.) y Google los resalta. La web
+  no puede detectar ese foco con CSS porque está dentro del iframe.
+- Animaciones de entrada solo con JS y sin preferencia de movimiento
+  reducido; sin JS o con movimiento reducido todo se ve desde el principio.
+- Si se cambia la foto de portada, volver a medir el contraste del texto
+  sobre la foto en móvil (se midió con `flores-deco5`).
+
 ## Estructura de la fase 2
 
 - Irá en `/v2/`, sin tocar la one-page (tag `onepage-v1`).

@@ -1040,6 +1040,11 @@ html:has(.visor[open]) {
   color: var(--crema);
 }
 
+/* Sobre la foto, el contorno de foco burdeos apenas se vería: va en crema. */
+.inicio :focus-visible {
+  outline-color: var(--crema);
+}
+
 /* Sombra muy difusa bajo el texto: con el velo más claro, asegura que el
    antetítulo (letra pequeña) siga por encima del contraste mínimo. */
 .inicio__texto {
@@ -1093,6 +1098,10 @@ html:has(.visor[open]) {
 
   .inicio .boton--secundario {
     color: var(--tinta);
+  }
+
+  .inicio :focus-visible {
+    outline-color: var(--baya);
   }
 
   .inicio h1 em {

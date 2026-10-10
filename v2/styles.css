@@ -1464,8 +1464,8 @@ html:has(.visor[open]) {
   }
 }
 
-/* Más ramos: galería deslizable; en escritorio, tres columnas con la del
-   centro más baja (en vez de las cinco de la one-page: aquí hay seis fotos). */
+/* Más ramos: la galería deslizable de siempre (en escritorio, cinco fotos a
+   alturas alternas, como en la one-page). */
 .mas-ramos {
   display: grid;
   gap: var(--esp-5);
@@ -1474,20 +1474,6 @@ html:has(.visor[open]) {
 .mas-ramos__accion {
   display: flex;
   justify-content: center;
-}
-
-@media (min-width: 64em) {
-  .mas-ramos .galeria {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .mas-ramos .galeria li:nth-child(even) {
-    margin-top: 0;
-  }
-
-  .mas-ramos .galeria li:nth-child(3n + 2) {
-    margin-top: var(--esp-7);
-  }
 }
 
 

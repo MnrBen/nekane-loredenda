@@ -82,13 +82,13 @@
         </div>
       </div>
 
-      <figure class="inicio__figura">
+      <figure class="inicio__figura inicio__figura--cuadrada">
         <!-- Primera imagen visible: sin loading="lazy" y con prioridad alta.
-             Distinta de la del adelanto de Bodas del Inicio (ramo-boda8), para
-             que al entrar se note que es otra página. Fondo de hojas oscuras:
-             permite un velo más suave (contraste del texto medido). -->
-        <img class="inicio__foto inicio__foto--ramos" src="../imagenes/ramo-boda7.webp" width="925" height="925" fetchpriority="high"
-             alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
+             Encuadre abierto para que se vea el ramo: en móvil, desplazado a
+             la izquierda; en escritorio, marco cuadrado con la foto entera.
+             Contraste del texto medido sobre la foto con el velo suave. -->
+        <img class="inicio__foto inicio__foto--novia" src="../imagenes/ramo-boda8.webp" width="922" height="925" fetchpriority="high"
+             alt="Novia de espaldas, con velo y un ramo de flores rosas y blancas, en una calle con pétalos en el suelo">
       </figure>
     </section>
 
@@ -109,8 +109,8 @@
             <h3>Ramo de novia</h3>
             <p>Con las flores que elijas, pensado para ti y para tu día.</p>
           </div>
-          <img class="ramo-bloque__foto" src="../imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
-               alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
+          <img class="ramo-bloque__foto" src="../imagenes/ramo-boda7.webp" width="925" height="925" loading="lazy"
+               alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
         </li>
 
         <li class="ramo-bloque">
@@ -148,6 +148,10 @@
            abre el visor; flechas superpuestas que aparecen según la posición. -->
       <div class="galeria__marco">
         <ul class="galeria" id="galeria-bodas" aria-label="Más fotos de bodas">
+            <li><a class="galeria__enlace" href="../imagenes/ramo-boda5.webp">
+              <img src="../imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
+                   alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
+            </a></li>
             <li><a class="galeria__enlace" href="../imagenes/ramo-boda6.webp">
               <img src="../imagenes/ramo-boda6.webp" width="635" height="635" loading="lazy"
                    alt="Pareja de novios en el campo; la novia sostiene un ramo redondo de flores blancas y rosa pálido">
@@ -163,10 +167,6 @@
             <li><a class="galeria__enlace" href="../imagenes/ramo-boda4.webp">
               <img src="../imagenes/ramo-boda4.webp" width="694" height="929" loading="lazy"
                    alt="Ramo de novia de peonías, rosas y eucalipto tumbado sobre una colcha blanca">
-            </a></li>
-            <li><a class="galeria__enlace" href="../imagenes/ramo-boda8.webp">
-              <img src="../imagenes/ramo-boda8.webp" width="922" height="925" loading="lazy"
-                   alt="Novia de espaldas, con velo y un ramo de flores rosas y blancas, en una calle con pétalos en el suelo">
             </a></li>
         </ul>
         <button class="flecha flecha--anterior galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior" hidden>

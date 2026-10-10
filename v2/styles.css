@@ -1387,23 +1387,6 @@ html:has(.visor[open]) {
   }
 }
 
-/* Cabecera de Bodas: encuadre más abierto para que se vea el ramo. En móvil
-   el recorte se desplaza a la izquierda (el ramo está a ese lado); en
-   escritorio el marco es cuadrado, como la foto, y se ve entera. */
-.inicio__foto--novia {
-  --inicio-foco: 25% center;
-}
-
-@media (min-width: 48em) {
-  .inicio__figura--cuadrada {
-    aspect-ratio: 1;
-  }
-
-  .inicio__foto--novia {
-    --inicio-foco: center;
-  }
-}
-
 /* Lo que prepara Nekane: tres bloques numerados (01, 02, 03). */
 .ramos-novia {
   display: grid;

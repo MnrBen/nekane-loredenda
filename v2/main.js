@@ -269,14 +269,25 @@ document.querySelectorAll('.galeria__marco').forEach((marco) => {
    --------------------------------------------------------------------------
    Los bloques de cada sección aparecen con un fundido suave al entrar en
    pantalla, escalonados dentro de su sección. Sin animación en la portada
-   (ya está a la vista al cargar) ni en Ceremonias (sección sobria).
+   (ya está a la vista al cargar).
    Si la persona pide menos movimiento, o el navegador no tiene
    IntersectionObserver, no se marca nada y todo se ve desde el principio.
    ========================================================================== */
 (function iniciarAnimaciones() {
   if (menosMovimiento.matches || !('IntersectionObserver' in window)) return;
 
-  const bloques = document.querySelectorAll('main > .seccion:not(.inicio):not(.ceremonias) > *');
+  const bloques = document.querySelectorAll('main > .seccion:not(.inicio) > *');
+
+  // Si se llega con un destino en la dirección (contacto.html#donde), el
+  // bloque que lo contiene no se anima: el navegador salta al destino
+  // mientras el bloque aún está desplazado y, al colocarse, el destino
+  // quedaría bajo la cabecera.
+  let destino = null;
+  try {
+    destino = location.hash ? document.querySelector(location.hash) : null;
+  } catch {
+    destino = null;   // un hash que no es un selector válido (#preservadas, etc.)
+  }
 
   const observador = new IntersectionObserver((entradas) => {
     entradas.forEach((entrada) => {
@@ -287,6 +298,7 @@ document.querySelectorAll('.galeria__marco').forEach((marco) => {
   }, { rootMargin: '0px 0px -10% 0px' });
 
   bloques.forEach((bloque) => {
+    if (destino && bloque.contains(destino)) return;
     // Retraso según su posición dentro de la sección (máximo 0,24 s).
     const posicion = [...bloque.parentElement.children].indexOf(bloque);
     bloque.style.setProperty('--retraso', `${Math.min(posicion, 3) * 0.08}s`);

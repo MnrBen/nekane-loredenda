@@ -64,12 +64,66 @@
   </header>
 
   <main id="contenido">
-    <!-- PENDIENTE (fase 2, paso 5): contenido de la página. -->
-    <section class="seccion" aria-labelledby="pagina-titulo">
-      <p class="antetitulo">Pide o visítanos</p>
-      <h1 id="pagina-titulo">Contacto</h1>
-      <p>Contenido en preparación.</p>
+
+    <!-- ============================ CONTACTO: PIDE O VISÍTANOS ============================ -->
+    <!-- Misma sección de Contacto que la one-page, como página: título h1,
+         mapa más grande y la línea de tanatorios al final. -->
+    <section class="seccion contacto contacto--pagina" id="contacto" aria-labelledby="contacto-titulo">
+      <div class="contacto__datos">
+        <p class="antetitulo">Pide o visítanos</p>
+        <h1 id="contacto-titulo">Pide tus flores</h1>
+
+        <!-- Cómo pedir, entre el título y el botón de llamada. El título
+             "Pide tus flores" ya la presenta: el nombre queda en aria-label. -->
+        <ol class="pedir" aria-label="Cómo pedir">
+          <li>Llámanos o pásate por la tienda.</li>
+          <li>Cuéntanos para quién es, la ocasión y lo que te gusta.</li>
+          <li>Hacemos entrega a domicilio y también en otras localidades.</li>
+        </ol>
+
+        <a class="boton boton--llamar boton--grande" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Llamar al 687 86 56 77</a>
+
+        <!-- h2 (no h3): en esta página el título principal es el h1. -->
+        <h2 class="contacto__subtitulo">Horario</h2>
+        <dl class="horario">
+          <div><dt>Lunes a viernes</dt><dd>9:15–13:30 y 17:00–19:30</dd></div>
+          <div><dt>Sábado</dt><dd>9:15–13:30</dd></div>
+          <div><dt>Domingo</dt><dd>Cerrado</dd></div>
+        </dl>
+
+        <!-- Destino de los botones "Cómo llegar" de las demás páginas. -->
+        <h2 class="contacto__subtitulo" id="donde">Dónde estamos</h2>
+        <address class="contacto__direccion">
+          <p>
+            Floristería Nekane Loreak<br>
+            Fernandez de Landa Plaza, 1<br>
+            20100 Errenteria, Gipuzkoa
+          </p>
+          <p><a href="mailto:nekanedenda@hotmail.es">nekanedenda@hotmail.es</a></p>
+        </address>
+
+        <ul class="redes">
+          <li><a class="red" href="https://www.instagram.com/loradendanekane/?hl=es" rel="noopener" target="_blank" aria-label="Instagram (se abre en otra pestaña)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg></a></li>
+          <li><a class="red" href="https://www.facebook.com/FloristeriaNekaneIrazu/?locale=es_ES" rel="noopener" target="_blank" aria-label="Facebook (se abre en otra pestaña)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="relleno" d="M14 22v-8h2.8l.45-3.3H14V8.6c0-.95.27-1.6 1.63-1.6h1.74V4.05A23 23 0 0 0 14.84 3.9c-2.5 0-4.2 1.52-4.2 4.32v2.48H7.8V14h2.84v8z"/></svg></a></li>
+        </ul>
+      </div>
+
+      <div class="contacto__mapa">
+        <!-- referrerpolicy: solo se envía el origen de la web a Google, no la URL completa. -->
+        <iframe
+          src="https://www.google.com/maps?q=Fernandez%20de%20Landa%20Plaza%2C%201%2C%2020100%20Errenteria%2C%20Gipuzkoa&amp;output=embed"
+          width="600" height="450" loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Mapa de Google con la ubicación de Floristería Nekane Loreak en Fernandez de Landa Plaza, 1, Errenteria"></iframe>
+      </div>
+
+      <!-- Tanatorios: una línea discreta al final, con el teléfono a mano. -->
+      <p class="contacto__nota">
+        También preparamos ramos y arreglos florales para tanatorios:
+        <a href="tel:+34687865677">687 86 56 77</a>
+      </p>
     </section>
+
   </main>
 
   <!-- ============================ PIE ============================ -->

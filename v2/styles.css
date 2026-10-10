@@ -720,7 +720,8 @@ html:has(.visor[open]) {
    (la llamada a la acción). */
 .celebraciones,
 .preservadas,
-.contacto {
+.contacto,
+.llamada-final {
   background: var(--rosa);
 }
 
@@ -964,7 +965,12 @@ html:has(.visor[open]) {
     gap: clamp(1rem, 2vw, 1.5rem);
   }
 
+  /* Un poco de relleno lateral: "Inicio" es corto y sin él no llegaba a los
+     44 px de ancho de zona pulsable (medido: 39 px). */
   .menu__lista a {
+    justify-content: center;
+    min-width: 2.75rem;
+    padding-inline: var(--esp-1);
     border: 0;
     white-space: nowrap;
     font-family: var(--fuente-texto);
@@ -1342,6 +1348,19 @@ html:has(.visor[open]) {
 }
 
 
+/* Adelanto de Bodas en el Inicio de la v2: texto y botón a la izquierda,
+   composición a la derecha (sin servicios ni galería, que están en
+   bodas.html). */
+@media (min-width: 48em) {
+  .bodas--adelanto {
+    grid-template-areas:
+      "intro  composicion"
+      "accion composicion";
+    align-content: center;
+  }
+}
+
+
 /* --- Flores preservadas -------------------------------------------------- */
 
 /* Las fotos tienen fondo negro: sobre el rosa claro se ven como cuadros
@@ -1349,6 +1368,11 @@ html:has(.visor[open]) {
 .preservadas {
   display: grid;
   gap: var(--esp-6);
+}
+
+/* Enlace a la galería al final del texto. */
+.preservadas__texto .boton {
+  margin-top: var(--esp-2);
 }
 
 /* Mosaico. Móvil: cuadrícula de 2 × 2 (la quinta foto se reserva para
@@ -1647,6 +1671,41 @@ html:has(.visor[open]) {
     grid-template-columns: 1fr 1.2fr;
     align-items: center;
     column-gap: var(--esp-8);
+  }
+}
+
+
+/* --- Llamada final (Inicio de la v2) --------------------------------------- */
+
+/* Cierre del Inicio: título, dirección y horario en dos líneas, y las dos
+   acciones (llamar y cómo llegar), centrado. */
+.llamada-final {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.llamada-final .antetitulo {
+  justify-content: center;
+}
+
+.llamada-final p {
+  margin-inline: auto;
+  margin-bottom: var(--esp-5);
+  color: var(--tinta-suave);
+}
+
+/* Móvil: las dos acciones apiladas a todo el ancho; desde tablet, en línea. */
+.llamada-final .acciones {
+  flex-direction: column;
+  align-self: stretch;
+}
+
+@media (min-width: 48em) {
+  .llamada-final .acciones {
+    flex-direction: row;
+    justify-content: center;
+    align-self: auto;
   }
 }
 

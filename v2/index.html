@@ -77,7 +77,7 @@
         </p>
         <div class="acciones">
           <a class="boton boton--llamar" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Pide tus flores<span class="oculto"> (llamar al 687 86 56 77)</span></a>
-          <a class="boton boton--secundario" href="#contacto">Encuéntranos</a>
+          <a class="boton boton--secundario" href="contacto.html">Encuéntranos</a>
         </div>
       </div>
 
@@ -126,8 +126,10 @@
       </div>
     </section>
 
-    <!-- ============================ BODAS ============================ -->
-    <section class="seccion bodas" id="bodas" aria-labelledby="bodas-titulo">
+    <!-- ============================ BODAS (adelanto) ============================ -->
+    <!-- En la v2 el Inicio solo adelanta Bodas: los servicios y la galería
+         completa están en bodas.html. -->
+    <section class="seccion bodas bodas--adelanto" id="bodas" aria-labelledby="bodas-titulo">
       <div class="bodas__intro">
         <p class="antetitulo">Bodas</p>
         <h2 id="bodas-titulo">Tu ramo de novia, pensado contigo</h2>
@@ -146,61 +148,8 @@
              alt="Tocado de flores secas blancas y rosas en un recogido de pelo">
       </div>
 
-      <ul class="bodas__servicios">
-        <li>
-          <h3>Ramo de novia</h3>
-          <p>Con las flores que elijas, pensado para ti y para tu día.</p>
-        </li>
-        <li>
-          <h3>Ramo de novia preservado</h3>
-          <p>Flores preservadas para guardar tu ramo como recuerdo de la boda.</p>
-        </li>
-        <li>
-          <h3>Otros elementos florales</h3>
-          <p>Además del ramo, Nekane prepara otros elementos florales para la boda.</p>
-        </li>
-      </ul>
-
       <div class="bodas__accion">
-        <a class="boton boton--llamar" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Cuéntanos tu boda<span class="oculto"> (llamar al 687 86 56 77)</span></a>
-      </div>
-
-      <!-- Galería deslizable. Cada foto es un enlace a la imagen: sin JS abre
-           la foto; con JS, main.js la muestra en el visor leyendo el href (no
-           hay rutas de imagen en main.js, así sirve igual en /v2/).
-           Flechas superpuestas a media altura de la foto: al principio solo
-           se ve la de la derecha; al deslizar aparece la de la izquierda, y al
-           llegar al final desaparece la de la derecha. Llevan hidden porque
-           sin JS no harían nada (con el dedo se desliza igual). -->
-      <div class="galeria__marco">
-        <ul class="galeria" id="galeria-bodas" aria-label="Más fotos de bodas">
-          <li><a class="galeria__enlace" href="../imagenes/ramo-boda7.webp">
-            <img src="../imagenes/ramo-boda7.webp" width="925" height="925" loading="lazy"
-                 alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
-          </a></li>
-          <li><a class="galeria__enlace" href="../imagenes/ramo-boda1.webp">
-            <img src="../imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
-                 alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
-          </a></li>
-          <li><a class="galeria__enlace" href="../imagenes/ramo-boda5.webp">
-            <img src="../imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
-                 alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
-          </a></li>
-          <li><a class="galeria__enlace" href="../imagenes/ramo-boda6.webp">
-            <img src="../imagenes/ramo-boda6.webp" width="635" height="635" loading="lazy"
-                 alt="Pareja de novios en el campo; la novia sostiene un ramo redondo de flores blancas y rosa pálido">
-          </a></li>
-          <li><a class="galeria__enlace" href="../imagenes/ramo-boda3.webp">
-            <img src="../imagenes/ramo-boda3.webp" width="691" height="927" loading="lazy"
-                 alt="Ramo de novia blanco con eucalipto y lazo, sobre una pared clara">
-          </a></li>
-        </ul>
-        <button class="flecha flecha--anterior galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior" hidden>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
-        </button>
-        <button class="flecha galeria__flecha" type="button" data-direccion="1" aria-controls="galeria-bodas" aria-label="Foto siguiente" hidden>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
-        </button>
+        <a class="boton boton--secundario" href="bodas.html">Ver bodas</a>
       </div>
     </section>
 
@@ -220,6 +169,7 @@
           En la tienda también encontrarás ramos para regalar, flores y plantas
           variadas.
         </p>
+        <a class="boton boton--secundario" href="galeria.html">Ver más en la galería</a>
       </div>
 
       <ul class="mosaico" aria-label="Ramos de flores preservadas y secas">
@@ -303,78 +253,19 @@
       </div>
     </section>
 
-    <!-- ============================ CONTACTO: PIDE O VISÍTANOS ============================ -->
-    <section class="seccion contacto" id="contacto" aria-labelledby="contacto-titulo">
-      <div class="contacto__datos">
-        <p class="antetitulo">Pide o visítanos</p>
-        <h2 id="contacto-titulo">Pide tus flores</h2>
-
-        <!-- Cómo pedir, entre el título y el botón de llamada. El título
-             "Pide tus flores" ya la presenta: el nombre queda en aria-label. -->
-        <ol class="pedir" aria-label="Cómo pedir">
-          <li>Llámanos o pásate por la tienda.</li>
-          <li>Cuéntanos para quién es, la ocasión y lo que te gusta.</li>
-          <li>Hacemos entrega a domicilio y también en otras localidades.</li>
-        </ol>
-
+    <!-- ============================ LLAMADA FINAL ============================ -->
+    <!-- En la v2 el contacto completo (horario, dirección, mapa) está en
+         contacto.html; aquí queda el cierre con las dos acciones. -->
+    <section class="seccion llamada-final" id="pide" aria-labelledby="pide-titulo">
+      <p class="antetitulo">Pide o visítanos</p>
+      <h2 id="pide-titulo">Pide tus flores</h2>
+      <p>
+        Por teléfono o en la tienda, en Fernandez de Landa Plaza, 1 (Errenteria).<br>
+        Lunes a viernes, 9:15–13:30 y 17:00–19:30 · Sábado, 9:15–13:30
+      </p>
+      <div class="acciones">
         <a class="boton boton--llamar boton--grande" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Llamar al 687 86 56 77</a>
-
-        <h3>Horario</h3>
-        <dl class="horario">
-          <div><dt>Lunes a viernes</dt><dd>9:15–13:30 y 17:00–19:30</dd></div>
-          <div><dt>Sábado</dt><dd>9:15–13:30</dd></div>
-          <div><dt>Domingo</dt><dd>Cerrado</dd></div>
-        </dl>
-
-        <h3>Dónde estamos</h3>
-        <address class="contacto__direccion">
-          <p>
-            Floristería Nekane Loreak<br>
-            Fernandez de Landa Plaza, 1<br>
-            20100 Errenteria, Gipuzkoa
-          </p>
-          <p><a href="mailto:nekanedenda@hotmail.es">nekanedenda@hotmail.es</a></p>
-        </address>
-
-        <ul class="redes">
-          <li><a class="red" href="https://www.instagram.com/loradendanekane/?hl=es" rel="noopener" target="_blank" aria-label="Instagram (se abre en otra pestaña)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg></a></li>
-          <li><a class="red" href="https://www.facebook.com/FloristeriaNekaneIrazu/?locale=es_ES" rel="noopener" target="_blank" aria-label="Facebook (se abre en otra pestaña)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="relleno" d="M14 22v-8h2.8l.45-3.3H14V8.6c0-.95.27-1.6 1.63-1.6h1.74V4.05A23 23 0 0 0 14.84 3.9c-2.5 0-4.2 1.52-4.2 4.32v2.48H7.8V14h2.84v8z"/></svg></a></li>
-        </ul>
-      </div>
-
-      <div class="contacto__mapa">
-        <!-- referrerpolicy: solo se envía el origen de la web a Google, no la URL completa. -->
-        <iframe
-          src="https://www.google.com/maps?q=Fernandez%20de%20Landa%20Plaza%2C%201%2C%2020100%20Errenteria%2C%20Gipuzkoa&amp;output=embed"
-          width="600" height="450" loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          title="Mapa de Google con la ubicación de Floristería Nekane Loreak en Fernandez de Landa Plaza, 1, Errenteria"></iframe>
-      </div>
-    </section>
-
-    <!-- ============================ CEREMONIAS ============================ -->
-    <!-- Franja corta y sobria, al final (después de Contacto): el servicio de
-         tanatorios está para quien lo busca (menú y teléfono), sin interrumpir
-         el recorrido Nekane → Contacto. En el menú, Contacto sigue el último. -->
-    <section class="seccion ceremonias" id="ceremonias" aria-labelledby="ceremonias-titulo">
-      <div class="ceremonias__texto">
-        <p class="antetitulo">Ceremonias</p>
-        <h2 id="ceremonias-titulo">Flores para cada ceremonia</h2>
-        <p>
-          Flores para altares de iglesia, para el pasillo de una boda y para
-          otras ceremonias.
-        </p>
-        <p class="ceremonias__nota">
-          También preparamos ramos y arreglos florales para tanatorios:
-          <a href="tel:+34687865677">687 86 56 77</a>
-        </p>
-      </div>
-
-      <div class="ceremonias__fotos">
-        <img src="../imagenes/flores-iglesia1.webp" width="782" height="797" loading="lazy"
-             alt="Altar de una iglesia con un gran centro de liliums amarillos y flores blancas">
-        <img src="../imagenes/flores-iglesia2.webp" width="843" height="563" loading="lazy"
-             alt="Altar y bancos de una iglesia decorados con flores blancas">
+        <a class="boton boton--secundario" href="contacto.html">Cómo llegar</a>
       </div>
     </section>
 

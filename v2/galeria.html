@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <!-- Versión 2 (varias páginas). La one-page está en ../index.html. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Demo privada: que ningún buscador la indexe mientras no sea la web real. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Galería · Floristería Nekane Loreak</title>
+  <meta name="description" content="Fotos de ramos, flores preservadas y trabajos de bodas de Floristería Nekane Loreak, en Errenteria.">
+  <meta name="theme-color" content="#F6F1E8">
+  <link rel="icon" href="../imagenes/logo.webp" type="image/webp">
+
+  <!-- Google Fonts: preconnect para adelantar la conexión y display=swap para
+       que el texto se vea con la fuente de sistema mientras carga.
+       Solo los pesos que se usan: Fraunces 400, 400 cursiva y 600; Figtree 400 y 600. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&amp;family=Figtree:wght@400;600&amp;display=swap">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- ============================ CABECERA ============================ -->
+  <header class="cabecera">
+    <!-- El logo es cuadrado (palmera + nombre + lema): a tamaño de cabecera el
+         nombre no se leería. Aquí se muestra solo la palmera, recortada por CSS,
+         y el nombre en texto. El logo completo va en el pie. -->
+    <a class="cabecera__marca" href="index.html">
+      <span class="cabecera__simbolo">
+        <img src="../imagenes/logo.webp" width="1200" height="1200" alt="">
+      </span>
+      <span class="cabecera__nombre">
+        <span class="cabecera__tipo">Floristería</span>
+        Nekane Loreak
+      </span>
+    </a>
+
+    <!-- Orden en el HTML: Llamar, Menú y el panel del menú justo después del
+         botón, para que con el tabulador se entre en el menú al abrirlo.
+         En escritorio el CSS coloca los enlaces antes del botón Llamar. -->
+    <a class="cabecera__llamar" href="tel:+34687865677">
+      Llamar<span class="cabecera__numero">&nbsp;· 687 86 56 77</span>
+    </a>
+
+    <!-- Solo el icono de tres rayas: aria-label="Menú" le da el nombre que
+         anuncia el lector de pantalla. El estado abierto/cerrado lo comunica
+         aria-expanded, y el CSS se apoya en él. -->
+    <button class="cabecera__menu" type="button" aria-label="Menú" aria-expanded="false" aria-controls="menu-principal">
+      <span class="cabecera__icono" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+
+    <nav class="menu" id="menu-principal" aria-label="Principal">
+      <ul class="menu__lista">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="bodas.html">Bodas</a></li>
+        <li><a href="galeria.html" aria-current="page">Galería</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <!-- PENDIENTE (fase 2, paso 4): contenido de la página. -->
+    <section class="seccion" aria-labelledby="pagina-titulo">
+      <p class="antetitulo">Galería</p>
+      <h1 id="pagina-titulo">Galería</h1>
+      <p>Contenido en preparación.</p>
+    </section>
+  </main>
+
+  <!-- ============================ PIE ============================ -->
+  <footer class="pie">
+    <!-- Logo completo dentro de un medallón crema: el logo tiene fondo blanco
+         y sobre el verde del pie se vería un cuadrado; en el medallón, el
+         blanco se funde con el crema (mix-blend-mode: multiply). -->
+    <div class="pie__marca">
+      <span class="pie__logo">
+        <img src="../imagenes/logo.webp" width="1200" height="1200" loading="lazy" alt="Nekane, estilismo floral">
+      </span>
+      <p class="pie__nombre">Floristería Nekane Loreak</p>
+    </div>
+
+    <address class="pie__datos">
+      Fernandez de Landa Plaza, 1<br>
+      20100 Errenteria, Gipuzkoa<br>
+      <a href="tel:+34687865677">687 86 56 77</a><br>
+      <a href="mailto:nekanedenda@hotmail.es">nekanedenda@hotmail.es</a>
+    </address>
+
+    <ul class="redes pie__redes">
+      <li><a class="red" href="https://www.instagram.com/loradendanekane/?hl=es" rel="noopener" target="_blank" aria-label="Instagram (se abre en otra pestaña)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg></a></li>
+      <li><a class="red" href="https://www.facebook.com/FloristeriaNekaneIrazu/?locale=es_ES" rel="noopener" target="_blank" aria-label="Facebook (se abre en otra pestaña)"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="relleno" d="M14 22v-8h2.8l.45-3.3H14V8.6c0-.95.27-1.6 1.63-1.6h1.74V4.05A23 23 0 0 0 14.84 3.9c-2.5 0-4.2 1.52-4.2 4.32v2.48H7.8V14h2.84v8z"/></svg></a></li>
+    </ul>
+
+    <div class="pie__final">
+      <!-- Textos legales pendientes: los aporta el negocio. -->
+      <ul class="pie__legal">
+        <li><a href="pendiente.html">Aviso legal</a></li>
+        <li><a href="pendiente.html">Política de privacidad</a></li>
+        <li><a href="pendiente.html">Política de cookies</a></li>
+      </ul>
+      <p class="pie__copy">© 2026 Floristería Nekane Loreak</p>
+    </div>
+  </footer>
+
+</body>
+</html>

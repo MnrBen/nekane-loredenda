@@ -1,0 +1,1781 @@
+/* ==========================================================================
+   Floristería Nekane Loreak — styles.css (v2)
+   Versión 2 (varias páginas): copia de la one-page (tag onepage-v1) que
+   evoluciona por separado; la one-page no se toca.
+
+   Mobile-first: los estilos base son para móvil; las media queries
+   (min-width) adaptan a pantallas más grandes.
+
+   Índice
+   1. Variables
+   2. Base y reset
+   3. Utilidades y accesibilidad
+   4. Componentes compartidos (botones, antetítulo, horario, reseña,
+      galería deslizable, botón de flecha y visor de fotos)
+   5. Secciones, en el orden de la página (cada una autocontenida, para poder
+      pasar a página en la v2): cabecera, inicio, celebraciones, bodas,
+      preservadas, nekane, contacto, ceremonias y pie
+   ========================================================================== */
+
+
+/* 1. Variables
+   ========================================================================== */
+:root {
+  /* Paleta sacada de las fotos. Contrastes WCAG medidos:
+     tinta/crema 12,5:1 · tinta-suave/crema 6,7:1 · crema/bosque 10,2:1
+     blanco/baya 7,3:1 · tinta/kraft 8,6:1 */
+  --crema: #F6F1E8;          /* lazo y peonías: fondo principal */
+  --tinta: #2E2B26;          /* texto */
+  --tinta-suave: #5A544B;    /* texto secundario */
+  --kraft: #DCC7A6;          /* papel de envolver: etiquetas y bloques */
+  --kraft-claro: #EBDFCB;
+  --eucalipto: #A9B8AC;      /* superficies */
+  --eucalipto-oscuro: #5B6F61; /* 4,8:1 sobre crema: solo texto grande o detalles */
+  --bosque: #2F3D33;         /* montes de fondo: sección oscura */
+  --baya: #8E3A4E;           /* acción principal (llamar) */
+  --baya-oscura: #722C3E;
+  --rosa: #F2E1DC;           /* rosa empolvado: fondo alterno de secciones
+                                tinta 11,1:1 · tinta-suave 5,9:1 · baya 5,8:1 */
+  --blanco: #FFFFFF;
+
+  /* Tipografía */
+  --fuente-titulos: "Fraunces", Georgia, "Times New Roman", serif;
+  --fuente-texto: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Escala fluida: crece con el ancho de pantalla entre un mínimo y un máximo. */
+  --texto-sm: 0.875rem;
+  --texto-base: 1.0625rem;                                /* 17 px: cómodo en móvil */
+  --texto-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
+  --titulo-3: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --titulo-2: clamp(1.875rem, 1.45rem + 2vw, 3rem);
+  --titulo-1: clamp(2.375rem, 1.7rem + 3.4vw, 4.25rem);
+
+  /* Espaciados */
+  --esp-1: 0.25rem;
+  --esp-2: 0.5rem;
+  --esp-3: 0.75rem;
+  --esp-4: 1rem;
+  --esp-5: 1.5rem;
+  --esp-6: 2rem;
+  --esp-7: 3rem;
+  --esp-8: 4rem;
+  --seccion: clamp(3rem, 2rem + 4vw, 5rem);  /* aire vertical de cada sección (se suma al de la siguiente) */
+  --margen: 1rem;                                  /* margen lateral en móvil (16 px) */
+
+  /* Medidas */
+  --ancho-max: 72rem;
+  --ancho-texto: 36rem;
+  --toque: 3rem;          /* 48 px: zona táctil mínima cómoda */
+  --radio: 4px;
+  --alto-cabecera: 4rem;
+}
+
+
+/* 2. Base y reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Al saltar a una sección desde el menú, que el título no quede tapado
+     por la cabecera fija. */
+  scroll-padding-top: calc(var(--alto-cabecera) + var(--esp-4));
+}
+
+/* Desplazamiento suave solo si la persona no ha pedido menos movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-base);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  margin: 0 0 var(--esp-4);
+  font-family: var(--fuente-titulos);
+  font-weight: 400;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--titulo-1); }
+h2 { font-size: var(--titulo-2); }
+h3 { font-size: var(--titulo-3); font-weight: 600; }
+
+p {
+  margin: 0 0 var(--esp-4);
+  max-width: var(--ancho-texto);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+img,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+address {
+  font-style: normal;
+}
+
+blockquote,
+figure {
+  margin: 0;
+}
+
+
+/* 3. Utilidades y accesibilidad
+   ========================================================================== */
+
+/* Foco visible y consistente en toda la web (solo con teclado). */
+:focus-visible {
+  outline: 3px solid var(--baya);
+  outline-offset: 3px;
+}
+
+/* Oculto a la vista pero leído por lectores de pantalla. */
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Enlace "Saltar al contenido": aparece al recibir foco con el tabulador. */
+.saltar {
+  position: absolute;
+  left: var(--margen);
+  top: -100px;
+  z-index: 100;
+  padding: var(--esp-3) var(--esp-4);
+  background: var(--tinta);
+  color: var(--crema);
+}
+
+.saltar:focus {
+  top: var(--esp-2);
+}
+
+/* Respeto a quien pide menos movimiento: sin scroll suave ni animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* Animaciones de entrada: main.js marca con .revelar los bloques de cada
+   sección y les añade .es-visible al entrar en pantalla. Solo con JS y solo
+   si la persona no ha pedido menos movimiento: sin JS no se oculta nada. */
+@media (prefers-reduced-motion: no-preference) {
+  .revelar {
+    opacity: 0;
+    translate: 0 1.5rem;
+    transition: opacity 0.7s ease, translate 0.7s ease;
+    transition-delay: var(--retraso, 0s);
+  }
+
+  .revelar.es-visible {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+
+/* 4. Componentes compartidos
+   ========================================================================== */
+
+/* Botones: altura mínima de 48 px para tocar cómodo en móvil. */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  min-height: var(--toque);
+  padding: var(--esp-2) var(--esp-5);
+  border: 1px solid transparent;
+  border-radius: var(--radio);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.boton--llamar {
+  background: var(--baya);
+  color: var(--blanco);
+}
+
+.boton--llamar:hover {
+  background: var(--baya-oscura);
+}
+
+.boton--secundario {
+  border-color: currentColor;
+}
+
+/* Icono de teléfono en los botones que llaman: deja claro que el botón
+   llama aunque el texto no lo diga ("Pide tus flores"). */
+.boton .icono {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+/* Botón de llamada al final de un texto de sección. */
+.nekane__texto .acciones {
+  margin-top: var(--esp-2);
+}
+
+/* Icono redondo de red social (contacto y pie): 44 × 44 px de zona táctil. */
+.red {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.red svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.red .relleno {
+  fill: currentColor;
+  stroke: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .red {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+.red:hover {
+  background: var(--tinta);
+  color: var(--crema);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+}
+
+/* Antetítulo: etiqueta pequeña sobre cada título de sección, con un trazo
+   fino delante, como el tallo de una flor. */
+.antetitulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  margin-bottom: var(--esp-3);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.antetitulo::before {
+  content: "";
+  flex: none;
+  width: 2rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.entradilla {
+  font-size: var(--texto-lg);
+}
+
+/* Horario: lista de definiciones día / horas. */
+.horario {
+  margin: 0 0 var(--esp-5);
+}
+
+.horario div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 var(--esp-4);
+  padding: var(--esp-2) 0;
+  border-bottom: 1px solid var(--kraft);
+}
+
+.horario dt {
+  font-weight: 600;
+}
+
+.horario dd {
+  margin: 0;
+}
+
+/* Reseña */
+.resena blockquote p {
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--texto-lg);
+}
+
+/* Los nombres se muestran tal como vienen de la fuente; las mayúsculas por CSS
+   igualan visualmente los que llegan en mayúsculas y los que no. */
+.resena figcaption {
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.resena cite {
+  font-style: normal;
+}
+
+
+/* --- Galería deslizable --------------------------------------------------- */
+
+/* Móvil y tablet: fila horizontal que se desliza con el dedo y se detiene en
+   cada foto (scroll-snap). Llega hasta los bordes de la pantalla y deja ver
+   el principio de la siguiente foto, que invita a deslizar. */
+.galeria {
+  list-style: none;
+  display: flex;
+  gap: var(--esp-3);
+  margin-inline: calc(-1 * var(--margen));
+  padding: 0 var(--margen) var(--esp-2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--margen);
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kraft) transparent;
+}
+
+.galeria li {
+  flex: 0 0 72%;
+  scroll-snap-align: start;
+}
+
+/* Todas las fotos de la galería al mismo formato vertical (3:4). */
+.galeria img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* Enlace de cada foto (también en el mosaico): abre el visor. */
+.galeria__enlace {
+  display: block;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .galeria__enlace img {
+    transition: transform 0.4s ease;
+  }
+
+  .galeria__enlace:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* Marco de la galería: referencia para colocar las flechas encima. */
+.galeria__marco {
+  position: relative;
+}
+
+/* Flechas superpuestas a media altura de la foto, en crema para que se vean
+   sobre cualquier imagen. main.js añade .es-oculta a la que no lleva a
+   ningún sitio (al principio, la izquierda; al final, la derecha). */
+.galeria__marco .galeria__flecha {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 1.375rem - var(--esp-1));   /* centrada en la foto */
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--crema);
+  color: var(--tinta);
+  box-shadow: 0 4px 14px rgb(46 43 38 / 0.3);
+}
+
+.galeria__marco .galeria__flecha.flecha--anterior {
+  left: var(--esp-1);
+}
+
+.galeria__marco .galeria__flecha:not(.flecha--anterior) {
+  right: var(--esp-1);
+}
+
+.galeria__marco .galeria__flecha:not(:disabled):hover {
+  background: var(--kraft);
+}
+
+/* Oculta pero animable (opacity) y fuera del tabulador (visibility). */
+.galeria__marco .galeria__flecha.es-oculta {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .galeria__marco .galeria__flecha {
+    transition: opacity 0.25s ease, visibility 0.25s ease, background-color 0.2s ease, scale 0.2s ease;
+  }
+}
+
+
+/* --- Botón de flecha y contador (galería y visor) ------------------------- */
+
+/* Botón redondo sólido con un chevron curvo de trazo fino: con presencia,
+   pero sin la dureza de una flecha de sistema. */
+.flecha {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--tinta);
+  color: var(--crema);
+  cursor: pointer;
+}
+
+.flecha svg {
+  width: 1.375rem;
+  height: 1.375rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* La flecha "anterior" es la misma, girada. */
+.flecha--anterior svg {
+  transform: scaleX(-1);
+}
+
+.flecha:not(:disabled):hover {
+  background: var(--eucalipto-oscuro);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flecha {
+    transition: background-color 0.2s ease, scale 0.2s ease;
+  }
+
+  .flecha:not(:disabled):hover {
+    scale: 1.06;
+  }
+}
+
+.flecha:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+/* Contador "02 / 05" en la cursiva de los títulos. Cifras de ancho fijo para
+   que no baile al cambiar de número. */
+.contador {
+  min-width: 4.5em;
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+@media (min-width: 48em) {
+  .galeria li {
+    flex-basis: 40%;
+  }
+}
+
+/* Escritorio: las cinco fotos caben a la vez, con alturas alternas, como en
+   una pasarela; deja de deslizar y sobran las flechas. */
+@media (min-width: 64em) {
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: start;
+    margin-inline: 0;
+    padding: 0 0 var(--esp-7);
+    overflow: visible;
+  }
+
+  .galeria li:nth-child(even) {
+    margin-top: var(--esp-7);
+  }
+
+  .galeria__marco .galeria__flecha {
+    display: none;
+  }
+}
+
+
+/* --- Visor de fotos ---------------------------------------------------------
+   Lo crea main.js con un <dialog> nativo: el navegador ya se encarga de
+   mantener el foco dentro, de cerrarlo con Escape y de bloquear el resto.
+   Las fotos van en una tira horizontal con scroll-snap: al deslizar, la foto
+   sigue al dedo (con la inercia nativa del móvil) y se asienta en la
+   siguiente, igual que la galería de la página. */
+.visor {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--esp-4) 0;
+  border: 0;
+  background: #1F1C19;   /* opaco: que no se vea la página de detrás */
+  color: var(--crema);
+}
+
+.visor[open] {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--esp-3);
+}
+
+.visor::backdrop {
+  background: transparent;
+}
+
+/* Mientras el visor está abierto, la página de detrás no se desplaza. */
+html:has(.visor[open]) {
+  overflow: hidden;
+}
+
+.visor__barra,
+.visor__pie {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--esp-4);
+}
+
+.visor__barra {
+  justify-content: flex-end;
+}
+
+.visor__pie {
+  justify-content: center;
+  gap: var(--esp-4);
+}
+
+/* Sobre el fondo oscuro, botones crema con la flecha oscura. */
+.visor .flecha {
+  background: var(--crema);
+  color: var(--tinta);
+}
+
+.visor .flecha:not(:disabled):hover {
+  background: var(--kraft);
+}
+
+/* Tira de fotos: cada diapositiva ocupa todo el ancho. */
+.visor__pista {
+  list-style: none;
+  display: flex;
+  min-height: 0;          /* permite que las fotos encojan dentro del grid */
+  overflow-x: auto;
+  overflow-y: hidden;     /* solo se desliza en horizontal */
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.visor__pista::-webkit-scrollbar {
+  display: none;
+}
+
+/* Flex (no grid) a propósito: así el max-height: 100% de la foto se calcula
+   sobre el alto real de la diapositiva. Con grid, el navegador no tenía un
+   alto de referencia y la foto salía a tamaño real, más alta que la
+   pantalla en portátiles (medido a 1280 × 800: 922 px de foto en 648 px). */
+.visor__diapositiva {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--esp-4);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;   /* una foto por gesto, sin saltarse ninguna */
+}
+
+/* En escritorio, un poco de aire alrededor de la foto. */
+@media (min-width: 64em) {
+  .visor__diapositiva {
+    padding-block: var(--esp-5);
+  }
+}
+
+.visor__diapositiva img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* Cerrar: aspa de líneas finas, a juego con las flechas. */
+.visor__cerrar {
+  display: grid;
+  place-items: center;
+  width: var(--toque);
+  height: var(--toque);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.visor__cerrar svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+
+.visor :focus-visible {
+  outline-color: var(--crema);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .visor[open] {
+    animation: visor-aparece 0.2s ease;
+  }
+}
+
+@keyframes visor-aparece {
+  from { opacity: 0; }
+}
+
+
+/* 5. Secciones
+   ========================================================================== */
+
+/* Contenedor común de sección: el fondo ocupa todo el ancho de la pantalla y
+   el contenido se limita con el relleno lateral (16 px en móvil; en pantallas
+   grandes, lo que sobre a cada lado del ancho máximo). */
+.seccion {
+  padding-block: var(--seccion);
+  padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
+}
+
+/* Fondos de sección: rosa y crema alternos de principio a fin.
+   - Rosa empolvado: Celebraciones, Preservadas y Contacto.
+   - Crema (el fondo de la página, sin regla propia): portada, Bodas, Nekane
+     y Ceremonias.
+   Ceremonias va al final, después de Contacto, para que la alternancia sea
+   perfecta y para que Nekane (confianza) enlace directamente con Contacto
+   (la llamada a la acción). */
+.celebraciones,
+.preservadas,
+.contacto {
+  background: var(--rosa);
+}
+
+
+/* --- Cabecera ------------------------------------------------------------ */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--alto-cabecera);
+  padding: var(--esp-2) var(--margen);
+  background: var(--crema);
+  border-bottom: 1px solid var(--kraft-claro);
+}
+
+.cabecera__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  margin-right: auto;      /* empuja menú y botón a la derecha */
+  min-height: var(--toque);
+  text-decoration: none;
+}
+
+/* Recorte de la palmera dentro del logo cuadrado (1200 × 1200).
+   Caja medida de la palmera, con margen: x 300–912, y 85–810 (612 × 725 px).
+   Los márgenes en % se calculan sobre el ancho del contenedor, también los
+   verticales, así que el recorte se mantiene a cualquier tamaño:
+     ancho imagen = 1200 / 612 = 196,08 %
+     margen izq.  = -300 / 612 = -49,02 %
+     margen sup.  =  -85 / 612 = -13,89 % */
+.cabecera__simbolo {
+  flex: none;
+  width: 2.4rem;
+  aspect-ratio: 612 / 725;
+  overflow: hidden;
+}
+
+.cabecera__simbolo img {
+  width: 196.08%;
+  max-width: none;
+  margin: -13.89% 0 0 -49.02%;
+  /* El logo tiene fondo blanco: multiply lo funde con el crema de la cabecera
+     (blanco × crema = crema) sin tener que editar la imagen. */
+  mix-blend-mode: multiply;
+}
+
+.cabecera__nombre {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.cabecera__tipo {
+  font-family: var(--fuente-texto);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+/* Botones de la cabecera (Llamar y Menú): la misma altura, 44 px, que es la
+   zona táctil mínima; más compactos que los botones de contenido. */
+.cabecera__llamar,
+.cabecera__menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  height: 2.75rem;
+  border-radius: var(--radio);
+  font: 600 var(--texto-sm) / 1 var(--fuente-texto);
+  white-space: nowrap;
+  flex: none;   /* nunca se estrechan por debajo de su tamaño táctil */
+}
+
+/* Llamar: la acción principal de la web, siempre visible en la cabecera. */
+.cabecera__llamar {
+  /* Sin gap: "Llamar" y el número son un solo texto. El espacio antes del
+     punto es &nbsp; porque un espacio normal al inicio del span se perdería. */
+  gap: 0;
+  padding: 0 var(--esp-3);
+  font-size: 0.9375rem;   /* 15 px, uno más que el resto de la cabecera */
+  background: var(--baya);
+  color: var(--blanco);
+  text-decoration: none;
+}
+
+.cabecera__llamar:hover {
+  background: var(--baya-oscura);
+}
+
+/* Más ancho desde 384 px. Medido: a 360 px, con este relleno el nombre del
+   negocio se partía en dos líneas; por debajo de 384 px se queda en 12 px. */
+@media (min-width: 24em) {
+  .cabecera__llamar {
+    padding-inline: 1.125rem;
+  }
+}
+
+/* En móvil solo "Llamar"; el número aparece cuando hay sitio (desde tablet). */
+.cabecera__numero {
+  display: none;
+}
+
+/* Menú: solo las tres rayas, sin borde. El botón sigue midiendo 44 × 44
+   aunque no se vea su contorno, para que sea fácil de tocar. */
+.cabecera__menu {
+  width: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--tinta);
+  cursor: pointer;
+}
+
+/* Icono de tres rayas dibujado con CSS. */
+.cabecera__icono {
+  position: relative;
+  width: 1.125rem;
+  height: 0.75rem;
+}
+
+.cabecera__icono span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, top 0.2s ease, opacity 0.2s ease;
+}
+
+.cabecera__icono span:nth-child(1) { top: 0; }
+.cabecera__icono span:nth-child(2) { top: calc(50% - 1px); }
+.cabecera__icono span:nth-child(3) { top: calc(100% - 2px); }
+
+/* Abierto: la raya central desaparece y las otras dos se cruzan en una X. */
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span {
+  top: calc(50% - 1px);
+}
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(1) { transform: rotate(45deg); }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(2) { opacity: 0; }
+.cabecera__menu[aria-expanded="true"] .cabecera__icono span:nth-child(3) { transform: rotate(-45deg); }
+
+/* Panel del menú en móvil: plegado por defecto y desplegado cuando el botón
+   tiene aria-expanded="true" (el JS solo cambia ese atributo). */
+.menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: var(--esp-2) var(--margen) var(--esp-5);
+  background: var(--crema);
+  border-bottom: 1px solid var(--kraft);
+  box-shadow: 0 12px 24px -16px rgb(46 43 38 / 0.35);
+}
+
+.cabecera__menu[aria-expanded="true"] + .menu {
+  display: block;
+}
+
+.menu__lista {
+  list-style: none;
+}
+
+.menu__lista a {
+  display: flex;
+  align-items: center;
+  min-height: var(--toque);
+  border-bottom: 1px solid var(--kraft-claro);
+  font-family: var(--fuente-titulos);
+  font-size: 1.375rem;
+  text-decoration: none;
+}
+
+/* Página actual (aria-current="page"): se ve en el menú, además de
+   anunciarse a los lectores de pantalla. En el panel móvil, en cursiva y
+   burdeos (6,5:1 sobre crema). */
+.menu__lista a[aria-current="page"] {
+  font-style: italic;
+  color: var(--baya);
+}
+
+/* Sin JavaScript el botón no haría nada: se oculta y el menú queda visible. */
+@media (scripting: none) {
+  .cabecera { flex-wrap: wrap; }
+  .cabecera__menu { display: none; }
+  .menu { display: block; position: static; width: 100%; padding: 0; box-shadow: none; border: 0; }
+}
+
+/* Desde tablet, el botón Llamar incluye el número. */
+@media (min-width: 48em) {
+  .cabecera__numero {
+    display: inline;
+  }
+}
+
+/* Escritorio: menú en línea, sin botón. Desde 64em (1024 px): medido,
+   nombre + seis enlaces + Llamar con número ocupan 958 px. */
+@media (min-width: 64em) {
+  .cabecera {
+    gap: var(--esp-5);
+    padding-inline: max(var(--margen), (100% - var(--ancho-max)) / 2);
+  }
+
+  .cabecera__menu {
+    display: none;
+  }
+
+  /* Los enlaces se colocan antes del botón Llamar. En el HTML van después
+     porque en móvil el panel tiene que seguir al botón Menú. */
+  .menu {
+    order: 1;
+  }
+
+  .cabecera__llamar {
+    order: 2;
+  }
+
+  .menu,
+  .cabecera__menu[aria-expanded="true"] + .menu {
+    display: block;
+    position: static;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* Separación que crece con la pantalla: a 1024 px el menú cabe con
+     holgura (medido) y en pantallas grandes respira más. */
+  .menu__lista {
+    display: flex;
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .menu__lista a {
+    border: 0;
+    white-space: nowrap;
+    font-family: var(--fuente-texto);
+    font-size: 1rem;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .menu__lista a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* En escritorio, la página actual queda subrayada siempre. */
+  .menu__lista a[aria-current="page"] {
+    font-style: normal;
+    color: var(--tinta);
+    text-decoration-color: var(--baya);
+    text-decoration-thickness: 2px;
+  }
+}
+
+
+/* --- Inicio --------------------------------------------------------------- */
+
+/* Móvil: la foto ocupa toda la primera pantalla (menos la cabecera) y el
+   texto va encima, abajo, sobre un velo oscuro que garantiza que se lea.
+   La foto es un <img> del HTML colocado detrás con z-index, no un
+   background-image: así el navegador la descubre antes (es la imagen más
+   importante para la velocidad) y conserva su alt y sus medidas. */
+.inicio {
+  position: relative;
+  isolation: isolate;      /* el z-index negativo de la foto no se sale de aquí */
+  display: grid;
+  align-content: end;
+  min-height: calc(100svh - var(--alto-cabecera));
+  color: var(--crema);
+}
+
+.inicio__figura {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: 0;
+}
+
+/* Para cambiar la foto de portada basta con tocar el HTML (src, width,
+   height y alt). Si el motivo no queda centrado, se ajusta --inicio-foco. */
+/* Posición absoluta también en escritorio: así la foto no empuja la altura
+   de la portada (medido: sin esto, cada foto daba una altura distinta). */
+.inicio__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--inicio-foco, center);
+}
+
+/* Velo oscuro de abajo arriba, que cubre el bloque de texto (con los botones
+   el texto ocupa más de la mitad de la foto en móvil). No es un degradado
+   decorativo: es lo que permite leer texto claro sobre una foto. */
+.inicio__figura::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgb(24 22 19 / 0.72) 0%,
+    rgb(24 22 19 / 0.55) 65%,
+    rgb(24 22 19 / 0.2) 100%);
+}
+
+/* Antetítulo en crema sobre la foto: es letra pequeña y en kraft no llegaba
+   al contraste mínimo. Lleva además una sombra ceñida a las letras porque,
+   a 360 px, queda encima de flores blancas (medido). */
+.inicio .antetitulo {
+  color: var(--crema);
+  text-shadow: 0 0 6px rgb(24 22 19 / 0.75), 0 0 2px rgb(24 22 19 / 0.6);
+}
+
+.inicio h1 em {
+  font-style: italic;
+  color: var(--kraft);
+}
+
+.inicio .entradilla {
+  margin-bottom: var(--esp-5);
+}
+
+/* Sobre la foto (móvil), el botón secundario va en crema. */
+.inicio .boton--secundario {
+  color: var(--crema);
+}
+
+/* Sobre la foto, el contorno de foco burdeos apenas se vería: va en crema. */
+.inicio :focus-visible {
+  outline-color: var(--crema);
+}
+
+/* Sombra muy difusa bajo el texto: con el velo más claro, asegura que el
+   antetítulo (letra pequeña) siga por encima del contraste mínimo. */
+.inicio__texto {
+  text-shadow: 0 1px 14px rgb(24 22 19 / 0.45);
+}
+
+/* Tablet y escritorio: texto sobre crema a la izquierda y la foto a la
+   derecha, dentro del ancho de la página, con un marco de línea fina
+   desplazado detrás. La foto no pasa de 28rem (448 px), muy por debajo de
+   su ancho real, así que se ve nítida. */
+@media (min-width: 48em) {
+  .inicio {
+    grid-template-columns: 1fr minmax(0, 22rem);
+    align-content: center;
+    align-items: center;
+    column-gap: var(--esp-7);
+    min-height: auto;
+    color: var(--tinta);
+  }
+
+  .inicio__figura {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    aspect-ratio: 4 / 5;
+  }
+
+  /* Marco desplazado hacia abajo y hacia la izquierda (hacia el texto), para
+     no salirse por el borde derecho de la pantalla. */
+  .inicio__figura::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--tinta-suave);
+    transform: translate(calc(-1 * var(--esp-5)), var(--esp-5));
+  }
+
+  .inicio__figura::after {
+    content: none;    /* sin velo: el texto ya no va encima de la foto */
+  }
+
+  .inicio__texto {
+    text-shadow: none;
+  }
+
+  .inicio .antetitulo {
+    color: var(--tinta-suave);
+    text-shadow: none;
+  }
+
+  .inicio .boton--secundario {
+    color: var(--tinta);
+  }
+
+  .inicio :focus-visible {
+    outline-color: var(--baya);
+  }
+
+  .inicio h1 em {
+    color: var(--eucalipto-oscuro);   /* texto grande: 4,8:1 es suficiente */
+  }
+}
+
+@media (min-width: 64em) {
+  .inicio {
+    grid-template-columns: 1fr minmax(0, 28rem);
+    column-gap: var(--esp-8);
+  }
+}
+
+
+/* --- Celebraciones y encargos -------------------------------------------- */
+
+/* Composición de fotos como copias impresas dejadas sobre la mesa: un ramo
+   grande arriba y los demás debajo, escalonados y montados sobre su borde
+   inferior. Cada foto lleva margen crema, sombra suave y una inclinación
+   ligera y distinta (giros pequeños: no generan scroll horizontal). */
+.celebraciones {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+/* Ocasiones en línea, en la cursiva de los títulos, separadas por una hoja
+   pequeña dibujada con CSS (un cuadrado con dos esquinas redondeadas). */
+.ocasiones {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2) var(--esp-4);
+  margin: var(--esp-2) 0 var(--esp-5);
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--texto-lg);
+}
+
+.ocasiones li {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.ocasiones li::before {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0 60%;
+  background: var(--eucalipto-oscuro);
+  rotate: 45deg;
+}
+
+.celebraciones__fotos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: start;
+}
+
+.celebraciones__fotos img {
+  width: 100%;
+  object-fit: cover;
+  border: 6px solid var(--crema);
+  box-shadow: 0 12px 24px -14px rgb(46 43 38 / 0.45);
+}
+
+/* La grande es ramo-deco2 (480 px de ancho real): en formato apaisado 4:3
+   y nunca más ancha que 480 px, para que no se estire. */
+.celebraciones__fotos img:first-child {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  max-width: 480px;
+  aspect-ratio: 4 / 3;
+  rotate: -1.5deg;
+}
+
+.celebraciones__fotos img:not(:first-child) {
+  position: relative;      /* para quedar por encima de la grande */
+  grid-row: 2;
+  aspect-ratio: 3 / 4;
+}
+
+/* Móvil: dos pequeñas, la segunda más baja. La tercera (la corona) se
+   reserva para pantallas más anchas, donde cabe sin quedarse en miniatura. */
+.celebraciones__fotos img:nth-child(2) {
+  grid-column: 1 / 4;
+  margin-top: -2.5rem;
+  rotate: 2.5deg;
+}
+
+.celebraciones__fotos img:nth-child(3) {
+  grid-column: 4 / 7;
+  margin-top: 1rem;
+  rotate: -2deg;
+}
+
+.celebraciones__fotos img:nth-child(4) {
+  display: none;
+}
+
+/* Tablet y escritorio: tres pequeñas escalonadas a distintas alturas. La
+   composición no pasa de 34rem (544 px): así la grande, que ocupa 8 de las
+   9 columnas, se queda en sus 480 px reales como mucho. */
+@media (min-width: 48em) {
+  .celebraciones__fotos {
+    grid-template-columns: repeat(9, 1fr);
+    width: 100%;
+    max-width: 34rem;
+    justify-self: center;
+  }
+
+  .celebraciones__fotos img:first-child {
+    grid-column: 2 / -1;
+  }
+
+  .celebraciones__fotos img:nth-child(2) { grid-column: 1 / 4; margin-top: -4rem; }
+  .celebraciones__fotos img:nth-child(3) { grid-column: 4 / 7; margin-top: -1rem; }
+  .celebraciones__fotos img:nth-child(4) { grid-column: 7 / 10; margin-top: -5.5rem; display: block; rotate: 1.5deg; }
+}
+
+/* Escritorio: texto a la izquierda y la composición a la derecha. */
+@media (min-width: 64em) {
+  .celebraciones {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--esp-8);
+  }
+}
+
+
+/* --- Bodas ---------------------------------------------------------------- */
+.bodas {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+/* Composición principal: la novia en grande con un bloque eucalipto
+   desplazado detrás (da profundidad; la sombra no genera scroll horizontal),
+   y el tocado más pequeño sobre su esquina inferior derecha, con margen
+   crema y sombra suave, como un detalle que la acompaña. */
+.bodas__composicion {
+  position: relative;
+  padding-bottom: var(--esp-7);   /* hueco para que el detalle sobresalga */
+}
+
+.bodas__principal {
+  width: 84%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  box-shadow: calc(-1 * var(--esp-3)) var(--esp-3) 0 var(--eucalipto);
+}
+
+.bodas__detalle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 6px solid var(--crema);
+  box-shadow: 0 14px 28px -14px rgb(46 43 38 / 0.5);
+}
+
+/* Lista de servicios numerada con un contador de CSS (01, 02, 03). */
+.bodas__servicios {
+  list-style: none;
+  counter-reset: servicio;
+}
+
+.bodas__servicios li {
+  counter-increment: servicio;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--esp-3);
+  padding-block: var(--esp-4);
+  border-top: 1px solid var(--kraft);
+}
+
+.bodas__servicios li::before {
+  content: counter(servicio, decimal-leading-zero);
+  grid-row: span 2;
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--titulo-3);
+  line-height: 1.2;
+  color: var(--eucalipto-oscuro);
+}
+
+.bodas__servicios h3 {
+  margin-bottom: var(--esp-1);
+}
+
+.bodas__servicios p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+/* Tablet y escritorio: texto y servicios a la izquierda, foto a la derecha,
+   y la galería debajo a todo el ancho. */
+@media (min-width: 48em) {
+  .bodas {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "intro     composicion"
+      "servicios composicion"
+      "accion    composicion"
+      "galeria   galeria";
+    column-gap: var(--esp-7);
+    row-gap: var(--esp-5);
+  }
+
+  .bodas__intro      { grid-area: intro; align-self: end; }
+  .bodas__servicios  { grid-area: servicios; align-self: start; }
+  .bodas__accion     { grid-area: accion; align-self: start; }
+  .bodas__composicion { grid-area: composicion; align-self: center; }
+  .bodas .galeria__marco      { grid-area: galeria; }
+}
+
+
+/* --- Flores preservadas -------------------------------------------------- */
+
+/* Las fotos tienen fondo negro: sobre el rosa claro se ven como cuadros
+   enmarcados, sin oscurecer la sección. */
+.preservadas {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+/* Mosaico. Móvil: cuadrícula de 2 × 2 (la quinta foto se reserva para
+   pantallas más anchas, para no alargar la página). */
+.mosaico {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--esp-2);
+}
+
+.mosaico img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.mosaico li:nth-child(5) {
+  display: none;
+}
+
+/* Tablet y escritorio: la primera foto grande (2 × 2) y las otras cuatro
+   alrededor, en una rejilla de 4 columnas. La foto grande no pasa de
+   ~570 px (922 px de ancho real). */
+@media (min-width: 48em) {
+  .preservadas__texto {
+    max-width: 40rem;
+  }
+
+  .mosaico {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--esp-3);
+  }
+
+  .mosaico li:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .mosaico li:nth-child(5) {
+    display: block;
+  }
+
+  /* La grande ocupa dos filas: que su foto llene el alto completo. */
+  .mosaico li:first-child,
+  .mosaico li:first-child .galeria__enlace,
+  .mosaico li:first-child img {
+    height: 100%;
+  }
+}
+
+
+/* --- Nekane (con reseñas) ------------------------------------------------- */
+.nekane {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+/* Retrato en arco: el único recurso de este tipo en la web, reservado a la
+   persona detrás de la tienda. */
+.nekane__foto {
+  width: 100%;
+  max-width: 26rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 30%;   /* la cara queda en el tercio superior */
+  border-radius: 999px 999px var(--radio) var(--radio);
+}
+
+.nekane__texto p {
+  font-size: var(--texto-lg);
+}
+
+.nekane__resenas {
+  display: grid;
+  gap: var(--esp-5);
+  padding-top: var(--esp-6);
+  border-top: 1px solid var(--kraft);
+}
+
+.nekane__resenas h3 {
+  margin: 0;
+}
+
+/* Reseña: comilla grande decorativa en kraft. El texto alternativo vacío
+   (/ "") evita que el lector de pantalla lea la comilla. */
+.resena blockquote::before {
+  content: "“" / "";
+  display: block;
+  height: 2.25rem;
+  font-family: var(--fuente-titulos);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--kraft);
+}
+
+.resena blockquote p {
+  margin-bottom: var(--esp-3);
+  line-height: 1.5;
+}
+
+.nekane__cabecera h2 {
+  margin-bottom: 0;
+}
+
+/* Tablet: foto a la izquierda; título y texto a la derecha, centrados en
+   altura respecto a la foto. */
+@media (min-width: 48em) {
+  .nekane {
+    grid-template-columns: minmax(0, 22rem) 1fr;
+    grid-template-areas:
+      "foto     cabecera"
+      "foto     texto"
+      "resenas  resenas";
+    column-gap: var(--esp-7);
+    row-gap: var(--esp-4);
+  }
+
+  .nekane__cabecera { grid-area: cabecera; align-self: end; }
+  .nekane__foto     { grid-area: foto; }
+  .nekane__texto    { grid-area: texto; align-self: start; }
+  .nekane__resenas  { grid-area: resenas; margin-top: var(--esp-5); }
+}
+
+/* Escritorio: las tres reseñas una al lado de otra. */
+@media (min-width: 64em) {
+  .nekane__resenas {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: var(--esp-6);
+    align-items: start;
+  }
+
+  .nekane__resenas h3 {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* --- Contacto: pide o visítanos ------------------------------------------- */
+.contacto {
+  display: grid;
+  gap: var(--esp-7);
+}
+
+.contacto__datos h3 {
+  margin: var(--esp-6) 0 var(--esp-3);
+}
+
+.contacto__datos h2 {
+  margin-bottom: var(--esp-4);
+}
+
+/* Botón grande de llamada: la acción final de la página. A todo el ancho en
+   móvil para que sea fácil de tocar. */
+.boton--grande {
+  width: 100%;
+  min-height: 3.5rem;
+  font-size: var(--texto-lg);
+}
+
+/* Cómo pedir: pasos numerados como los servicios de Bodas, más compactos
+   (va entre el título y el botón, y no debe empujar el botón muy abajo). */
+.pedir {
+  list-style: none;
+  counter-reset: paso;
+  margin-bottom: var(--esp-5);
+  line-height: 1.45;
+}
+
+.pedir li {
+  counter-increment: paso;
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: baseline;
+  column-gap: var(--esp-2);
+  padding-block: var(--esp-2);
+  border-top: 1px solid var(--kraft);
+}
+
+.pedir li:last-child {
+  border-bottom: 1px solid var(--kraft);
+}
+
+.pedir li::before {
+  content: counter(paso, decimal-leading-zero);
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--eucalipto-oscuro);   /* texto grande: 4,3:1 sobre rosa basta */
+}
+
+.contacto__direccion p {
+  margin-bottom: var(--esp-2);
+}
+
+/* Enlaces de contacto con zona táctil de 44 px de alto. */
+.contacto__direccion a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.redes {
+  list-style: none;
+  display: flex;
+  gap: var(--esp-3);
+  margin-top: var(--esp-3);
+}
+
+/* Mapa enmarcado: borde crema y línea kraft, como una foto más de la web.
+   Un toque de desaturación lo acerca a la paleta sin dejar de leerse. */
+.contacto__mapa {
+  padding: var(--esp-2);
+  background: var(--crema);
+  border: 1px solid var(--kraft);
+}
+
+.contacto__mapa iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  filter: saturate(0.8);
+}
+
+/* Tablet: el botón grande deja de ocupar todo el ancho. */
+@media (min-width: 48em) {
+  .boton--grande {
+    width: auto;
+  }
+}
+
+/* Escritorio: datos a la izquierda y mapa a la derecha, a toda la altura. */
+@media (min-width: 64em) {
+  .contacto {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--esp-8);
+  }
+
+  .contacto__mapa {
+    display: flex;
+  }
+
+  .contacto__mapa iframe {
+    aspect-ratio: auto;
+    min-height: 28rem;
+  }
+}
+
+
+/* --- Ceremonias ----------------------------------------------------------- */
+
+/* Franja corta y sobria: fondo crema, sin color de acento, sin efectos ni
+   animaciones. Las fotos no son enlaces. */
+.ceremonias {
+  display: grid;
+  gap: var(--esp-5);
+}
+
+.ceremonias__texto p:last-child {
+  margin-bottom: 0;
+}
+
+/* Tanatorios en una línea discreta, con el teléfono a mano. */
+.ceremonias__nota {
+  font-size: var(--texto-sm);
+  color: var(--tinta-suave);
+}
+
+/* Zona táctil de 44 px con relleno vertical compensado por margen negativo:
+   se toca igual de bien pero no separa las líneas del párrafo. */
+.ceremonias__nota a {
+  display: inline-block;
+  padding-block: 0.75rem;
+  margin-block: -0.75rem;
+  font-weight: 600;
+  color: var(--tinta);
+}
+
+.ceremonias__fotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-2);
+}
+
+.ceremonias__fotos img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* Escritorio: texto a la izquierda y las dos fotos a la derecha. */
+@media (min-width: 64em) {
+  .ceremonias {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    column-gap: var(--esp-8);
+  }
+}
+
+
+/* --- Pie ------------------------------------------------------------------ */
+.pie {
+  display: grid;
+  justify-items: center;
+  gap: var(--esp-6);
+  padding: var(--seccion) max(var(--margen), (100% - var(--ancho-max)) / 2) var(--esp-6);
+  background: var(--bosque);
+  color: var(--crema);
+  text-align: center;
+}
+
+.pie a {
+  color: inherit;
+}
+
+.pie :focus-visible {
+  outline-color: var(--crema);
+}
+
+.pie__marca {
+  display: grid;
+  justify-items: center;
+  gap: var(--esp-3);
+}
+
+/* Medallón crema con el logo completo. isolation hace que el multiply del
+   logo se mezcle solo con el crema del medallón, no con el verde del pie. */
+.pie__logo {
+  display: grid;
+  place-items: center;
+  width: 8.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--crema);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.pie__logo img {
+  width: 86%;
+  mix-blend-mode: multiply;
+}
+
+.pie__nombre {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: var(--titulo-3);
+}
+
+.pie__datos {
+  line-height: 1.8;
+  color: var(--kraft-claro);   /* 8,7:1 sobre bosque */
+}
+
+/* Teléfono y email con zona táctil de 44 px de alto (medido: con el alto
+   de línea solo llegaban a 39 px). */
+.pie__datos a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.pie__redes {
+  margin-top: 0;
+}
+
+/* En el pie, al pasar el ratón el icono se invierte a crema. */
+.pie .red:hover {
+  background: var(--crema);
+  color: var(--bosque);
+}
+
+.pie__final {
+  justify-self: stretch;
+  display: grid;
+  justify-items: center;
+  gap: var(--esp-3);
+  padding-top: var(--esp-5);
+  border-top: 1px solid rgb(246 241 232 / 0.2);
+  font-size: var(--texto-sm);
+  color: var(--kraft-claro);
+}
+
+.pie__legal {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--esp-5);
+}
+
+.pie__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.pie__copy {
+  margin: 0;
+}
+
+/* Tablet y escritorio: marca a la izquierda, datos en el centro y redes a
+   la derecha; la línea final (legal y ©) debajo, a todo el ancho. */
+@media (min-width: 48em) {
+  .pie {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: start;
+    column-gap: var(--esp-7);
+    text-align: left;
+  }
+
+  .pie__marca {
+    grid-auto-flow: column;
+    align-items: center;
+    gap: var(--esp-4);
+  }
+
+  .pie__logo {
+    width: 6.5rem;
+  }
+
+  .pie__final {
+    grid-column: 1 / -1;
+    grid-auto-flow: column;
+    justify-content: space-between;
+  }
+}

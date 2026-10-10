@@ -64,12 +64,140 @@
   </header>
 
   <main id="contenido">
-    <!-- PENDIENTE (fase 2, paso 3): contenido de la página. -->
-    <section class="seccion" aria-labelledby="pagina-titulo">
-      <p class="antetitulo">Bodas</p>
-      <h1 id="pagina-titulo">Bodas</h1>
-      <p>Contenido en preparación.</p>
+
+    <!-- ============================ CABECERA DE LA PÁGINA ============================ -->
+    <!-- Mismo componente que la portada del Inicio (.inicio): en móvil la foto
+         va de fondo con el texto encima; en escritorio, enmarcada a la derecha. -->
+    <section class="seccion inicio" id="inicio" aria-labelledby="inicio-titulo">
+      <div class="inicio__texto">
+        <p class="antetitulo">Bodas</p>
+        <h1 id="inicio-titulo">Tu ramo de novia, <em>pensado contigo</em></h1>
+        <p class="entradilla">
+          Cuéntale a Nekane cómo lo imaginas, los colores, las flores, el estilo,
+          y lo prepara a tu medida.
+        </p>
+        <div class="acciones">
+          <a class="boton boton--llamar" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Cuéntanos tu boda<span class="oculto"> (llamar al 687 86 56 77)</span></a>
+          <a class="boton boton--secundario" href="#galeria">Ver más ramos</a>
+        </div>
+      </div>
+
+      <figure class="inicio__figura">
+        <!-- Primera imagen visible: sin loading="lazy" y con prioridad alta. -->
+        <img class="inicio__foto" src="../imagenes/ramo-boda8.webp" width="922" height="925" fetchpriority="high"
+             alt="Novia de espaldas, con velo y un ramo de flores rosas y blancas, en una calle con pétalos en el suelo">
+      </figure>
     </section>
+
+    <!-- ============================ LO QUE PREPARA NEKANE ============================ -->
+    <!-- Los tres servicios confirmados, numerados y en zigzag en escritorio.
+         El ramo preservado va con la reseña de Ainara (literal y completa,
+         reseña 08 de NEGOCIO.md) en lugar de una foto: no sabemos cuál de los
+         ramos de las fotos es preservado y no se afirma. -->
+    <section class="seccion ramos-novia" id="ramos" aria-labelledby="ramos-titulo">
+      <div class="ramos-novia__intro">
+        <p class="antetitulo">Para tu boda</p>
+        <h2 id="ramos-titulo">Lo que prepara Nekane</h2>
+      </div>
+
+      <ol class="ramos-novia__lista">
+        <li class="ramo-bloque">
+          <div class="ramo-bloque__texto">
+            <h3>Ramo de novia</h3>
+            <p>Con las flores que elijas, pensado para ti y para tu día.</p>
+          </div>
+          <img class="ramo-bloque__foto" src="../imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
+               alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
+        </li>
+
+        <li class="ramo-bloque">
+          <div class="ramo-bloque__texto">
+            <h3>Ramo de novia preservado</h3>
+            <p>Flores preservadas para guardar tu ramo como recuerdo de la boda.</p>
+          </div>
+          <figure class="resena ramo-bloque__resena">
+            <blockquote>
+              <p>Encantada con su trabajo me preparo el ramo de novia y fue un ramo preservado precioso. Nekane un encanto muy profesional y muy cercana no me puso ningún problema ni para el ramo de novia ni para alguna cosa más que le pedimos que nos preparara volvería a ella con los ojos cerrados.</p>
+            </blockquote>
+            <figcaption><cite>AINARA GIRALDOS</cite> · reseña en Google</figcaption>
+          </figure>
+        </li>
+
+        <li class="ramo-bloque">
+          <div class="ramo-bloque__texto">
+            <h3>Otros elementos florales</h3>
+            <p>Además del ramo, Nekane prepara otros elementos florales para la boda.</p>
+          </div>
+          <img class="ramo-bloque__foto" src="../imagenes/ramo-deco5.webp" width="741" height="856" loading="lazy"
+               alt="Tocado de flores secas blancas y rosas en un recogido de pelo">
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============================ MÁS RAMOS (galería) ============================ -->
+    <section class="seccion mas-ramos" id="galeria" aria-labelledby="galeria-titulo">
+      <div class="mas-ramos__intro">
+        <p class="antetitulo">Galería</p>
+        <h2 id="galeria-titulo">Más ramos de novia</h2>
+      </div>
+
+      <!-- Galería deslizable (mismo componente que en la one-page): cada foto
+           abre el visor; flechas superpuestas que aparecen según la posición. -->
+      <div class="galeria__marco">
+        <ul class="galeria" id="galeria-bodas" aria-label="Más fotos de bodas">
+            <li><a class="galeria__enlace" href="../imagenes/ramo-boda7.webp">
+              <img src="../imagenes/ramo-boda7.webp" width="925" height="925" loading="lazy"
+                   alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
+            </a></li>
+            <li><a class="galeria__enlace" href="../imagenes/ramo-boda5.webp">
+              <img src="../imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
+                   alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
+            </a></li>
+            <li><a class="galeria__enlace" href="../imagenes/ramo-boda6.webp">
+              <img src="../imagenes/ramo-boda6.webp" width="635" height="635" loading="lazy"
+                   alt="Pareja de novios en el campo; la novia sostiene un ramo redondo de flores blancas y rosa pálido">
+            </a></li>
+            <li><a class="galeria__enlace" href="../imagenes/ramo-boda2.webp">
+              <img src="../imagenes/ramo-boda2.webp" width="694" height="926" loading="lazy"
+                   alt="Ramo de novia de peonías blancas, eucalipto y espigas verdes, con lazo de seda, frente a montes verdes">
+            </a></li>
+            <li><a class="galeria__enlace" href="../imagenes/ramo-boda3.webp">
+              <img src="../imagenes/ramo-boda3.webp" width="691" height="927" loading="lazy"
+                   alt="Ramo de novia blanco con eucalipto y lazo, sobre una pared clara">
+            </a></li>
+            <li><a class="galeria__enlace" href="../imagenes/ramo-boda4.webp">
+              <img src="../imagenes/ramo-boda4.webp" width="694" height="929" loading="lazy"
+                   alt="Ramo de novia de peonías, rosas y eucalipto tumbado sobre una colcha blanca">
+            </a></li>
+        </ul>
+        <button class="flecha flecha--anterior galeria__flecha" type="button" data-direccion="-1" aria-controls="galeria-bodas" aria-label="Foto anterior" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
+        </button>
+        <button class="flecha galeria__flecha" type="button" data-direccion="1" aria-controls="galeria-bodas" aria-label="Foto siguiente" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5c2.6 2.6 4.6 4.6 6.5 6.5-1.9 1.9-3.9 3.9-6.5 6.5"/></svg>
+        </button>
+      </div>
+
+      <!-- Después de las fotos: invitación a ver la galería completa. -->
+      <div class="mas-ramos__accion">
+        <a class="boton boton--secundario" href="galeria.html">Ver toda la galería</a>
+      </div>
+    </section>
+
+    <!-- ============================ LLAMADA FINAL ============================ -->
+    <section class="seccion llamada-final" id="pide" aria-labelledby="pide-titulo">
+      <p class="antetitulo">Bodas</p>
+      <h2 id="pide-titulo">Cuéntanos tu boda</h2>
+      <p>
+        Llama o pásate por la tienda, en Fernandez de Landa Plaza, 1 (Errenteria),
+        y cuéntale a Nekane cómo la imaginas.
+      </p>
+      <div class="acciones">
+        <a class="boton boton--llamar boton--grande" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Llamar al 687 86 56 77</a>
+        <a class="boton boton--secundario" href="contacto.html">Cómo llegar</a>
+      </div>
+    </section>
+
   </main>
 
   <!-- ============================ PIE ============================ -->

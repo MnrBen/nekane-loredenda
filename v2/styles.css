@@ -721,7 +721,8 @@ html:has(.visor[open]) {
 .celebraciones,
 .preservadas,
 .contacto,
-.llamada-final {
+.llamada-final,
+.ramos-novia {
   background: var(--rosa);
 }
 
@@ -1357,6 +1358,106 @@ html:has(.visor[open]) {
       "intro  composicion"
       "accion composicion";
     align-content: center;
+  }
+}
+
+
+/* --- Página de Bodas (bodas.html) ----------------------------------------- */
+
+/* Lo que prepara Nekane: tres bloques numerados (01, 02, 03). */
+.ramos-novia {
+  display: grid;
+  gap: var(--esp-6);
+}
+
+.ramos-novia__lista {
+  list-style: none;
+  display: grid;
+  gap: var(--esp-8);
+  counter-reset: ramo;
+}
+
+.ramo-bloque {
+  counter-increment: ramo;
+  display: grid;
+  gap: var(--esp-5);
+  align-items: center;
+}
+
+.ramo-bloque__texto::before {
+  content: counter(ramo, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--esp-2);
+  font-family: var(--fuente-titulos);
+  font-style: italic;
+  font-size: var(--titulo-2);
+  line-height: 1;
+  color: var(--eucalipto-oscuro);   /* texto grande: 4,3:1 sobre rosa basta */
+}
+
+.ramo-bloque__texto p {
+  font-size: var(--texto-lg);
+}
+
+/* Fotos de los bloques: verticales; nunca más anchas que su tamaño real
+   (692 y 741 px), muy por encima de lo que ocupan. */
+.ramo-bloque__foto {
+  width: 100%;
+  max-width: 28rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  box-shadow: calc(-1 * var(--esp-3)) var(--esp-3) 0 var(--eucalipto);
+}
+
+/* La reseña del ramo preservado, en un panel crema sobre el rosa. */
+.ramo-bloque__resena {
+  padding: var(--esp-6) var(--esp-5);
+  background: var(--crema);
+}
+
+.ramo-bloque__resena blockquote p {
+  margin-bottom: var(--esp-4);
+}
+
+/* Escritorio y tablet: texto y foto en dos columnas, alternando el lado. */
+@media (min-width: 48em) {
+  .ramo-bloque {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--esp-8);
+  }
+
+  .ramo-bloque:nth-child(even) .ramo-bloque__texto {
+    order: 2;
+  }
+
+  .ramo-bloque__foto {
+    justify-self: center;
+  }
+}
+
+/* Más ramos: galería deslizable; en escritorio, tres columnas con la del
+   centro más baja (en vez de las cinco de la one-page: aquí hay seis fotos). */
+.mas-ramos {
+  display: grid;
+  gap: var(--esp-5);
+}
+
+.mas-ramos__accion {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 64em) {
+  .mas-ramos .galeria {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mas-ramos .galeria li:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .mas-ramos .galeria li:nth-child(3n + 2) {
+    margin-top: var(--esp-7);
   }
 }
 

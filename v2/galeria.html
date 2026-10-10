@@ -64,12 +64,134 @@
   </header>
 
   <main id="contenido">
-    <!-- PENDIENTE (fase 2, paso 4): contenido de la página. -->
-    <section class="seccion" aria-labelledby="pagina-titulo">
-      <p class="antetitulo">Galería</p>
-      <h1 id="pagina-titulo">Galería</h1>
-      <p>Contenido en preparación.</p>
+
+    <!-- ============================ GALERÍA ============================ -->
+    <section class="seccion fotos" id="fotos" aria-labelledby="pagina-titulo">
+      <div class="fotos__intro">
+        <p class="antetitulo">Galería</p>
+        <h1 id="pagina-titulo">Ramos y flores de la tienda</h1>
+        <p class="entradilla">
+          Una muestra de ramos para celebrar y regalar, ramos de novia y flores
+          preservadas.
+        </p>
+      </div>
+
+      <!-- Filtros: solo con JS (hidden hasta que main.js los activa); sin JS se
+           ven todas las fotos. aria-pressed indica el filtro activo. -->
+      <div class="filtros" role="group" aria-label="Filtrar fotos" hidden>
+        <button class="filtros__boton" type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+        <button class="filtros__boton" type="button" data-filtro="celebraciones" aria-pressed="false">Celebraciones y regalos</button>
+        <button class="filtros__boton" type="button" data-filtro="bodas" aria-pressed="false">Bodas</button>
+        <button class="filtros__boton" type="button" data-filtro="preservadas" aria-pressed="false">Preservadas</button>
+      </div>
+      <p class="oculto" aria-live="polite" data-filtros-aviso></p>
+
+      <!-- Mosaico de alturas naturales (cada foto con su proporción). Orden
+           alterno entre categorías para que "Todas" se vea variada. Cada foto
+           abre el visor, que recorre solo las fotos visibles del filtro. La
+           primera visible no lleva loading="lazy". -->
+      <ul class="mosaico-galeria" aria-label="Fotos de la tienda">
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/flores-deco5.webp">
+          <img src="../imagenes/flores-deco5.webp" width="925" height="927" fetchpriority="high"
+               alt="Ramo redondo de rosas, flores secas y espigas en tonos rosa, malva y crema">
+        </a></li>
+        <li data-categoria="bodas"><a class="galeria__enlace" href="../imagenes/ramo-boda8.webp">
+          <img src="../imagenes/ramo-boda8.webp" width="922" height="925" loading="lazy"
+               alt="Novia de espaldas, con velo y un ramo de flores rosas y blancas, en una calle con pétalos en el suelo">
+        </a></li>
+        <li data-categoria="preservadas"><a class="galeria__enlace" href="../imagenes/flores-secas3.webp">
+          <img src="../imagenes/flores-secas3.webp" width="922" height="923" loading="lazy"
+               alt="Ramos de flores secas en lila, rosa y blanco envueltos en papel translúcido">
+        </a></li>
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/ramo-deco3.webp">
+          <img src="../imagenes/ramo-deco3.webp" width="486" height="630" loading="lazy"
+               alt="Ramo de rosas, gerberas y cardos azules con eucalipto, envuelto en papel de cuadros rosa">
+        </a></li>
+        <li data-categoria="bodas"><a class="galeria__enlace" href="../imagenes/ramo-boda5.webp">
+          <img src="../imagenes/ramo-boda5.webp" width="692" height="628" loading="lazy"
+               alt="Novia con vestido de tul sosteniendo un ramo de orquídeas, rosas y flores rojas">
+        </a></li>
+        <li data-categoria="preservadas"><a class="galeria__enlace" href="../imagenes/flores-secas1.webp">
+          <img src="../imagenes/flores-secas1.webp" width="922" height="922" loading="lazy"
+               alt="Ramos de flores secas en rojo, verde y blanco envueltos en papel kraft">
+        </a></li>
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/flores-deco4.webp">
+          <img src="../imagenes/flores-deco4.webp" width="691" height="929" loading="lazy"
+               alt="Ramo de margaritas y astilbe con hojas verdes, sostenido sobre una calle">
+        </a></li>
+        <li data-categoria="bodas"><a class="galeria__enlace" href="../imagenes/ramo-boda7.webp">
+          <img src="../imagenes/ramo-boda7.webp" width="925" height="925" loading="lazy"
+               alt="Dos manos sosteniendo dos ramos, uno de calas blancas y otro de flores lilas, con lazos blancos">
+        </a></li>
+        <li data-categoria="preservadas"><a class="galeria__enlace" href="../imagenes/flores-deco3.webp">
+          <img src="../imagenes/flores-deco3.webp" width="922" height="927" loading="lazy"
+               alt="Ramos de flores secas rojas y blancas envueltos en papel kraft, en la tienda">
+        </a></li>
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/flores-SV1.webp">
+          <img src="../imagenes/flores-SV1.webp" width="922" height="926" loading="lazy"
+               alt="Rosa roja dentro de una caja transparente con lazo rojo">
+        </a></li>
+        <li data-categoria="bodas"><a class="galeria__enlace" href="../imagenes/ramo-deco5.webp">
+          <img src="../imagenes/ramo-deco5.webp" width="741" height="856" loading="lazy"
+               alt="Tocado de flores secas blancas y rosas en un recogido de pelo">
+        </a></li>
+        <li data-categoria="preservadas"><a class="galeria__enlace" href="../imagenes/flores-secas5.webp">
+          <img src="../imagenes/flores-secas5.webp" width="923" height="920" loading="lazy"
+               alt="Ramos de flores secas en naranja y blanco con hojas de eucalipto">
+        </a></li>
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/ramo-deco2.webp">
+          <img src="../imagenes/ramo-deco2.webp" width="480" height="578" loading="lazy"
+               alt="Ramo de gerberas naranjas con flores blancas y verde, atado con cinta naranja">
+        </a></li>
+        <li data-categoria="bodas"><a class="galeria__enlace" href="../imagenes/ramo-boda6.webp">
+          <img src="../imagenes/ramo-boda6.webp" width="635" height="635" loading="lazy"
+               alt="Pareja de novios en el campo; la novia sostiene un ramo redondo de flores blancas y rosa pálido">
+        </a></li>
+        <li data-categoria="preservadas"><a class="galeria__enlace" href="../imagenes/flores-secas2.webp">
+          <img src="../imagenes/flores-secas2.webp" width="922" height="921" loading="lazy"
+               alt="Ramo de flores secas en rosa, blanco y amarillo envuelto en papel kraft">
+        </a></li>
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/flores-deco2.webp">
+          <img src="../imagenes/flores-deco2.webp" width="693" height="929" loading="lazy"
+               alt="Ramo de rosas rosas con pequeñas flores lilas">
+        </a></li>
+        <li data-categoria="bodas"><a class="galeria__enlace" href="../imagenes/ramo-boda1.webp">
+          <img src="../imagenes/ramo-boda1.webp" width="692" height="925" loading="lazy"
+               alt="Ramo de novia de peonías blancas y eucalipto en un jarrón, con un valle verde al fondo">
+        </a></li>
+        <li data-categoria="preservadas"><a class="galeria__enlace" href="../imagenes/flores-secas4.webp">
+          <img src="../imagenes/flores-secas4.webp" width="922" height="925" loading="lazy"
+               alt="Ramo de flores secas en morado, lila y blanco con hojas verdes">
+        </a></li>
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/ramo-deco4.webp">
+          <img src="../imagenes/ramo-deco4.webp" width="482" height="635" loading="lazy"
+               alt="Ramo de liliums, rosas, crisantemos y cardos azules envuelto en papel blanco">
+        </a></li>
+        <li data-categoria="celebraciones"><a class="galeria__enlace" href="../imagenes/flores-deco1.webp">
+          <img src="../imagenes/flores-deco1.webp" width="832" height="920" loading="lazy"
+               alt="Rosas rosas dentro de cúpulas de cristal con lazos rosas">
+        </a></li>
+        <li data-categoria="bodas"><a class="galeria__enlace" href="../imagenes/ramo-boda3.webp">
+          <img src="../imagenes/ramo-boda3.webp" width="691" height="927" loading="lazy"
+               alt="Ramo de novia blanco con eucalipto y lazo, sobre una pared clara">
+        </a></li>
+      </ul>
     </section>
+
+    <!-- ============================ LLAMADA FINAL ============================ -->
+    <section class="seccion llamada-final" id="pide" aria-labelledby="pide-titulo">
+      <p class="antetitulo">¿Te gusta lo que ves?</p>
+      <h2 id="pide-titulo">Pide tu ramo</h2>
+      <p>
+        Cuéntale a Nekane para quién es y lo que te gusta, y lo prepara a tu
+        medida. Por teléfono o en la tienda, en Fernandez de Landa Plaza, 1 (Errenteria).
+      </p>
+      <div class="acciones">
+        <a class="boton boton--llamar boton--grande" href="tel:+34687865677"><svg class="icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11.5 11.5 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6c0 1-.8 1.8-1.8 1.8C10.4 19.2 4.8 13.6 4.8 5.3c0-1 .8-1.8 1.8-1.8z"/></svg>Llamar al 687 86 56 77</a>
+        <a class="boton boton--secundario" href="contacto.html">Cómo llegar</a>
+      </div>
+    </section>
+
   </main>
 
   <!-- ============================ PIE ============================ -->

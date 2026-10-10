@@ -15,6 +15,7 @@
    3. Galería deslizable (flechas superpuestas)
    4. Visor de fotos
    5. Animaciones de entrada
+   6. Filtros de la galería
    ========================================================================== */
 
 
@@ -204,8 +205,10 @@ document.querySelectorAll('.galeria__marco').forEach((marco) => {
       if (evento.ctrlKey || evento.metaKey || evento.shiftKey) return;
       evento.preventDefault();
 
-      // El grupo es la lista (ul) en la que está la foto pulsada.
-      const grupo = [...enlace.closest('ul').querySelectorAll('.galeria__enlace')];
+      // El grupo es la lista (ul) en la que está la foto pulsada, sin las
+      // fotos ocultas por un filtro de la galería.
+      const grupo = [...enlace.closest('ul').querySelectorAll('.galeria__enlace')]
+        .filter((item) => !item.closest('[hidden]'));
       pista.innerHTML = '';
       grupo.forEach((item) => {
         const miniatura = item.querySelector('img');
@@ -290,4 +293,54 @@ document.querySelectorAll('.galeria__marco').forEach((marco) => {
     bloque.classList.add('revelar');
     observador.observe(bloque);
   });
+})();
+
+
+/* 6. Filtros de la galería
+   --------------------------------------------------------------------------
+   Botones que muestran solo las fotos de una categoría (data-categoria de
+   cada foto). El filtro activo se marca con aria-pressed y se anuncia el
+   número de fotos a los lectores de pantalla. Sin JS los botones no se ven
+   y se muestran todas las fotos.
+
+   El filtro también se refleja en la dirección (galeria.html#preservadas):
+   así un enlace puede abrir la galería ya filtrada, como el de Flores
+   preservadas del Inicio.
+   ========================================================================== */
+(function iniciarFiltros() {
+  const grupo = document.querySelector('.filtros');
+  const lista = document.querySelector('.mosaico-galeria');
+  if (!grupo || !lista) return;
+
+  const botones = [...grupo.querySelectorAll('.filtros__boton')];
+  const fotos = [...lista.children];
+  const aviso = document.querySelector('[data-filtros-aviso]');
+
+  grupo.hidden = false;
+
+  const aplicar = (filtro, anunciar = true) => {
+    botones.forEach((boton) => {
+      boton.setAttribute('aria-pressed', String(boton.dataset.filtro === filtro));
+    });
+
+    let visibles = 0;
+    fotos.forEach((foto) => {
+      const mostrar = filtro === 'todas' || foto.dataset.categoria === filtro;
+      foto.hidden = !mostrar;
+      if (mostrar) visibles++;
+    });
+
+    if (anunciar && aviso) aviso.textContent = `${visibles} fotos`;
+
+    // Actualiza la dirección sin recargar ni añadir pasos al historial.
+    history.replaceState(null, '', filtro === 'todas' ? location.pathname : `#${filtro}`);
+  };
+
+  botones.forEach((boton) => {
+    boton.addEventListener('click', () => aplicar(boton.dataset.filtro));
+  });
+
+  // Si se llega con un filtro en la dirección, se aplica al cargar.
+  const inicial = location.hash.slice(1);
+  if (botones.some((boton) => boton.dataset.filtro === inicial)) aplicar(inicial, false);
 })();

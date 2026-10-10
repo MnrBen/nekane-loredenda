@@ -1477,6 +1477,81 @@ html:has(.visor[open]) {
 }
 
 
+/* --- Página de Galería (galeria.html) -------------------------------------- */
+.fotos {
+  display: grid;
+  gap: var(--esp-5);
+}
+
+/* Filtros: botones en forma de píldora, 44 px de alto. El activo
+   (aria-pressed="true") va relleno. Sin JS quedan ocultos (hidden). */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+.filtros[hidden] {
+  display: none;
+}
+
+.filtros__boton {
+  min-height: 2.75rem;
+  padding: 0 var(--esp-4);
+  border: 1px solid var(--tinta);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tinta);
+  font: 600 var(--texto-sm) / 1 var(--fuente-texto);
+  cursor: pointer;
+}
+
+.filtros__boton:hover {
+  background: var(--kraft-claro);
+}
+
+.filtros__boton[aria-pressed="true"] {
+  background: var(--tinta);
+  color: var(--crema);
+}
+
+/* Mosaico de alturas naturales con columnas de CSS: cada foto conserva su
+   proporción y las columnas se rellenan de arriba abajo. 2 columnas en
+   móvil, 3 en tablet y 4 en escritorio (ninguna foto pasa de ~270 px de
+   ancho: todas se ven nítidas). */
+.mosaico-galeria {
+  list-style: none;
+  columns: 2;
+  column-gap: var(--esp-2);
+}
+
+.mosaico-galeria li {
+  break-inside: avoid;
+  margin-bottom: var(--esp-2);
+}
+
+.mosaico-galeria img {
+  width: 100%;
+}
+
+@media (min-width: 48em) {
+  .mosaico-galeria {
+    columns: 3;
+    column-gap: var(--esp-3);
+  }
+
+  .mosaico-galeria li {
+    margin-bottom: var(--esp-3);
+  }
+}
+
+@media (min-width: 64em) {
+  .mosaico-galeria {
+    columns: 4;
+  }
+}
+
+
 /* --- Flores preservadas -------------------------------------------------- */
 
 /* Las fotos tienen fondo negro: sobre el rosa claro se ven como cuadros

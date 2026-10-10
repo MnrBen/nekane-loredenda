@@ -1364,6 +1364,35 @@ html:has(.visor[open]) {
 
 /* --- Página de Bodas (bodas.html) ----------------------------------------- */
 
+/* Cabecera de las páginas interiores: velo más suave que el de la portada
+   del Inicio (la foto se ve más). Se usa con fotos oscuras bajo el texto,
+   comprobando el contraste. */
+.inicio--suave .inicio__figura::after {
+  background: linear-gradient(to top,
+    rgb(24 22 19 / 0.64) 0%,
+    rgb(24 22 19 / 0.56) 55%,
+    rgb(24 22 19 / 0.08) 100%);
+}
+
+/* Con el velo más suave, una sombra ceñida a las letras mantiene el
+   contraste sobre las zonas claras de la foto (medido). Solo en móvil: en
+   escritorio el texto va sobre crema. */
+.inicio--suave .inicio__texto {
+  text-shadow: 0 0 2px rgb(24 22 19 / 0.7), 0 1px 10px rgb(24 22 19 / 0.55);
+}
+
+@media (min-width: 48em) {
+  .inicio--suave .inicio__texto {
+    text-shadow: none;
+  }
+}
+
+/* Cabecera de Bodas en móvil: el recorte se desplaza un poco a la izquierda
+   para que entren los dos ramos (el de calas quedaba cortado). */
+.inicio__foto--ramos {
+  --inicio-foco: 40% center;
+}
+
 /* Lo que prepara Nekane: tres bloques numerados (01, 02, 03). */
 .ramos-novia {
   display: grid;

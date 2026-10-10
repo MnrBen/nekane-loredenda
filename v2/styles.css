@@ -1370,9 +1370,10 @@ html:has(.visor[open]) {
   gap: var(--esp-6);
 }
 
-/* Enlace a la galería al final del texto. */
-.preservadas__texto .boton {
-  margin-top: var(--esp-2);
+/* Enlace a la galería, debajo del mosaico. */
+.preservadas__accion {
+  display: flex;
+  justify-content: center;
 }
 
 /* Mosaico. Móvil: cuadrícula de 2 × 2 (la quinta foto se reserva para

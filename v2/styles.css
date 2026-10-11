@@ -1543,6 +1543,13 @@ html:has(.visor[open]) {
   .mosaico-galeria {
     columns: 4;
   }
+
+  /* Con pocas fotos (filtro de 7 o menos) 4 columnas quedan desiguales
+     (medido: Preservadas, 6 fotos, quedaba 2/1/2/1 con ~290 px de desnivel).
+     main.js añade esta clase y el mosaico pasa a 3 columnas. */
+  .mosaico-galeria--pocas {
+    columns: 3;
+  }
 }
 
 

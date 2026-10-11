@@ -342,6 +342,9 @@ document.querySelectorAll('.galeria__marco').forEach((marco) => {
       if (mostrar) visibles++;
     });
 
+    // Con pocas fotos, el mosaico usa menos columnas en escritorio (ver CSS).
+    lista.classList.toggle('mosaico-galeria--pocas', visibles <= 7);
+
     if (anunciar && aviso) aviso.textContent = `${visibles} fotos`;
 
     // Actualiza la dirección sin recargar ni añadir pasos al historial.

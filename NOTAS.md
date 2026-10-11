@@ -57,10 +57,26 @@ floristería (probablemente del propietario anterior).
 - Si se cambia la foto de portada, volver a medir el contraste del texto
   sobre la foto en móvil (se midió con `flores-deco5`).
 
-## Estructura de la fase 2
+## Fase 2: versión de varias páginas (`/v2/`, tag `v2`)
 
-- Irá en `/v2/`, sin tocar la one-page (tag `onepage-v1`).
+- Páginas: `index.html` (Inicio resumido), `bodas.html`, `galeria.html`,
+  `contacto.html` y `pendiente.html`. La one-page (tag `onepage-v1`) no se
+  toca.
 - Las fotos se comparten desde la raíz con `../imagenes/`. El CSS y el JS se
-  duplican dentro de `/v2/` para que evolucionen sin afectar a la one-page.
+  duplicaron dentro de `/v2/` y evolucionan por separado de la one-page.
 - Si algún día `/v2/` se despliega sola, copiar `imagenes/` dentro y cambiar
   `../imagenes/` por `imagenes/`.
+- La v2 no tiene sección de Ceremonias: solo una línea de tanatorios al final
+  de Contacto. La reseña de Pedro tampoco se usa.
+- Galería: los filtros se reflejan en la dirección (`galeria.html#bodas`,
+  `#celebraciones`, `#preservadas`); los botones "Ver más en la galería" del
+  Inicio abren la galería ya filtrada. Con 7 fotos o menos, el mosaico pasa
+  a 3 columnas en escritorio para que no queden huecos.
+- "Cómo llegar" lleva a `contacto.html#donde` (dirección y mapa).
+- Portada de Bodas: `ramo-boda8` con un velo más suave que el del Inicio. Si
+  se cambia la foto, volver a medir el contraste del texto en móvil.
+- Fotos que la v2 usa y la one-page no: `flores-deco1`, `flores-deco2`,
+  `flores-deco3` y `flores-SV1` (Galería) y `ramo-boda2` y `ramo-boda4`
+  (galería de Bodas). Siguen sin usarse en ninguna: `flores-deco6`,
+  `san-valentin1–3`, `corona-floral1`, `corona-floral2` y `ramo-deco1`
+  (esta, no usar).
